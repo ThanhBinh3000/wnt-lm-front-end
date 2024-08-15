@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+      <h4 class="modal-title">Phân quyền thành viên '{{thanhVien.tenNhaThuoc}}'</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formData">
+        <input type="checkbox" class="mt-0"><span class="ps-2">Tất cả</span>
+        <ul style="list-style: none" *ngFor="let privilege of listPrivilege">
+          <li><input type="checkbox" /><span class="ps-2">{{privilege.name}}</span></li>
+        </ul>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="closeModal()">Cập nhật</button>
+    </div>
+  </div>
+</div>

@@ -1,13 +1,28 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterModule, RouterOutlet} from '@angular/router';
+import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {SpinnerService} from "./services/spinner.service";
+import {AsyncPipe, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterModule, AsyncPipe, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'wnt-lm-fe';
+
+  constructor(
+    public loadingService: SpinnerService,
+    private cdRef: ChangeDetectorRef
+  ) {
+  }
+
+  ngAfterViewInit() {
+    this.loadingService.loading$.subscribe((value) => {
+      this.cdRef.detectChanges();
+    });
+  }
 }
+

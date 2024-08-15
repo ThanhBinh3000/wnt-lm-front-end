@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+      <h4 class="modal-title">Xoá thành viên
+      </h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formData">
+        <p>Bạn thực sự muốn xoá thành viên '{{thanhVien.tenNhaThuoc}}' khỏi Liên Minh?</p>
+        <div class="form-group">
+          <textarea formControlName="description" class="form-control mb-0 text-left" rows="5" placeholder="Nhập lý do xoá thành viên"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="delete('', null)">Xác nhận</button>
+    </div>
+  </div>
+</div>

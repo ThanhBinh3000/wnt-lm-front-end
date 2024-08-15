@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+      <h4 class="modal-title">Lịch sử hoạt động của thành viên '{{ thanhVien.tenNhaThuoc }}'
+      </h4>
+    </div>
+    <div class="modal-body">
+      <table class="table table-border-none">
+        <tr>
+          <th>#</th>
+          <th>Ngày</th>
+          <th>Ghi chú</th>
+        </tr>
+        <tr *ngFor="let history of listHistory; index as i;">
+          <td>{{ i + 1 }}</td>
+          <td>{{ history.ngayCapNhat | appDate }}</td>
+          <td>{{ history.ghiChu }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+    </div>
+  </div>
+</div>

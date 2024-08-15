@@ -1,0 +1,94 @@
+<nav class="navbar navbar-default header-main">
+  <div class="nav-header-bottom nav-wnt-bg">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div style="padding-left: 0" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav nav-wnt">
+              <li>
+                <a href="/">
+                  <strong style="color:#fff">LIÊN MINH </strong>
+                  <strong style="color:orange">NHÀ </strong>
+                  <strong style="color:#28CC28">THUỐC </strong>
+                </a>
+              </li>
+              <li class="dropdown menu" (mouseenter)="mouseEnter('system', 'block') "
+                  (mouseleave)="mouseLeave('system','none')">
+                <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="true" class="dropdown-toggle">Hệ Thống
+                  <i class="fa-solid fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('system')">
+                  <li><a href="/member/list">Danh sách thành viên</a></li>
+                  <li><a href="/drug-store/list">Danh sách thông báo</a></li>
+                  <li><a href="/drug-store/trien-khai">Danh sách đào tạo</a></li>
+                </ul>
+              </li>
+              <li class="dropdown menu" (mouseenter)="mouseEnter('search', 'block') "
+                  (mouseleave)="mouseLeave('search','none')">
+                <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Tra Cứu
+                  <i class="fa-solid fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('search')">
+                  <li><a href="/medical-note/wait-list">Doanh thu hàng hoá</a></li>
+                  <li><a href="/medical-note/add">Số lượng hàng hoá</a></li>
+                  <li><a href="/medical-note/list">Tỷ suất lợi nhuận hàng hoá</a></li>
+                  <li><a href="/medical-note/history-list">Dự trù hàng hoá</a></li>
+                  <li><a href="/medical-note/history-list">Hàng hoá Liên Minh</a></li>
+                </ul>
+              </li>
+              <li class="dropdown menu" (mouseenter)="mouseEnter('transfer', 'block') "
+                  (mouseleave)="mouseLeave('transfer','none')">
+                <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
+                   class="dropdown-toggle">Luân Chuyển Hàng Hoá
+                  <i class="fa-solid fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('transfer')">
+                  <li><a href="/service-group/list">Hàng cận hạn</a></li>
+                  <li><a href="/service/list">Hàng ít giao dịch</a></li>
+                  <li><a href="/service-note/add">Hàng luân chuyển</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="divNotification" (mouseenter)="mouseEnter('noti', 'block') "
+                  (mouseleave)="mouseLeave('noti','none')">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="collapse" data-hover="collapse">
+                  <i class="fa-solid fa-bell" style="font-size: 120%;"></i>
+                  <span id="lbNumberNotification"
+                        style="background-color: #f36a5a;color: #fff;position: absolute;top: 5px;padding: 0 9%;border-radius: 4px!important;font-size: 10px;text-align: center;margin-left: 0;"></span>
+                </a>
+                <ul class="divNotificationBox dropdown-menu" [style.width]="'360px'"
+                    [style.display]="isDisplay('noti')">
+                  <div id="notificationBlog">
+                    <li class="dropdown-submenu" style="padding: 5px;background-color: #ddd;">
+                      <a href="/NoteManagement"
+                         class="nav-link nav-toggle " target="_blank" style="display: inline-flex;"><i
+                        class="fa fa-bullhorn"
+                        style="float: left; text-align: center; line-height: 8px; font-size: 146%;margin-right: 12px;  padding: 15px 16px;"></i>
+                        <div style="float: right;margin-left: 7px;"><span
+                          style="white-space: normal;font-weight: bold;">Phiếu nhập chuyển từ nhà thuốc: CÔNG TY TNHH WEB NHÀ THUỐC. Có số phiếu: 549</span>
+                          <p style="font-size: 80%;margin: 0;">khoảng 2 ngày trước</p></div>
+                      </a>
+                    </li>
+                  </div>
+                  <li class="dropdown-submenu">
+                    <a href="/Notification/History" style="text-align: center;font-weight: bold;">Xem tất cả</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="dropdown menu" (mouseenter)="mouseEnter('login', 'block') "
+                  (mouseleave)="mouseLeave('login','none')">
+                <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
+                   class="dropdown-toggle">{{ getFullName() }}<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('login')">
+                  <li>
+                    <a (click)="openChangePasswordDialog()" id="loggedInUserNameId" title="Manage">Đổi mật khẩu</a>
+                  </li>
+                  <li><a href="/login">Đăng xuất</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

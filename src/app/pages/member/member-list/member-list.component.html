@@ -1,0 +1,135 @@
+<div class="container body-content w-95">
+  <div class="content">
+    <div class="row">
+      <div class="col-md-3 baocao-filter">
+        <div class="sidebar-bg">
+          <form [formGroup]="formData">
+            <fieldset>
+              <label>Tìm thành viên</label>
+              <div class="control-group">
+                <input formControlName="textSearch" type="text" class="form-control"
+                       placeholder="Tra cứu theo tên, địa chỉ,..."
+                       (keyup.enter)="searchPage()"/>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label>Nhóm quyền</label>
+              <div class="control-group">
+                <ng-select
+                  appendTo="body"
+                  appearance="outline"
+                  [items]="listEntity"
+                  formControlName="entityId"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="--Tất cả--"
+                  notFoundText="Không tìm thấy mục nào"
+                  (change)="searchPage()">
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset class="baocao-filter mb-3">
+              <div class="option mb-3">
+                <app-date-range-filter [filterType]="DATE_RANGE.ALL"
+                                       [fromDateControl]="'fromDate'"
+                                       [toDateControl]="'toDate'"
+                                       (filterTypeChange)="changeFilterType($event)"
+                                       (fromDateChange)="changeFromDate($event)"
+                                       (toDateChange)="changeToDate($event)"
+                ></app-date-range-filter>
+              </div>
+              <button type="button" class="btn btn-primary w-100" (click)="searchPage()">Xem</button>
+              <button class="btn btn-primary mt-3 w-100" (click)="openAddEditDialog(null)">Thêm mới</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="baocao-container box-group-white">
+          <h2 class="text-center"><b>{{ title }}</b></h2>
+          <div class="mat-table-container">
+            <table mat-table
+                   class="table table-striped table-bordered table-hover tr-ng-grid"
+                   [dataSource]="getDataSource()" matSort>
+
+              <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef> #</th>
+                <td mat-cell *matCellDef="let data; index as i;">
+                  <div class="text-right">
+                    {{ (page - 1) * pageSize + i + 1 }}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="tenNhaThuoc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thành viên</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.tenNhaThuoc }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày tạo</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.created | appDate }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Thư điện tử</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left"><a href="mailto:{{ data.email }}">{{ data.email }}</a></div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="level">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nhóm quyền</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.level }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="hoatDong">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-center">
+                    <label *ngIf="data.hoatDong"><i class="fa fa-circle text-success" aria-hidden="true"></i> Online</label>
+                    <label *ngIf="!data.hoatDong"><i class="fa fa-circle text-danger" aria-hidden="true"></i> Offline</label>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="baocao-actions" style="justify-content: start;">
+                    <button class="btn btn-sm btn-primary" (click)="openAddEditDialog(data)" title="Cập nhật thông tin thành viên"><i class="fa-regular fa-pen-circle"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="openPermissionManagerDialog(data)" title="Cập nhật quyền thành viên"><i class="fa-regular fa-lock"></i></button>
+                    <button class="btn btn-sm btn-info" (click)="openHistoryDialog(data)" title="Lịch sử thành viên"><i class="fa fa-history" aria-hidden="true"></i></button>
+                    <button class="btn btn-sm btn-danger" (click)="openDeleteDialog(data)" title="Xoá thành viên"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="footer">
+                <td mat-footer-cell *matFooterCellDef colspan="100">
+                  <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
+                                  (pageChange)="changePageIndex($event)"
+                                  (pageSizeChange)="changePageSize($event)"></app-pagination>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="['footer']; sticky: true"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

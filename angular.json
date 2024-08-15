@@ -24,17 +24,14 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -99,6 +96,6 @@
     }
   },
   "cli": {
-    "analytics": "60c6f951-b3cf-4895-b16d-d3f97664f11f"
+    "analytics": "f450a467-1621-46a8-b472-47f112feb311"
   }
 }
