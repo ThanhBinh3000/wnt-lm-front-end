@@ -1,12 +1,4 @@
 {
-  "/api/wnt-lm-system/": {
-    "target": "http://localhost:6789",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api/wnt-lm-system/": ""
-    }},
   "/api/": {
     "target": "http://10.0.2.142:8888",
     "secure": false,
