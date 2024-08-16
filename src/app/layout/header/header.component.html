@@ -12,7 +12,7 @@
                   <strong style="color:#28CC28">THUỐC </strong>
                 </a>
               </li>
-              <li class="dropdown menu" (mouseenter)="mouseEnter('system', 'block') "
+              <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('system', 'block') "
                   (mouseleave)="mouseLeave('system','none')">
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="true" class="dropdown-toggle">Hệ Thống
                   <i class="fa-solid fa-chevron-down"></i></a>
@@ -22,32 +22,32 @@
                   <li><a href="/drug-store/trien-khai">Danh sách đào tạo</a></li>
                 </ul>
               </li>
-              <li class="dropdown menu" (mouseenter)="mouseEnter('search', 'block') "
-                  (mouseleave)="mouseLeave('search','none')">
+              <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('look-up', 'block') "
+                  (mouseleave)="mouseLeave('look-up','none')">
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Tra Cứu
                   <i class="fa-solid fa-chevron-down"></i></a>
-                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('search')">
-                  <li><a href="/medical-note/wait-list">Doanh thu hàng hoá</a></li>
-                  <li><a href="/medical-note/add">Số lượng hàng hoá</a></li>
-                  <li><a href="/medical-note/list">Tỷ suất lợi nhuận hàng hoá</a></li>
-                  <li><a href="/medical-note/history-list">Dự trù hàng hoá</a></li>
-                  <li><a href="/medical-note/history-list">Hàng hoá Liên Minh</a></li>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('look-up')">
+                  <li><a href="/look-up/doanh-thu-hang-hoa/list">Doanh thu hàng hoá</a></li>
+                  <li><a href="/look-up/so-luong-hang-hoa/list">Số lượng hàng hoá</a></li>
+                  <li><a href="/look-up/ty-suat-loi-nhuan-hang-hoa/list">Tỷ suất lợi nhuận hàng hoá</a></li>
+                  <li><a href="/look-up/du-tru-hang-hoa/list">Dự trù hàng hoá</a></li>
+                  <li><a href="/look-up/hang-hoa-lien-minh/list">Hàng hoá Liên Minh</a></li>
                 </ul>
               </li>
-              <li class="dropdown menu" (mouseenter)="mouseEnter('transfer', 'block') "
+              <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('transfer', 'block') "
                   (mouseleave)="mouseLeave('transfer','none')">
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
                    class="dropdown-toggle">Luân Chuyển Hàng Hoá
                   <i class="fa-solid fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('transfer')">
-                  <li><a href="/service-group/list">Hàng cận hạn</a></li>
-                  <li><a href="/service/list">Hàng ít giao dịch</a></li>
-                  <li><a href="/service-note/add">Hàng luân chuyển</a></li>
+                  <li><a href="/transfer/hang-can-han/list">Hàng cận hạn</a></li>
+                  <li><a href="/transfer/hang-it-giao-dich/list">Hàng ít giao dịch</a></li>
+                  <li><a href="/transfer/hang-luan-chuyen/list">Hàng luân chuyển</a></li>
                 </ul>
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li class="divNotification" (mouseenter)="mouseEnter('noti', 'block') "
+              <li *ngIf="isLogin()" class="divNotification" (mouseenter)="mouseEnter('noti', 'block') "
                   (mouseleave)="mouseLeave('noti','none')">
                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="collapse" data-hover="collapse">
                   <i class="fa-solid fa-bell" style="font-size: 120%;"></i>
@@ -73,8 +73,7 @@
                   </li>
                 </ul>
               </li>
-
-              <li class="dropdown menu" (mouseenter)="mouseEnter('login', 'block') "
+              <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('login', 'block') "
                   (mouseleave)="mouseLeave('login','none')">
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
                    class="dropdown-toggle">{{ getFullName() }}<span class="caret"></span></a>
@@ -85,6 +84,7 @@
                   <li><a href="/login">Đăng xuất</a></li>
                 </ul>
               </li>
+              <li *ngIf="!isLogin()"><a href="/login" id="loginLink">Đăng Nhập</a></li>
             </ul>
           </div>
         </div>

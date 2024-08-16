@@ -100,3 +100,8 @@ export const LOAI_LIEN_THONG = {
   QUOC_GIA : 0,
   CO_SO: 1,
 }
+
+export const LOAI_HANG_DU_TRU = {
+  HANG_CO_SO: 0,
+  HANG_GOI_Y_CHUA_KINH_DOANH: 1
+}

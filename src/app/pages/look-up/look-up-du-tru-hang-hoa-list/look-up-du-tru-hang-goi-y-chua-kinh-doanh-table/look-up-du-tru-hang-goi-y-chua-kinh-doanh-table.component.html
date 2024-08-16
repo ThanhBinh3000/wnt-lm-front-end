@@ -1,0 +1,76 @@
+<div class="mat-table-container">
+  <table mat-table
+         class="table table-striped table-bordered table-hover tr-ng-grid"
+         [dataSource]="getDataSource()" matSort>
+    <ng-container matColumnDef="checkBox">
+      <th mat-header-cell *matHeaderCellDef>
+        <input type="checkbox"
+               [(ngModel)]="allChecked"
+               (ngModelChange)="updateAllChecked()"
+               title="select row">
+      </th>
+      <td mat-cell *matCellDef="let data; index as i;">
+        <div class="text-center">
+          <input type="checkbox"
+                 [(ngModel)]="data.checked"
+                 (ngModelChange)="updateSingleChecked()"
+                 title="select row">
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="#">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="text-left">
+          #
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let data; index as i;">
+        <div class="text-right">
+          {{ (page - 1) * pageSize + i + 1 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="thuoc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Thuốc</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{data.thuoc}}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nhomThuoc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nhóm thuốc</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.nhomThuoc }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="donVi">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Đơn vị</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.donVi }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deXuatDuTru">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Đề xuất dự trù</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.deXuatDuTru }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="footer">
+      <td mat-footer-cell *matFooterCellDef colspan="100">
+        <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
+                        (pageChange)="changePageIndex($event)"
+                        (pageSizeChange)="changePageSize($event)"></app-pagination>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+    <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
+
+  </table>
+</div>

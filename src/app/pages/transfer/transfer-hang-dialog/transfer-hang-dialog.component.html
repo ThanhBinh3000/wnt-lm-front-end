@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+      <h4 class="modal-title">Luân chuyển hàng hoá
+      </h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formData">
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Tên thuốc</label>
+            <div class="col-sm-8">Thuốc A</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Nhóm thuốc</label>
+            <div class="col-sm-8">Nhóm A</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Đơn vị</label>
+            <div class="col-sm-8">Hộp</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Số lô</label>
+            <div class="col-sm-8">Lô A</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Hạn dùng</label>
+            <div class="col-sm-8">01/01/2025</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Số lượng</label>
+            <div class="col-sm-8">
+              <input formControlName="email" class="form-control mb-0 text-left" type="text"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <label class="col-sm-4 control-label">Ghi chú</label>
+            <div class="col-sm-8">
+              <textarea formControlName="description" class="form-control mb-0 text-left" rows="5"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+      <button type="button" class="btn btn-primary">Luân chuyển</button>
+    </div>
+  </div>
+</div>

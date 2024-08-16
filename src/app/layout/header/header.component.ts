@@ -10,7 +10,7 @@ import {ComponentsModule} from "../../component/base/components.module";
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [ComponentsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -112,5 +112,9 @@ export class HeaderComponent implements OnInit {
 
   haveRoles(roles: string[]){
     return roles.some((code:any) => this.authService.getUser().roles.some((role:any) => role.roleName === code));
+  }
+
+  isLogin() {
+    return this.authService.isLogin();
   }
 }
