@@ -17,6 +17,7 @@ export class PaginationComponent implements OnInit {
   @Input() currentPage: number = 0;
   @Input() totalPages: number = 0;
   @Input() totalRecord: number = 0;
+  @Input() viewFooter: boolean = true;
 
   @Output() pageChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
