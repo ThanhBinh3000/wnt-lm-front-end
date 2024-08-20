@@ -54,7 +54,7 @@ export class MemberListComponent extends BaseComponent implements OnInit {
   async openAddEditDialog(thanhVien: any) {
     const dialogRef = this.dialog.open(MemberAddEditDialogComponent, {
       data: thanhVien,
-      width: '600px',
+      width: '90%',
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {

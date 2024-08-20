@@ -160,3 +160,8 @@
 .bg-white{
   background:#ffffff !important;
 }
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
