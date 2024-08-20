@@ -9,6 +9,7 @@ import {ComponentsModule} from "../../../component/base/components.module";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 import {EntityService} from "../../../services/system/entity.service";
 import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
+import {ThongTinKhuVucService} from "../../../services/categories/thong-tin-khu-vuc.service";
 
 @Component({
   selector: 'app-member-add-edit-dialog',
@@ -19,11 +20,15 @@ import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
 })
 export class MemberAddEditDialogComponent extends BaseComponent implements OnInit {
   listEntity: any = [];
+  listTinhThanh: any = [];
+  listQuanHuyen: any = [];
+  listPhuongXa: any = [];
 
   constructor(
     injector: Injector,
     private _service: NhaThuocsService,
     private entityService: EntityService,
+    private thongTinKhuVucService: ThongTinKhuVucService,
     private dialogRef: MatDialogRef<MemberAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public thanhVien: any) {
     super(injector, _service);
@@ -37,11 +42,11 @@ export class MemberAddEditDialogComponent extends BaseComponent implements OnIni
       entityId: [null, Validators.required],
       dienThoai: ['', this.isCreateView() ? Validators.required : null],
       diaChi: ['', Validators.required],
+      cityId: [null, Validators.required],
+      regionId: [null, Validators.required],
+      wardId: [null, Validators.required],
       email: ['', Validators.email],
       description: [null],
-      cityId: [0],
-      regionId: [0],
-      wardId: [0],
       hoatDong: [true],
       isConnectivity: [false]
     }, {validators: thanhVien ? null : this.passwordMatchValidator});
@@ -54,7 +59,6 @@ export class MemberAddEditDialogComponent extends BaseComponent implements OnIni
   }
 
   async ngOnInit() {
-    await this.getListEntity();
     if (this.thanhVien) {
       const data = await this.detail(this.thanhVien.id);
       if (data) {
@@ -62,6 +66,10 @@ export class MemberAddEditDialogComponent extends BaseComponent implements OnIni
         this.formData.patchValue(this.thanhVien);
       }
     }
+    await this.getListTinhThanh();
+    await this.getListQuanHuyen(this.formData.get('regionId')?.value);
+    await this.getListPhuongXa(this.formData.get('cityId')?.value);
+    await this.getListEntity();
   }
 
   async getListEntity() {
@@ -70,6 +78,50 @@ export class MemberAddEditDialogComponent extends BaseComponent implements OnIni
         this.listEntity = res.data;
       }
     });
+  }
+
+  async getListTinhThanh() {
+    this.thongTinKhuVucService.searchListTinhThanh({}).then((res) => {
+      if (res?.status == STATUS_API.SUCCESS) {
+        this.listTinhThanh = res.data;
+      }
+    });
+  }
+
+  async getListQuanHuyen(tinhThanhId: any) {
+    if (tinhThanhId) {
+      let body: any = {
+        regionId: tinhThanhId
+      }
+      this.thongTinKhuVucService.searchListQuanHuyen(body).then((res) => {
+        if (res?.status == STATUS_API.SUCCESS) {
+          this.listQuanHuyen = res.data;
+        }
+      });
+    }
+  }
+
+  async getListPhuongXa(quanHuyenId: any) {
+    if (quanHuyenId) {
+      let body: any = {
+        cityId: quanHuyenId
+      }
+      this.thongTinKhuVucService.searchListPhuongXa(body).then((res) => {
+        if (res?.status == STATUS_API.SUCCESS) {
+          this.listPhuongXa = res.data;
+        }
+      });
+    }
+  }
+
+  async changeTinhThanh($event: any) {
+    this.formData.patchValue({cityId: null, wardId: null});
+    if($event) await this.getListQuanHuyen($event.id);
+  }
+
+  async changeQuanHuyen($event: any) {
+    this.formData.patchValue({wardId: null});
+    if($event) await this.getListPhuongXa($event.id);
   }
 
   isCreateView() {
