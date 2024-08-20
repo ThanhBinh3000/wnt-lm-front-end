@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from "../../../../component/base/base.component";
-import {FormGroup} from "@angular/forms";
-import {ThuocService} from "../../../../services/products/thuoc.service";
-import {MatSort} from "@angular/material/sort";
-import {ComponentsModule} from "../../../../component/base/components.module";
+import { AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { BaseComponent } from "../../../../component/base/base.component";
+import { FormGroup } from "@angular/forms";
+import { ThuocService } from "../../../../services/products/thuoc.service";
+import { MatSort } from "@angular/material/sort";
+import { ComponentsModule } from "../../../../component/base/components.module";
 import { STATUS_API } from '../../../../constants/message';
 import { DuTruHangService } from '../../../../services/dutruhang/du-tru-hang.service';
 
@@ -21,21 +21,21 @@ export class LookUpDuTruHangGoiYChuaKinhDoanhTableComponent extends BaseComponen
 
   constructor(
     injector: Injector,
-    private _service : DuTruHangService,
+    private _service: DuTruHangService,
   ) {
-    super(injector,_service);
+    super(injector, _service);
   }
 
   async ngOnInit() {
     let res = await this._service.searchListTopHangBanChay({});
-      if (res?.status == STATUS_API.SUCCESS) {
-        let data = res.data;
-        console.log(res);
-        this.dataTable = data;
-        this.dataTable.forEach(x=>{
-          x.isHangBanChay = true;
-        });
-      } 
+    if (res?.status == STATUS_API.SUCCESS) {
+      let data = res.data;
+      console.log(res);
+      this.dataTable = data;
+      this.dataTable.forEach(x => {
+        x.isHangBanChay = true;
+      });
+    }
   }
 
   @ViewChild(MatSort) sort?: MatSort;

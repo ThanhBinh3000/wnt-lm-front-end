@@ -75,10 +75,9 @@
                   [items]="listLoaiHang"
                   formControlName="loaiHang"
                   bindLabel="name"
-                  bindValue="id"
+                  bindValue="value"
                   placeholder="--Tất cả--"
-                  notFoundText="Không tìm thấy mục nào"
-                  (change)="searchPage()">
+                  notFoundText="Không tìm thấy mục nào">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -92,12 +91,12 @@
                   appendTo="body"
                   appearance="outline"
                   [items]="listTinhThanh"
-                  formControlName="tinhThanh"
+                  formControlName="regionId"
                   bindLabel="name"
                   bindValue="id"
                   placeholder="--Tất cả--"
                   notFoundText="Không tìm thấy mục nào"
-                  (change)="searchPage()">
+                  (change)="changeTinhThanh($event)">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -111,12 +110,12 @@
                   appendTo="body"
                   appearance="outline"
                   [items]="listQuanHuyen"
-                  formControlName="quanHuyen"
+                  formControlName="cityId"
                   bindLabel="name"
                   bindValue="id"
                   placeholder="--Tất cả--"
                   notFoundText="Không tìm thấy mục nào"
-                  (change)="searchPage()">
+                  (change)="changeQuanHuyen($event)">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -130,12 +129,11 @@
                   appendTo="body"
                   appearance="outline"
                   [items]="listPhuongXa"
-                  formControlName="phuongXa"
+                  formControlName="wardId"
                   bindLabel="name"
                   bindValue="id"
                   placeholder="--Tất cả--"
-                  notFoundText="Không tìm thấy mục nào"
-                  (change)="searchPage()">
+                  notFoundText="Không tìm thấy mục nào">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -168,7 +166,7 @@
               <ng-container matColumnDef="coSo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Cơ sở</th>
                 <td mat-cell *matCellDef="let data">
-                  <div class="text-left">{{ data.coSo }}</div>
+                  <div class="text-left">{{ data.maCoSo }} - {{data.tenCoSo}}</div>
                 </td>
               </ng-container>
 
@@ -189,7 +187,7 @@
               <ng-container matColumnDef="donVi">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Đơn vị</th>
                 <td mat-cell *matCellDef="let data">
-                  <div class="text-left">{{ data.donVi }}</div>
+                  <div class="text-left">{{ data.tenDonVi }}</div>
                 </td>
               </ng-container>
 
@@ -210,14 +208,14 @@
               <ng-container matColumnDef="hanSuDung">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Hạn sử dụng</th>
                 <td mat-cell *matCellDef="let data">
-                  <div class="text-left">{{ data.hanSuDung }}</div>
+                  <div class="text-left">{{ data.hanDung | appDate }}</div>
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="loaiHang">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Loại hàng</th>
                 <td mat-cell *matCellDef="let data">
-                  <div class="text-left">{{ data.loaiHang }}</div>
+                  <div class="text-left">{{ data.loaiHang == 1 ? 'Hàng cận hạn' : 'Hàng ít giao dịch' }}</div>
                 </td>
               </ng-container>
 
@@ -225,15 +223,6 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi chú</th>
                 <td mat-cell *matCellDef="let data">
                   <div class="text-left">{{ data.ghiChu }}</div>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let data">
-                  <div class="baocao-actions" style="justify-content: start;">
-                    <button class="btn btn-primary">Chi tiết</button>
-                  </div>
                 </td>
               </ng-container>
 
