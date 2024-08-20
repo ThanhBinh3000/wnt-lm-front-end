@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Injector, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from "../../../component/base/base.component";
-import {Observable, Subject} from "rxjs";
-import {TitleService} from "../../../services/title.service";
-import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
-import {TransferHangDialogComponent} from "../../transfer/transfer-hang-dialog/transfer-hang-dialog.component";
-import {AsyncPipe, NgIf} from "@angular/common";
-import {ComponentsModule} from "../../../component/base/components.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { Component, EventEmitter, Injector, OnInit, ViewChild } from '@angular/core';
+import { BaseComponent } from "../../../component/base/base.component";
+import { Observable, Subject } from "rxjs";
+import { TitleService } from "../../../services/title.service";
+import { NhaThuocsService } from "../../../services/system/nha-thuocs.service";
+import { TransferHangDialogComponent } from "../../transfer/transfer-hang-dialog/transfer-hang-dialog.component";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { ComponentsModule } from "../../../component/base/components.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatCell,
   MatCellDef,
@@ -16,9 +16,9 @@ import {
   MatFooterRowDef,
   MatHeaderCell, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable
 } from "@angular/material/table";
-import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {NgLabelTemplateDirective, NgOptionTemplateDirective, NgSelectComponent} from "@ng-select/ng-select";
-import {LOAI_HANG_DU_TRU} from "../../../constants/config";
+import { MatSort, MatSortHeader } from "@angular/material/sort";
+import { NgLabelTemplateDirective, NgOptionTemplateDirective, NgSelectComponent } from "@ng-select/ng-select";
+import { LOAI_HANG_DU_TRU } from "../../../constants/config";
 import {
   LookUpDuTruHangCoSoTableComponent
 } from "./look-up-du-tru-hang-co-so-table/look-up-du-tru-hang-co-so-table.component";
@@ -62,9 +62,9 @@ export class LookUpDuTruHangHoaListComponent extends BaseComponent implements On
   title = "Danh sách hàng dự trù";
   listData: any = [];
   listThuocType: any[] = [
-    {name: '--Tất cả--', value: 0},
-    {name: 'Theo nhóm', value: 1},
-    {name: 'Theo tên', value: 2},
+    { name: '--Tất cả--', value: 0 },
+    { name: 'Theo nhóm', value: 1 },
+    { name: 'Theo tên', value: 2 },
   ];
   listNhomThuoc$ = new Observable<any[]>;
   listThuoc$ = new Observable<any[]>;
@@ -92,6 +92,20 @@ export class LookUpDuTruHangHoaListComponent extends BaseComponent implements On
   async ngOnInit() {
     this.titleService.setTitle(this.title);
     // await this.searchPage();
+  }
+
+  //lưu vào storage
+  lapPhieuDuTru() {
+    if(this.lookUpDuTruHangCoSoTableComponent?.dataTable){
+      this.dataTable.push(...this.lookUpDuTruHangCoSoTableComponent?.dataTable);
+    }
+    if(this.lookUpDuTruHangGoiYChuaKinhDoanhTableComponent?.dataTable){
+      this.dataTable.push(...this.lookUpDuTruHangGoiYChuaKinhDoanhTableComponent?.dataTable);
+    }
+    if (this.dataTable.length > 0) {
+      this.storageService.set("thuocCanDuTru", this.dataTable);
+    }
+    this.router.navigate(['/product/du-tru']);
   }
 
   getLoaiHangDuTru() {

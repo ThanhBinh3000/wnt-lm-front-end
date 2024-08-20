@@ -4,6 +4,8 @@ import {BaseComponent} from "../../../../component/base/base.component";
 import {FormGroup} from "@angular/forms";
 import {ThuocService} from "../../../../services/products/thuoc.service";
 import {ComponentsModule} from "../../../../component/base/components.module";
+import { DuTruHangService } from '../../../../services/dutruhang/du-tru-hang.service';
+import { STATUS_API } from '../../../../constants/message';
 
 @Component({
   selector: 'app-look-up-du-tru-hang-co-so-table',
@@ -15,24 +17,24 @@ import {ComponentsModule} from "../../../../component/base/components.module";
 export class LookUpDuTruHangCoSoTableComponent extends BaseComponent implements OnInit, AfterViewInit {
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
-  displayedColumns = ['#', 'thuoc', 'nhomThuoc', 'donVi', 'deXuatDuTru'];
+  displayedColumns = ['#', 'tenThuoc', 'tenNhomThuoc', 'tenDonViTinh', 'deXuatDuTru'];
 
   constructor(
     injector: Injector,
-    private _service : ThuocService,
+    private _service : DuTruHangService,
   ) {
     super(injector,_service);
   }
 
-  ngOnInit() {
-    this.formDataChange.subscribe((newValue) => {
-      // this.formData = this.fb.group({
-      //   ...newValue,
-      //   idCus: newValue.idPatient,
-      // });
-      // this.formData.removeControl('fromDateNote');
-      // this.formData.removeControl('toDateNote');
-    });
+  async ngOnInit() {
+    let res = await this._service.searchListHangDuTru({});
+      if (res?.status == STATUS_API.SUCCESS) {
+        let data = res.data;
+        console.log(res);
+        this.dataTable = data;
+        // this.totalRecord = data.totalElements;
+        // this.totalPages = data.totalPages;
+      } 
   }
 
   @ViewChild(MatSort) sort?: MatSort;
