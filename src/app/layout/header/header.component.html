@@ -17,9 +17,9 @@
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="true" class="dropdown-toggle">Hệ Thống
                   <i class="fa-solid fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('system')">
-                  <li><a href="/member/list">Danh sách thành viên</a></li>
+                  <li *ngIf="havePermissions(['SLTV'])"><a href="/member/list">Danh sách thành viên</a></li>
                   <li><a href="/drug-store/list">Danh sách thông báo</a></li>
-                  <li><a href="/drug-store/trien-khai">Danh sách đào tạo</a></li>
+                  <li *ngIf="havePermissions(['CHDDT'])"><a href="/drug-store/trien-khai">Danh sách đào tạo</a></li>
                 </ul>
               </li>
               <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('look-up', 'block') "
@@ -31,10 +31,10 @@
                   <li><a href="/look-up/so-luong-hang-hoa/list">Số lượng hàng hoá</a></li>
                   <li><a href="/look-up/ty-suat-loi-nhuan-hang-hoa/list">Tỷ suất lợi nhuận hàng hoá</a></li>
                   <li><a href="/look-up/du-tru-hang-hoa/list">Dự trù hàng hoá</a></li>
-                  <li><a href="/look-up/hang-hoa-lien-minh/list">Hàng hoá Liên Minh</a></li>
+                  <li *ngIf="havePermissions(['DLGDHH'])"><a href="/look-up/hang-hoa-lien-minh/list">Hàng hoá Liên Minh</a></li>
                 </ul>
               </li>
-              <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('transfer', 'block') "
+              <li *ngIf="isLogin() && havePermissions(['LCHH'])" class="dropdown menu" (mouseenter)="mouseEnter('transfer', 'block') "
                   (mouseleave)="mouseLeave('transfer','none')">
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
                    class="dropdown-toggle">Luân Chuyển Hàng Hoá
