@@ -2,7 +2,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {ComponentsModule} from "../../../component/base/components.module";
 import {BaseComponent} from "../../../component/base/base.component";
 import {TitleService} from "../../../services/title.service";
-import {topDoanhThuService} from "../../../services/wnt-lm-transaction/top-doanh-thu.service";
+import {topDoanhThuService} from "../../../services/transaction/top-doanh-thu.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 
 @Component({

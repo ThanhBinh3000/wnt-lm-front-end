@@ -6,14 +6,14 @@ import {ResponseData} from "../../models/response-data";
 @Injectable({
   providedIn: 'root'
 })
-export class topTyXuatLoiNhuanService extends BaseService {
+export class topSoLuongService extends BaseService {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'wnt-lm-transaction','thong-ke');
+    super(httpClient, 'transaction','thong-ke');
   }
 
-  searchTopTyXuatLoiNhuan(body: any) {
-    const url = `/api/wnt-lm-transaction/thong-ke/top-tsln`;
+  searchTopSoLuong(body: any) {
+    const url = `/api/wnt-lm-transaction/thong-ke/top-so-luong`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 }
