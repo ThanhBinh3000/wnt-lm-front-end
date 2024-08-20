@@ -31,6 +31,7 @@ import {
 } from "./pages/look-up/look-up-hang-hoa-lien-minh-list/look-up-hang-hoa-lien-minh-list.component";
 import {AuthGuard} from "./guard/auth.guard";
 import {ProductDuTruComponent} from "./pages/product/product-du-tru/product-du-tru.component";
+import { DetailDuTruComponent } from './pages/product/detail-du-tru/detail-du-tru.component';
 
 export const routes: Routes = [
   {
@@ -61,6 +62,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
           {path: 'du-tru', component: ProductDuTruComponent},
+          {path: 'detail-du-tru/:id', component: DetailDuTruComponent},
         ]
       },
       {

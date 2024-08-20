@@ -32,45 +32,44 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="thuoc">
+    <ng-container matColumnDef="tenThuoc">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Thuốc</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{data.thuoc}}</div>
+        <div class="text-left">{{data.tenThuoc}}</div>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="nhomThuoc">
+    <ng-container matColumnDef="tenNhomThuoc">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nhóm thuốc</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{ data.nhomThuoc }}</div>
+        <div class="text-left">{{ data.tenNhomThuoc }}</div>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="donVi">
+    <ng-container matColumnDef="tenDonViTinh">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Đơn vị</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{ data.donVi }}</div>
+        <div class="text-left">{{ data.tenDonViTinh }}</div>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="deXuatDuTru">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Đề xuất dự trù</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{ data.deXuatDuTru }}</div>
+        <div class="text-left">{{ data.deXuatDuTru | number }}</div>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="footer">
+    <!-- <ng-container matColumnDef="footer">
       <td mat-footer-cell *matFooterCellDef colspan="100">
         <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
                         (pageChange)="changePageIndex($event)"
                         (pageSizeChange)="changePageSize($event)"></app-pagination>
       </td>
-    </ng-container>
+    </ng-container> -->
 
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
-    <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
-
+    <!-- <tr mat-footer-row *matFooterRowDef="['footer']"></tr> -->
   </table>
 </div>
