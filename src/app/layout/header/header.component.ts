@@ -114,6 +114,10 @@ export class HeaderComponent implements OnInit {
     return roles.some((code:any) => this.authService.getUser().roles.some((role:any) => role.roleName === code));
   }
 
+  havePermissions(permissions: string[]){
+    return permissions.some((code:any) => this.authService.getUser().authorities.some((auth:any) => auth.authority === code));
+  }
+
   isLogin() {
     return this.authService.isLogin();
   }

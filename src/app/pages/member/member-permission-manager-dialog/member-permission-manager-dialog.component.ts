@@ -31,7 +31,7 @@ export class MemberPermissionManagerDialogComponent extends BaseComponent implem
   }
 
   async getListPrivilege() {
-    this._service.searchList({}).then((res) => {
+    this._service.searchListTheoMaThanhVien({maCoSo: this.thanhVien.maNhaThuoc}).then((res) => {
       if (res?.status == STATUS_API.SUCCESS) {
         this.listPrivilege = res.data;
       }
