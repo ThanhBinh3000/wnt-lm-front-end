@@ -75,7 +75,7 @@ export class MemberAddEditDialogComponent extends BaseComponent implements OnIni
   async getListEntity() {
     this.entityService.searchList({}).then((res) => {
       if (res?.status == STATUS_API.SUCCESS) {
-        this.listEntity = res.data;
+        this.listEntity = res.data.filter((x:any)=>x.isDefault);
       }
     });
   }
