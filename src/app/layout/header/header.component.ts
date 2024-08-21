@@ -5,7 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {SETTING} from "../../constants/setting";
 import {LOAI_THU_CHI} from "../../constants/config";
 import {ComponentsModule} from "../../component/base/components.module";
-
+import {MemberDetailDialogComponent} from "../../pages/member/member-detail-dialog/member-detail-dialog.component";
 
 @Component({
   selector: 'app-header',
@@ -118,7 +118,20 @@ export class HeaderComponent implements OnInit {
     return permissions.some((code:any) => this.authService.getUser().authorities.some((auth:any) => auth.authority === code));
   }
 
+  isAdmin(){
+    return this.authService.getUser().isAdmin;
+  }
+
   isLogin() {
     return this.authService.isLogin();
+  }
+
+  async openDetailMemberDialog() {
+    console.log('open');
+    var maCoSo = this.authService.getUser().maCoSo;
+    this.dialog.open(MemberDetailDialogComponent, {
+      data: maCoSo,
+      width: '60%',
+    });
   }
 }

@@ -16,4 +16,8 @@ export class NhaThuocsService extends BaseService {
     const url = `/api/${this.gateway}/${this.controller}/delete-by-ma-nha-thuoc`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
+  detailByMaNhaThuoc(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/detail-by-ma-nha-thuoc`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
 }

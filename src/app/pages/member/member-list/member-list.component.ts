@@ -34,6 +34,7 @@ export class MemberListComponent extends BaseComponent implements OnInit {
     this.formData = this.fb.group({
       textSearch: [''],
       entityId: [null],
+      active : [true]
     });
   }
 
@@ -46,7 +47,7 @@ export class MemberListComponent extends BaseComponent implements OnInit {
   async getListEntity() {
     this.entityService.searchList({}).then((res) => {
       if (res?.status == STATUS_API.SUCCESS) {
-        this.listEntity = res.data;
+        this.listEntity = res.data.filter((x:any)=>x.isDefault == 1);
       }
     });
   }
