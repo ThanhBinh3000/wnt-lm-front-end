@@ -10,11 +10,13 @@
         <tr>
           <th>#</th>
           <th>Ngày</th>
+          <th>Trạng thái</th>
           <th>Ghi chú</th>
         </tr>
         <tr *ngFor="let history of listHistory; index as i;">
           <td>{{ i + 1 }}</td>
           <td>{{ history.ngayCapNhat | appDate }}</td>
+          <td>{{ history.statusName}}</td>
           <td>{{ history.ghiChu }}</td>
         </tr>
       </table>
