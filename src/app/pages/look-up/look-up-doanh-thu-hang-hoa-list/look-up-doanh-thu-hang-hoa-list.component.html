@@ -4,16 +4,46 @@
       <div class="col-md-3 baocao-filter">
         <div class="sidebar-bg">
           <form [formGroup]="formData">
-            <fieldset class="baocao-filter mb-3">
-              <div class="radio">
-                <div>
-                  <input type="radio" id="nhomHang" value="1" formControlName="loaiBaoCao">
-                  <label for="nhomHang">Nhóm hàng</label>
-                </div>
-                <div>
-                  <input type="radio" id="matHang" value="0" formControlName="loaiBaoCao">
-                  <label for="matHang">Mặt hàng</label>
-                </div>
+            <fieldset>
+              <label> Ngành hàng</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listNganhHang" formControlName="nganhHangId"
+                           bindLabel="tenNganhHang" bindValue="nganhHangId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.nganhHangId">{{ item.tenNganhHang }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label> Nhóm dược lý</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listNhomDuocLy" formControlName="nhomDuocLyId"
+                           bindLabel="tenNhomDuocLy" bindValue="nhomDuocLyId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.nhomDuocLyId">{{ item.tenNhomDuocLy }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label> Hoạt chất</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listHoatChat" formControlName="hoatChatId"
+                           bindLabel="tenHoatChat" bindValue="hoatChatId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.hoatChatId">{{ item.tenHoatChat }}</span>
+                  </ng-template>
+                </ng-select>
               </div>
             </fieldset>
             <fieldset>
@@ -26,7 +56,7 @@
             </fieldset>
             <fieldset class="baocao-filter mb-3">
               <div class="option mb-3">
-                <app-date-range-filter [filterType]="DATE_RANGE.ALL"
+                <app-date-range-filter [filterType]="DATE_RANGE.BY_DATE"
                                        [fromDateControl]="'fromDate'"
                                        [toDateControl]="'toDate'"
                                        (filterTypeChange)="changeFilterType($event)"
@@ -57,7 +87,7 @@
               </ng-container>
 
               <ng-container matColumnDef="tenThuoc">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thành viên</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thuốc</th>
                 <td mat-cell *matCellDef="let data">
                   <div class="text-left">{{ data.tenThuoc }}</div>
                 </td>

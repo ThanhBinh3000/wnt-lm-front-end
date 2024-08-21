@@ -14,6 +14,9 @@ import {MESSAGE, STATUS_API} from "../../../constants/message";
 })
 export class LookUpSoLuongHangHoaListComponent extends BaseComponent implements OnInit {
   title!: string
+  listNhomThuoc: any = [];
+  listNhomDuocLy: any = [];
+  listHoatChat: any = [];
   displayedColumns = ['#', 'tenThuoc', 'tenNhomThuoc', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
 
   constructor(
@@ -24,33 +27,31 @@ export class LookUpSoLuongHangHoaListComponent extends BaseComponent implements 
     super(injector, _service);
     this.formData = this.fb.group({
       pageSize: [50],
-      loaiBaoCao: ['0'],
+      nganhHangId: [],
+      nhomDuocLyId: [],
+      hoatChatId: [],
     });
   }
 
   async ngOnInit() {
-    this.titleService.setTitle(this.title);
+    this.titleService.setTitle('Top số lượng');
     await this.searchTopSoLuong();
-    await this.updateTitle();
   }
 
-  async updateTitle() {
-    this.title = `Top ${this.formData.value.pageSize} hàng hoá có số lượng bán cao nhất`;
-  }
 
   async searchTopSoLuong() {
+    await this.updateTitle();
     try {
-      let body = this.formData.value
-      let res = await this._service.searchTopSoLuong(body);
-      if (res?.status == STATUS_API.SUCCESS) {
-        this.dataTable = res.data.slice(0, body.pageSize);
-      } else {
-        this.dataTable = [];
-      }
+      const body = this.formData.value
+      const res = await this._service.searchTopSoLuong(body);
+      this.dataTable = res?.status === STATUS_API.SUCCESS ? res.data.slice(0, body.pageSize) : [];
     } catch (e) {
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
     } finally {
     }
-    await this.updateTitle()
+  }
+
+  async updateTitle() {
+    this.title = `Top ${this.formData.value.pageSize} hàng hoá có số lượng bán cao nhất`;
   }
 }

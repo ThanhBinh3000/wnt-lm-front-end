@@ -5,9 +5,9 @@
         <div class="sidebar-bg">
           <form [formGroup]="formData">
             <fieldset>
-              <label>Tìm theo</label>
+              <label>Tìm theo tên thuốc</label>
               <div class="control-group">
-                <ng-select #selectDrug
+                <ng-select #selectThuoc
                            class="w-100"
                            appendTo="body"
                            formControlName="thuocId"
@@ -15,7 +15,7 @@
                            [items]="listThuoc$ | async"
                            [typeahead]="searchThuocTerm$"
                            bindLabel="tenThuoc"
-                           bindValue="id"
+                           bindValue="thuocId"
                            [minTermLength]="2"
                            appendTo="body"
                            appearance="outline"
@@ -28,23 +28,11 @@
               </div>
             </fieldset>
             <fieldset>
-              <label>Hàm lượng</label>
-              <div class="control-group">
-                <input formControlName="hamLuong" type="text" class="form-control"/>
-              </div>
-            </fieldset>
-            <fieldset>
-              <label>Hoạt chất</label>
-              <div class="control-group">
-                <input formControlName="hoatChat" type="text" class="form-control"/>
-              </div>
-            </fieldset>
-            <fieldset>
               <label>Nhóm thuốc</label>
               <div class="control-group">
                 <ng-select appendTo="body" appearance="outline"
                            [items]="listNhomThuoc" formControlName="nhomThuocId"
-                           bindLabel="tenNhomThuoc" bindValue="id" placeholder="Chọn hoặc gõ vào để tìm..."
+                           bindLabel="tenNhomThuoc" bindValue="nhomThuocId" placeholder="Chọn hoặc gõ vào để tìm..."
                            notFoundText="Không tìm thấy mục nào" [clearable]="false">
                   <ng-template ng-option-tmp let-item="item" let-index="index"
                                let-search="searchTerm">
@@ -54,20 +42,67 @@
               </div>
             </fieldset>
             <fieldset>
+              <label>Nhóm ngành hàng</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listNhomNganhHang" formControlName="nhomNganhHangId"
+                           bindLabel="tenNhomNganhHang" bindValue="nhomNganhHangId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.nhomNganhHangId">{{ item.tenNhomNganhHang }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
               <label>Nhóm dược lý</label>
               <div class="control-group">
-                <ng-select
-                  appendTo="body"
-                  appearance="outline"
-                  [items]="listNhomDuocLy"
-                  formControlName="nhomDuocLy"
-                  bindLabel="name"
-                  bindValue="id"
-                  placeholder="--Tất cả--"
-                  notFoundText="Không tìm thấy mục nào"
-                  (change)="searchPageHangHoa()">
-                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listNhomDuocLy" formControlName="nhomDuocLyId"
+                           bindLabel="tenNhomDuocLy" bindValue="nhomDuocLyId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.nhomDuocLyId">{{ item.tenNhomDuocLy }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label>Nhóm hoạt chất</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline"
+                           [items]="listNhomHoatChat" formControlName="nhomHoatChatId"
+                           bindLabel="tenNhomHoatChat" bindValue="nhomHoatChatId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index"
+                               let-search="searchTerm">
+                    <span [ngOptionHighlight]="search" *ngIf="item.nhomHoatChatId">{{ item.tenNhomHoatChat }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <label>Hàng thay thế</label>
+              <div class="control-group">
+                <ng-select #selectThuoc
+                           class="w-100"
+                           appendTo="body"
+                           formControlName="thuocId"
+                           appearance="outline"
+                           [items]="listThuoc$ | async"
+                           [typeahead]="searchThuocTerm$"
+                           bindLabel="tenThuoc"
+                           bindValue="thuocId"
+                           [minTermLength]="2"
+                           appendTo="body"
+                           appearance="outline"
+                           placeholder="Gõ để tìm kiếm..."
+                           notFoundText="Không tìm thấy mục nào" (change)="searchThuocTerm$.next(''); onDrugChange($event)">
+                  <ng-template ng-label-tmp let-item="item">
+                    <span *ngIf="item.thuocId">{{item.tenThuoc}}</span>
                   </ng-template>
                 </ng-select>
               </div>
@@ -75,18 +110,29 @@
             <fieldset>
               <label>Hàng bán kèm</label>
               <div class="control-group">
-                <input formControlName="hangBanKem" type="text" class="form-control"/>
-              </div>
-            </fieldset>
-            <fieldset>
-              <label>Hàng thay thế</label>
-              <div class="control-group">
-                <input formControlName="hangThayThe" type="text" class="form-control"/>
+                <ng-select #selectThuoc
+                           class="w-100"
+                           appendTo="body"
+                           formControlName="thuocId"
+                           appearance="outline"
+                           [items]="listThuoc$ | async"
+                           [typeahead]="searchThuocTerm$"
+                           bindLabel="tenThuoc"
+                           bindValue="thuocId"
+                           [minTermLength]="2"
+                           appendTo="body"
+                           appearance="outline"
+                           placeholder="Gõ để tìm kiếm..."
+                           notFoundText="Không tìm thấy mục nào" (change)="searchThuocTerm$.next(''); onDrugChange($event)">
+                  <ng-template ng-label-tmp let-item="item">
+                    <span *ngIf="item.thuocId">{{item.tenThuoc}}</span>
+                  </ng-template>
+                </ng-select>
               </div>
             </fieldset>
             <fieldset class="baocao-filter mb-3">
               <div class="option mb-3">
-                <app-date-range-filter [filterType]="DATE_RANGE.ALL"
+                <app-date-range-filter [filterType]="DATE_RANGE.BY_DATE"
                                        [fromDateControl]="'fromDate'"
                                        [toDateControl]="'toDate'"
                                        (filterTypeChange)="changeFilterType($event)"

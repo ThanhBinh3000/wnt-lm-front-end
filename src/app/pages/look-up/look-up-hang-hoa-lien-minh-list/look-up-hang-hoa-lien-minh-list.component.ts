@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from "../../../component/base/base.component";
 import {TitleService} from "../../../services/title.service";
 import {ComponentsModule} from "../../../component/base/components.module";
@@ -7,6 +7,7 @@ import {catchError, debounceTime, distinctUntilChanged, from, Observable, of, Su
 import {HangHoaService} from "../../../services/products/hang-hoa.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 import {ThuocService} from "../../../services/categories/thuoc.service";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   selector: 'app-look-up-hang-hoa-lien-minh-list',
@@ -18,11 +19,14 @@ import {ThuocService} from "../../../services/categories/thuoc.service";
 export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements OnInit {
   title = "Danh sách hàng hoá Liên Minh";
   listNhomThuoc: any = [];
+  listNhomNganhHang: any = [];
   listNhomDuocLy: any = [];
+  listNhomHoatChat: any = [];
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
   collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap', 'doanhThu', 'action1'];
   displayedColumns = ['#', 'tenThuoc', 'tenNhomHoatChat', 'tenNhomThuoc', 'tenNhomDuocLy', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax', 'doanhSoTT', 'doanhSoCS', 'action2'];
+  @ViewChild('selectThuoc') selectThuoc!: NgSelectComponent;
 
   constructor(
     injector: Injector,
@@ -34,29 +38,28 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
     this.formData = this.fb.group({
       textSearch: [''],
       thuocIds: [null],
-      hoatChat: [''],
       nhomThuocId: [],
-      nhomDuocLy: [null],
+      nhomNganhHangId: [],
+      nhomDuocLyId: [],
+      nhomHoatChatId: [],
       hangBanKem: [''],
       hangThayThe: [''],
       thuocId: [],
-      hamLuong:[],
     });
   }
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
     await this.searchPageHangHoa();
-    this.getDataFilter();
+    await this.getDataFilter();
   }
 
-  getDataFilter() {
+  async getDataFilter() {
 
-    this.thuocService.searchListDanhSachThuoc({}).then((res) => {
-      if (res?.status == STATUS_API.SUCCESS) {
-        this.listNhomThuoc = res.data;
-      }
-    });
+    const res = await this.thuocService.searchListDanhSachThuoc({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomThuoc = res.data;
+    }
 
     this.listThuoc$ = this.searchThuocTerm$.pipe(
       debounceTime(500),
@@ -64,7 +67,7 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       switchMap((term: string) => {
         if (term.length >= 2) {
           let bodyThuoc = {
-            textSearch: term,
+            tenThuoc: term,
             paggingReq: {limit: 25, page: 0},
             recordStatusId: 0,
             searchInfoType: 0,
@@ -72,11 +75,11 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
             ignoreLoadingIndicator: true,
             typeService: 0
           };
-          return from(this.thuocService.searchPageDanhSachThuoc(bodyThuoc).then((res) => {
-            if (res?.status == STATUS_API.SUCCESS) {
-              return res.data.content;
-            }
-          }));
+          return from(
+            this.thuocService.searchPageDanhSachThuoc(bodyThuoc).then((res) =>
+              res?.status === STATUS_API.SUCCESS ? res.data.content : []
+            )
+          );
         } else {
           return of([]);
         }
@@ -94,24 +97,26 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
 
   async searchPageHangHoa() {
     try {
-      let body = this.formData.value
-      body.paggingReq = {
-        limit: this.pageSize,
-        page: this.page - 1
-      }
-      let res = await this._service.searchPageHangHoa(body);
-      if (res?.status == STATUS_API.SUCCESS) {
-        let data = res.data;
-        this.dataTable = data.content;
-        this.totalRecord = data.totalElements;
-        this.totalPages = data.totalPages;
+      const body = {
+        ...this.formData.value,
+        paggingReq: {
+          limit: this.pageSize,
+          page: this.page - 1
+        }
+      };
+      const res = await this._service.searchPageHangHoa(body);
+      if (res?.status === STATUS_API.SUCCESS) {
+        const { content, totalElements, totalPages } = res.data;
+        this.dataTable = content;
+        this.totalRecord = totalElements;
+        this.totalPages = totalPages;
       } else {
         this.dataTable = [];
         this.totalRecord = 0;
+        this.totalPages = 0;
       }
-    } catch (e) {
+    } catch (error) {
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
-    } finally {
     }
   }
 
@@ -126,6 +131,7 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
     try {
       this.pageSize = event;
       await this.searchPageHangHoa();
+
     } catch (e) {
       this.spinner.hide();
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
@@ -141,6 +147,4 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
     }
   }
-
-
 }
