@@ -12,13 +12,23 @@ export class ThuocService extends BaseService {
     super(httpClient, 'wnt-lm-categories','tra-cuu');
   }
 
-  searchPageDanhSachThuoc(body: any) {
-    const url = `/api/${this.gateway}/${this.controller}/search-page-thuoc`;
+  searchListDanhSachThuoc(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-thuoc`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
-  searchListDanhSachThuoc(body: any) {
-    const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-thuoc`;
+  searchListNhomNganhHang(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-nganh-hang`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
+  searchListNhomDuocLy(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-duoc-ly`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
+  searchListNhomHoatChat(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-hoat-chat`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 }

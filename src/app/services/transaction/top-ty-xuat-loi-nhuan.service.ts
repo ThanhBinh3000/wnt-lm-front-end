@@ -12,7 +12,7 @@ export class topTyXuatLoiNhuanService extends BaseService {
     super(httpClient, 'transaction','thong-ke');
   }
 
-  searchTopTyXuatLoiNhuan(body: any) {
+  searchTopListTyXuatLoiNhuan(body: any) {
     const url = `/api/wnt-lm-transaction/thong-ke/top-tsln`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }

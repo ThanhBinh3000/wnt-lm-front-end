@@ -12,7 +12,7 @@ export class topDoanhThuService extends BaseService {
     super(httpClient, 'transaction','thong-ke');
   }
 
-  searchTopDoanhThu(body: any) {
+  searchlistTopDoanhThu(body: any) {
     const url = `/api/wnt-lm-transaction/thong-ke/top-doanh-thu`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }

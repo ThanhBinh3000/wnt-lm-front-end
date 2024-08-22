@@ -4,6 +4,7 @@ import {BaseComponent} from "../../../component/base/base.component";
 import {TitleService} from "../../../services/title.service";
 import {topDoanhThuService} from "../../../services/transaction/top-doanh-thu.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
+import {ThuocService} from "../../../services/categories/thuoc.service";
 
 @Component({
   selector: 'app-look-up-doanh-thu-hang-hoa-list',
@@ -14,39 +15,79 @@ import {MESSAGE, STATUS_API} from "../../../constants/message";
 })
 export class LookUpDoanhThuHangHoaListComponent extends BaseComponent implements OnInit {
   title!: string
-  listNganhHang: any = [];
+  listNhomNganhHang: any = [];
   listNhomDuocLy: any = [];
-  listHoatChat: any = [];
+  listNhomHoatChat: any = [];
   displayedColumns = ['#', 'tenThuoc', 'tenNhomThuoc', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
 
   constructor(
     injector: Injector,
     private titleService: TitleService,
     private _service: topDoanhThuService,
+    private thuocService: ThuocService,
   ) {
     super(injector, _service);
     this.formData = this.fb.group({
       pageSize: [50],
-      nganhHangId: [],
+      nhomNganhHangId: [],
       nhomDuocLyId: [],
-      hoatChatId: [],
+      nhomHoatChatId: [],
     });
   }
 
   async ngOnInit() {
     this.titleService.setTitle('Top doanh thu');
+    await this.getDataFilter();
     await this.searchTopDoanhThu();
   }
 
+  async getDataFilter() {
+    const res = await this.thuocService.searchListNhomNganhHang({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomNganhHang = res.data?.map((item: any) => ({
+        ...item,
+        nhomNganhHangId: item.id
+      })) || [];
+    }
+  }
+
+  async onDuocLyChange(data: any) {
+    if (data?.nhomNganhHangId > 0) {
+      const res = await this.thuocService.searchListNhomDuocLy({
+        nhomNganhHangId: data.nhomNganhHangId
+      });
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomDuocLy = res.data?.map((item: any) => ({
+          ...item,
+          nhomDuocLyId: item.id
+        })) || [];
+      }
+    }
+  }
+
+  async onHoatChatChange(data: any) {
+    if (data?.nhomDuocLyId > 0) {
+      const res = await this.thuocService.searchListNhomHoatChat({
+        nhomDuocLyId: data.nhomDuocLyId
+      });
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomHoatChat = res.data?.map((item: any) => ({
+          ...item,
+          nhomHoatChatId: item.id
+        })) || [];
+      }
+    }
+  }
+
   async searchTopDoanhThu() {
-    await this.updateTitle();
     try {
       const body = this.formData.value;
-      const res = await this._service.searchTopDoanhThu(body);
+      const res = await this._service.searchlistTopDoanhThu(body);
       this.dataTable = res?.status === STATUS_API.SUCCESS ? res.data.slice(0, body.pageSize) : [];
     } catch (e) {
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
     } finally {
+      await this.updateTitle();
     }
   }
 
