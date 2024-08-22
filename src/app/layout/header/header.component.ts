@@ -131,7 +131,7 @@ export class HeaderComponent implements OnInit {
     var maCoSo = this.authService.getUser().maCoSo;
     this.dialog.open(MemberDetailDialogComponent, {
       data: maCoSo,
-      width: '60%',
+      width: '400px;',
     });
   }
 }

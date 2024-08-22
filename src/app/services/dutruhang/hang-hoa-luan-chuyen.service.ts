@@ -11,4 +11,8 @@ export class HangHoaLuanChuyenService extends BaseService {
   constructor(httpClient: HttpClient) {
     super(httpClient, 'wnt-lm-dutruhang','hang-hoa-luan-chuyen');
   }
+  cancelHH(body: any) {
+    const url = `/api/wnt-lm-dutruhang/hang-hoa-luan-chuyen/delete`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
 }

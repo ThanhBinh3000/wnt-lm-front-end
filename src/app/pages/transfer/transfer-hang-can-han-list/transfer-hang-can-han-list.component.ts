@@ -25,14 +25,16 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
     { name: 'Theo tên', value: 2 },
   ];
   listLuanChuyenType: any[] = [
-    { name: 'Chưa luân chuyển', value: 0 },
-    { name: 'Đã luân chuyển', value: 1 },
+    { name: 'Chưa đăng ký', value: 0 },
+    { name: 'Đã đăng ký', value: 1 },
   ];
   listNhomThuoc$ = new Observable<any[]>;
   listThuoc$ = new Observable<any[]>;
   searchNhomThuocTerm$ = new Subject<string>();
   searchThuocTerm$ = new Subject<string>();
-  displayedColumns = ['checkbox', '#', 'soPhieuNhap', 'ngayNhap', 'maThuoc', 'tenThuoc', 'donVi', 'soLuongTon', 'soLo', 'hanSuDung', 'soDangKy', 'ghiChu'];
+  displayedColumns = ['checkbox', '#', 'soPhieuNhap', 'ngayNhap', 'maThuoc', 'tenThuoc', 'donVi', 'soLuongTon', 
+    'soLo', 'hanSuDung', 'soDangKy', 'ghiChu', 'action'
+  ];
 
   constructor(
     injector: Injector,
@@ -87,7 +89,7 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
       this.modal.confirm({
         closable: false,
         title: 'Xác nhận',
-        content: 'Bạn có chắc chắn muốn luân chuyển hàng hoá đã chọn không?',
+        content: 'Bạn có chắc chắn muốn đăng ký hàng hoá đã chọn không?',
         okText: 'Đồng ý',
         cancelText: 'Không',
         okDanger: true,
@@ -95,13 +97,13 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
         onOk: async () => {
           let res = await this.service.create(dataLuanChuyen);
           if (res && res.data) {
-            this.notification.success(MESSAGE.SUCCESS, 'Luân chuyển hàng hoá thành công');
+            this.notification.success(MESSAGE.SUCCESS, 'Đăng ký hàng hoá thành công');
             await this.searchPage();
           }
         },
       });
     } else {
-      this.notification.error(MESSAGE.ERROR, "Không có hàng hoá phù hợp để luân chuyển.");
+      this.notification.error(MESSAGE.ERROR, "Không có hàng hoá phù hợp để đăng ký.");
     }
   }
 
@@ -131,6 +133,29 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
       this.indeterminate = false;
     } else {
       this.indeterminate = true;
+    }
+  }
+
+  async cancelHangLuanChuyen(data : any) {
+    if (data && data.hangLuanChuyen) {
+      this.modal.confirm({
+        closable: false,
+        title: 'Xác nhận',
+        content: 'Bạn có chắc chắn muốn huỷ đăng ký mặt hàng này?',
+        okText: 'Đồng ý',
+        cancelText: 'Không',
+        okDanger: true,
+        width: 310,
+        onOk: async () => {
+          let res = await this._service.cancelHH(data);
+          if (res && res.data) {
+            this.notification.success(MESSAGE.SUCCESS, 'Huỷ thành công');
+            await this.searchPage();
+          }
+        },
+      });
+    } else {
+      this.notification.error(MESSAGE.ERROR, "Hàng này chưa đăng ký luân chuyển");
     }
   }
 

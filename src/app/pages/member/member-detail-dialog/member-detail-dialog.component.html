@@ -1,33 +1,16 @@
 <div class="card">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+    <div class="modal-header" style="background-color: #35a6ca;">
       <h4 class="modal-title"> Thông tin thành viên
       </h4>
     </div>
     <div class="modal-body">
-         <table class="table">
-              <tr>
-                <td>Tên thành viên</td>
-                <td>{{info.tenNhaThuoc}}</td>
-              </tr>
-              <tr>
-                <td>Số điện thoại</td>
-                <td>{{info.soDienThoai}}</td>
-              </tr>
-              <tr>
-                <td>Địa chỉ</td>
-                <td>{{info.diaChi}}</td>
-              </tr>
-              <tr>
-                <td>Ngày tham gia</td>
-                <td>{{info.created}}</td>
-              </tr>
-              <tr>
-                <td>Cấp thành viên</td>
-                <td>{{info.level}}</td>
-              </tr>
-         </table>
+          <img src="/assets/images/profile-default.jpg" style="width:50%; border-radius: 50%;">
+          <h3>Tên: {{info.tenNhaThuoc}}</h3>
+          <h4>Cấp thành viên: {{info.level}}</h4>
+          <p class="title">Số điện thoại: {{info.soDienThoai}}</p>
+          <p class="title">Địa chỉ: {{info.diaChi}}</p>
+          <p class="title">Ngày tham gia: {{info.created}}</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
