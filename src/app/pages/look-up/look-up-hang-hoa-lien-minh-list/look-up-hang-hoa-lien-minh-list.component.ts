@@ -18,7 +18,6 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 })
 export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements OnInit {
   title = "Danh sách hàng hoá Liên Minh";
-  listNhomThuoc: any = [];
   listNhomNganhHang: any = [];
   listNhomDuocLy: any = [];
   listNhomHoatChat: any = [];
@@ -26,7 +25,6 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   searchThuocTerm$ = new Subject<string>();
   collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap', 'doanhThu', 'action1'];
   displayedColumns = ['#', 'tenThuoc', 'tenNhomHoatChat', 'tenNhomThuoc', 'tenNhomDuocLy', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax', 'doanhSoTT', 'doanhSoCS', 'action2'];
-  @ViewChild('selectThuoc') selectThuoc!: NgSelectComponent;
 
   constructor(
     injector: Injector,
@@ -36,15 +34,12 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   ) {
     super(injector, _service);
     this.formData = this.fb.group({
-      textSearch: [''],
-      thuocIds: [null],
-      nhomThuocId: [],
+      thuocId: [],
       nhomNganhHangId: [],
       nhomDuocLyId: [],
       nhomHoatChatId: [],
-      hangBanKem: [''],
-      hangThayThe: [''],
-      thuocId: [],
+      hangThayTheId: [],
+      hangBanKemId: [],
     });
   }
 
@@ -56,11 +51,6 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
 
   async getDataFilter() {
 
-    const res = await this.thuocService.searchListDanhSachThuoc({});
-    if (res?.status === STATUS_API.SUCCESS) {
-      this.listNhomThuoc = res.data;
-    }
-
     this.listThuoc$ = this.searchThuocTerm$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -68,30 +58,58 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
         if (term.length >= 2) {
           let bodyThuoc = {
             tenThuoc: term,
-            paggingReq: {limit: 25, page: 0},
-            recordStatusId: 0,
-            searchInfoType: 0,
-            searchType: 5,
-            ignoreLoadingIndicator: true,
-            typeService: 0
           };
-          return from(
-            this.thuocService.searchPageDanhSachThuoc(bodyThuoc).then((res) =>
-              res?.status === STATUS_API.SUCCESS ? res.data.content : []
-            )
-          );
+          return from(this.thuocService.searchListDanhSachThuoc(bodyThuoc).then((res) =>
+            res?.status === STATUS_API.SUCCESS ? res.data : []));
         } else {
           return of([]);
         }
       }),
       catchError(() => of([]))
     );
+
+    const res = await this.thuocService.searchListNhomNganhHang({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomNganhHang = res.data?.map((item: any) => ({
+        ...item,
+        nhomNganhHangId: item.id
+      })) || [];
+    }
   }
 
-  async onDrugChange(data: any) {
-    if (data && data.thuocId > 0) {
-      this.dataTable[0].tenThuoc = data.tenThuoc;
-      this.formData.value.thuocId = data.thuocId;
+  async onThuocChange(data: any) {
+    if (data?.thuocId > 0) {
+      this.formData.patchValue({ thuocId: data.thuocId });
+    }
+  }
+
+
+
+  async onDuocLyChange(data: any) {
+    if (data?.nhomNganhHangId > 0) {
+      const res = await this.thuocService.searchListNhomDuocLy({
+        nhomNganhHangId: data.nhomNganhHangId
+      });
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomDuocLy = res.data?.map((item: any) => ({
+          ...item,
+          nhomDuocLyId: item.id
+        })) || [];
+      }
+    }
+  }
+
+  async onHoatChatChange(data: any) {
+    if (data?.nhomDuocLyId > 0) {
+      const res = await this.thuocService.searchListNhomHoatChat({
+        nhomDuocLyId: data.nhomDuocLyId
+      });
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomHoatChat = res.data?.map((item: any) => ({
+          ...item,
+          nhomHoatChatId: item.id
+        })) || [];
+      }
     }
   }
 
@@ -106,7 +124,7 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       };
       const res = await this._service.searchPageHangHoa(body);
       if (res?.status === STATUS_API.SUCCESS) {
-        const { content, totalElements, totalPages } = res.data;
+        const {content, totalElements, totalPages} = res.data;
         this.dataTable = content;
         this.totalRecord = totalElements;
         this.totalPages = totalPages;
