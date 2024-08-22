@@ -53,6 +53,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
       regionId: [this.authService.getUser().regionId],
       cityId: [this.authService.getUser().cityId],
       wardId: [this.authService.getUser().wardId],
+      recordStatusId: [0],
     });
   }
 

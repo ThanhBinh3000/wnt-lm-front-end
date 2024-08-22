@@ -54,9 +54,9 @@
         <div class="baocao-container box-group-white">
           <h2 class="text-center"><b>{{ title }}</b></h2>
           <div class="mat-table-container">
-            <div *ngIf="formData.value?.hangLuanChuyen == false" class="d-flex baocao-header">
+            <div [hidden]="formData.value?.hangLuanChuyen" class="d-flex baocao-header">
               <div class="baocao-actions">
-                <button (click)="luanChuyenMulti()" class="btn btn-sm btn-primary pull-right">Luân chuyển
+                <button (click)="luanChuyenMulti()" class="btn btn-sm btn-primary pull-right">Đăng ký
                 </button>
               </div>
             </div>
@@ -64,11 +64,11 @@
               [dataSource]="getDataSource()" matSort>
 
               <ng-container matColumnDef="checkbox">
-                <th mat-header-cell *matHeaderCellDef> <input type="checkbox" [(ngModel)]="allChecked"
+                <th mat-header-cell *matHeaderCellDef> <input type="checkbox" [disabled]="formData.value.hangLuanChuyen" [(ngModel)]="allChecked"
                     (ngModelChange)="updateAllChecked()" title="select row">
                 </th>
                 <td mat-cell *matCellDef="let data; index as i;">
-                  <input type="checkbox" [(ngModel)]="data.hangLuanChuyen" (ngModelChange)="updateSingleChecked()"
+                  <input type="checkbox" [disabled]="formData.value.hangLuanChuyen" [(ngModel)]="data.hangLuanChuyen" (ngModelChange)="updateSingleChecked()"
                     title="select row">
                 </td>
               </ng-container>
@@ -148,7 +148,14 @@
               <ng-container matColumnDef="ghiChu">
                 <th mat-header-cell *matHeaderCellDef> Ghi chú</th>
                 <td mat-cell *matCellDef="let data">
-                  <textarea class="form-control" [(ngModel)]="data.decscription" rows="3"></textarea>
+                  <textarea class="form-control" [disabled]="formData.value.hangLuanChuyen" [(ngModel)]="data.decscription" rows="3"></textarea>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let data">
+                  <button class="btn btn-danger" [disabled]="!formData.value.hangLuanChuyen" title="Huỷ đăng ký" (click)="cancelHangLuanChuyen(data)"><i class="fa fa-trash"></i></button>
                 </td>
               </ng-container>
 
