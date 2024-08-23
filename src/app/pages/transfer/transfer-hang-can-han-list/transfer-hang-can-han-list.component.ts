@@ -89,7 +89,7 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
       this.modal.confirm({
         closable: false,
         title: 'Xác nhận',
-        content: 'Bạn có chắc chắn muốn đăng ký hàng hoá đã chọn không?',
+        content: 'Bạn có chắc chắn muốn đăng ký luân chuyển hàng hoá đã chọn không?',
         okText: 'Đồng ý',
         cancelText: 'Không',
         okDanger: true,
@@ -97,13 +97,13 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
         onOk: async () => {
           let res = await this.service.create(dataLuanChuyen);
           if (res && res.data) {
-            this.notification.success(MESSAGE.SUCCESS, 'Đăng ký hàng hoá thành công');
+            this.notification.success(MESSAGE.SUCCESS, 'Đăng ký luân chuyển hàng hoá thành công');
             await this.searchPage();
           }
         },
       });
     } else {
-      this.notification.error(MESSAGE.ERROR, "Không có hàng hoá phù hợp để đăng ký.");
+      this.notification.error(MESSAGE.ERROR, "Không có hàng hoá phù hợp để đăng ký luân chuyển.");
     }
   }
 
@@ -141,7 +141,7 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
       this.modal.confirm({
         closable: false,
         title: 'Xác nhận',
-        content: 'Bạn có chắc chắn muốn huỷ đăng ký mặt hàng này?',
+        content: 'Bạn có chắc chắn muốn huỷ đăng ký luân chuyển mặt hàng này?',
         okText: 'Đồng ý',
         cancelText: 'Không',
         okDanger: true,
