@@ -77,13 +77,13 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
     }
   }
 
-  async onThuocChange(data: any) {
+  async onFieldChange(data: any, fieldName: string) {
     if (data?.thuocId > 0) {
-      this.formData.patchValue({ thuocId: data.thuocId });
+      const patchObject: { [key: string]: any } = {};
+      patchObject[fieldName] = data.thuocId;
+      this.formData.patchValue(patchObject);
     }
   }
-
-
 
   async onDuocLyChange(data: any) {
     if (data?.nhomNganhHangId > 0) {
