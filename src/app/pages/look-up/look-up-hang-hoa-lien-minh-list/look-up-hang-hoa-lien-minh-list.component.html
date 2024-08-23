@@ -13,7 +13,7 @@
                            placeholder="Tên thuốc..."
                            notFoundText="Không tìm thấy mục nào"
                            typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
-                           (change)="searchThuocTerm$.next(''); onThuocChange($event)">
+                           (change)="searchThuocTerm$.next(''); onFieldChange($event, 'thuocId')">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.tenThuoc }}</span>
                   </ng-template>
@@ -65,12 +65,12 @@
               <label>Hàng thay thế</label>
               <div class="control-group">
                 <ng-select [items]="listThuoc$ | async" [typeahead]="searchThuocTerm$" [minTermLength]="2"
-                           formControlName="thuocId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
+                           formControlName="hangThayTheId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
                            bindValue="thuocId"
                            placeholder="Tên hàng thay thế..."
                            notFoundText="Không tìm thấy mục nào"
                            typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
-                           (change)="searchThuocTerm$.next('')">
+                           (change)="searchThuocTerm$.next(''); onFieldChange($event, 'hangThayTheId')">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.tenThuoc }}</span>
                   </ng-template>
@@ -81,12 +81,12 @@
               <label>Hàng bán kèm</label>
               <div class="control-group">
                 <ng-select [items]="listThuoc$ | async" [typeahead]="searchThuocTerm$" [minTermLength]="2"
-                           formControlName="thuocId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
+                           formControlName="hangBanKemId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
                            bindValue="thuocId"
                            placeholder="Tên hàng bán kèm..."
                            notFoundText="Không tìm thấy mục nào"
                            typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
-                           (change)="searchThuocTerm$.next('')">
+                           (change)="searchThuocTerm$.next(''); onFieldChange($event, 'hangBanKemId')">">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.tenThuoc }}</span>
                   </ng-template>
