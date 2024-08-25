@@ -6,6 +6,7 @@ import {SETTING} from "../../constants/setting";
 import {LOAI_THU_CHI} from "../../constants/config";
 import {ComponentsModule} from "../../component/base/components.module";
 import {MemberDetailDialogComponent} from "../../pages/member/member-detail-dialog/member-detail-dialog.component";
+import { InfoComponent } from '../info/info.component';
 
 @Component({
   selector: 'app-header',
