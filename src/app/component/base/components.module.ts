@@ -30,6 +30,7 @@ import {UploadImageComponent} from "../upload-image/upload-image.component";
 import {PreviewImageComponent} from "../preview-image/preview-image.component";
 import {ModalPreviewImageComponent} from "../preview-image/modal-preview-image/modal-preview-image.component";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import { InfoComponent } from '../../layout/info/info.component';
 
 @NgModule({
   declarations: [
@@ -40,10 +41,11 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
     UploadImageComponent,
     PreviewImageComponent,
     ModalPreviewImageComponent,
+    InfoComponent,
     //pipes
     AppDatePipe,
     AppDateTimePipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
     //directives
   ],
   imports: [
@@ -119,6 +121,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
     MatMenuTrigger,
     MatMenu,
     MatMenuItem,
+    InfoComponent
   ],
   providers: [
     DatePipe,
