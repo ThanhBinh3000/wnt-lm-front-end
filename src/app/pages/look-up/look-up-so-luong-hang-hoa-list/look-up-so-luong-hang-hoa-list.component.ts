@@ -42,41 +42,33 @@ export class LookUpSoLuongHangHoaListComponent extends BaseComponent implements 
   }
 
   async getDataFilter() {
-    const res = await this.thuocService.searchListNhomNganhHang({});
-    if (res?.status === STATUS_API.SUCCESS) {
-      this.listNhomNganhHang = res.data?.map((item: any) => ({
-        ...item,
-        nhomNganhHangId: item.id
-      })) || [];
-    }
-  }
-
-  async onDuocLyChange(data: any) {
-    if (data?.nhomNganhHangId > 0) {
-      const res = await this.thuocService.searchListNhomDuocLy({
-        nhomNganhHangId: data.nhomNganhHangId
-      });
+    // search nhóm khách hàng
+    this.thuocService.searchListNhomNganhHang({}).then((res) => {
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomNganhHang = res.data?.map((item: any) => ({
+          ...item,
+          nhomNganhHangId: item.id
+        })) || [];
+      }
+    })
+    // search nhóm dược lý
+    this.thuocService.searchListNhomDuocLy({}).then((res) => {
       if (res?.status === STATUS_API.SUCCESS) {
         this.listNhomDuocLy = res.data?.map((item: any) => ({
           ...item,
           nhomDuocLyId: item.id
         })) || [];
       }
-    }
-  }
-
-  async onHoatChatChange(data: any) {
-    if (data?.nhomDuocLyId > 0) {
-      const res = await this.thuocService.searchListNhomHoatChat({
-        nhomDuocLyId: data.nhomDuocLyId
-      });
+    })
+    // search nhóm hoạt chất
+    this.thuocService.searchListNhomHoatChat({}).then((res) => {
       if (res?.status === STATUS_API.SUCCESS) {
         this.listNhomHoatChat = res.data?.map((item: any) => ({
           ...item,
           nhomHoatChatId: item.id
         })) || [];
       }
-    }
+    })
   }
 
   async searchTopSoLuong() {
