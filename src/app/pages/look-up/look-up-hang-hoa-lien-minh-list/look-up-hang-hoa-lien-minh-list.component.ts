@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../component/base/base.component";
 import {TitleService} from "../../../services/title.service";
 import {ComponentsModule} from "../../../component/base/components.module";
@@ -7,7 +7,6 @@ import {catchError, debounceTime, distinctUntilChanged, from, Observable, of, Su
 import {HangHoaService} from "../../../services/products/hang-hoa.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 import {ThuocService} from "../../../services/categories/thuoc.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   selector: 'app-look-up-hang-hoa-lien-minh-list',
@@ -45,12 +44,12 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
-    await this.searchPageHangHoa();
     await this.getDataFilter();
+    await this.searchPageHangHoa();
   }
 
   async getDataFilter() {
-
+    // search nhóm thuốc
     this.listThuoc$ = this.searchThuocTerm$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -67,14 +66,33 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       }),
       catchError(() => of([]))
     );
-
-    const res = await this.thuocService.searchListNhomNganhHang({});
-    if (res?.status === STATUS_API.SUCCESS) {
-      this.listNhomNganhHang = res.data?.map((item: any) => ({
-        ...item,
-        nhomNganhHangId: item.id
-      })) || [];
-    }
+    // search nhóm khách hàng
+    this.thuocService.searchListNhomNganhHang({}).then((res) => {
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomNganhHang = res.data?.map((item: any) => ({
+          ...item,
+          nhomNganhHangId: item.id
+        })) || [];
+      }
+    })
+    // search nhóm dược lý
+    this.thuocService.searchListNhomDuocLy({}).then((res) => {
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomDuocLy = res.data?.map((item: any) => ({
+          ...item,
+          nhomDuocLyId: item.id
+        })) || [];
+      }
+    })
+    // search nhóm hoạt chất
+    this.thuocService.searchListNhomHoatChat({}).then((res) => {
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.listNhomHoatChat = res.data?.map((item: any) => ({
+          ...item,
+          nhomHoatChatId: item.id
+        })) || [];
+      }
+    })
   }
 
   async onFieldChange(data: any, fieldName: string) {
@@ -82,34 +100,6 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       const patchObject: { [key: string]: any } = {};
       patchObject[fieldName] = data.thuocId;
       this.formData.patchValue(patchObject);
-    }
-  }
-
-  async onDuocLyChange(data: any) {
-    if (data?.nhomNganhHangId > 0) {
-      const res = await this.thuocService.searchListNhomDuocLy({
-        nhomNganhHangId: data.nhomNganhHangId
-      });
-      if (res?.status === STATUS_API.SUCCESS) {
-        this.listNhomDuocLy = res.data?.map((item: any) => ({
-          ...item,
-          nhomDuocLyId: item.id
-        })) || [];
-      }
-    }
-  }
-
-  async onHoatChatChange(data: any) {
-    if (data?.nhomDuocLyId > 0) {
-      const res = await this.thuocService.searchListNhomHoatChat({
-        nhomDuocLyId: data.nhomDuocLyId
-      });
-      if (res?.status === STATUS_API.SUCCESS) {
-        this.listNhomHoatChat = res.data?.map((item: any) => ({
-          ...item,
-          nhomHoatChatId: item.id
-        })) || [];
-      }
     }
   }
 
