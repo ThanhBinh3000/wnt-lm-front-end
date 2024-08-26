@@ -17,6 +17,11 @@ export class ThuocService extends BaseService {
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
+  searchListNhomThuoc(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-thuoc`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
   searchListNhomNganhHang(body: any) {
     const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-nganh-hang`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
@@ -29,6 +34,10 @@ export class ThuocService extends BaseService {
 
   searchListNhomHoatChat(body: any) {
     const url = `/api/${this.gateway}/${this.controller}/search-list-nhom-hoat-chat`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+  searchListNhaCungCap(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/search-list-nha-cung-cap`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 }

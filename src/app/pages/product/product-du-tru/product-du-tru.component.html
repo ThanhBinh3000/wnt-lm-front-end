@@ -1,17 +1,86 @@
 <div class="container body-content w-95">
   <div class="content">
     <div class="row">
-      <!-- <div class="col-md-3">
-        <div class="sidebar-bg">
-          <form [formGroup]="formData">
-            <div class="control-group btn-fullwidth flex-grow-1">
-              <input type="button" value="Lưu phiếu" (click)="create()"
-                     class="btn btn-primary w-100"/>
+      <div id="divInfoSearch" class="col-md-3">
+        <form [formGroup]="formData">
+          <div class="sidebar-bg">
+            <fieldset>
+              <h5 class="mt-0"><b>Thêm hàng hóa vào danh sách</b></h5>
+              <hr class="mt-0"/>
+              <label>Tìm theo</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline" [items]="searchTypes"
+                           formControlName="searchType" bindLabel="name" bindValue="value"
+                           notFoundText="Không tìm thấy mục nào" (change)="clearSearchTypeValue()"
+                           [clearable]="false">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div *ngIf="formData.get('searchType')?.value == 1" class="option mb-3" id="provider">
+                <label>Chọn nhà cung cấp</label>
+                <div class="control-group">
+                  <ng-select [items]="listNCC$ | async"
+                             [typeahead]="searchNCCTerm$" [minTermLength]="2" formControlName="maNhaCungCap"
+                             appendTo="body" appearance="outline" bindLabel="tenNhaCungCap" bindValue="id"
+                             placeholder="Nhập mã, mã vạch hoặc tên..." notFoundText="Không tìm thấy mục nào"
+                             typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
+                             (change)="searchNCCTerm$.next('')">
+                    <ng-template ng-option-tmp let-item="item" let-index="index"
+                                 let-search="searchTerm">
+                      <span [ngOptionHighlight]="search">{{ item.tenNhaCungCap }}</span>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+              <div *ngIf="formData.get('searchType')?.value == 2" class="option mb-3" id="group_drugs">
+                <label>Chọn nhóm thuốc</label>
+                <div class="control-group">
+                  <ng-select appendTo="body" formControlName="maNhomThuoc">
+                    <ng-option [value]="''">--Chọn nhóm thuốc--</ng-option>
+                    <ng-option *ngFor="let item of listNhomThuoc"
+                               [value]="item.id">{{ item.tenNhomThuoc }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div *ngIf="formData.get('searchType')?.value == 3" class="option mb-3" id="name_drugs">
+                <label>Nhập tên thuốc</label>
+                <ng-select [items]="listThuoc$ | async" [typeahead]="searchThuocTerm$" [minTermLength]="2"
+                           formControlName="thuocId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
+                           bindValue="id" placeholder="Nhập mã, mã vạch hoặc tên..."
+                           notFoundText="Không tìm thấy mục nào"
+                           typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
+                           (change)="searchThuocTerm$.next(''); addItemReserve();">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.tenThuoc }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <div class="form-check mb-3">
+              <input type="checkbox" id="chkHangHet" checked="checked" formControlName="checkOutStock"
+                     class="form-check-input form-control">
+              <label for="unassigneduser" class="form-check-label">Chỉ lấy hàng hết</label>
             </div>
-          </form>
-        </div>
-      </div> -->
-      <div class="col-md-12">
+            <div class="control-group d-flex justify-content-between gap-10 btn-group-flex">
+              <input type="button" value="Thêm" (click)="addItemReserve()" class="btn btn-primary w-50"/>
+              <input type="button" value="Xóa hết" (click)="removeAllItem()" class="btn btn-danger w-50"/>
+            </div>
+            <div class="control-group d-flex justify-content-between gap-10 btn-group-flex">
+              <input type="button" value="Lấy hàng hết"
+                     (click)="onGetDrugOutOfStock()"
+                     class="btn btn-primary w-50"/>
+            </div>
+            <div class="control-group d-flex btn-group-flex" *ngIf="formData.value?.id <= 0">
+              <input type="button" value="Lưu phiếu" (click)="create()" class="btn btn-primary w-50"/>
+              <input type="button" value="Lưu theo NCC" (click)="createUpdateNhaCC()" class="btn btn-primary w-50"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-9">
         <div class="baocao-container box-group-white">
           <h2 class="text-center">
             <b>{{ title }}</b>
@@ -100,19 +169,6 @@
                 [ngClass]="{'highlight-row': row.isHangBanChay}"></tr>
               <!-- <tr mat-footer-row *matFooterRowDef="['footer']; sticky: true"></tr> -->
 
-            </table>
-          </div>
-          <div>
-            <table class="table borderless table-condensed">
-              <tbody>
-                <tr>
-                  <td colspan="2">
-                    <div class="d-flex justify-content-center align-items-center gap-10">
-                      <input type="button" value="Lưu phiếu" (click)="create()" class="btn btn-primary" />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
             </table>
           </div>
         </div>

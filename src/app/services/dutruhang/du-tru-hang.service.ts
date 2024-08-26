@@ -27,4 +27,12 @@ export class DuTruHangService extends BaseService {
     const url = `/api/wnt-lm-dutruhang/du-tru/detail/${id}`;
     return this.httpClient.get<ResponseData>(url).toPromise();
   }
+  initCreateReserve(body: any) {
+    const url = `/api/wnt-lm-dutruhang/du-tru/search-page-hang-du-tru`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+  createNhaCC(body: any) {
+    const url = `/api/${this.gateway}/${this.controller}/create-nha-cung-cap`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
 }
