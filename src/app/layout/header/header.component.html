@@ -48,6 +48,15 @@
                   <li><a href="/look-up/du-tru-hang-hoa/list">Dự trù hàng hoá</a></li>
                 </ul>
               </li>
+              <li *ngIf="isLogin() && havePermissions(['DT'])" class="dropdown menu" (mouseenter)="mouseEnter('null', 'block') "
+                  (mouseleave)="mouseLeave('null','none')">
+                <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="false"
+                   class="dropdown-toggle">Hoạt động liên minh
+                  <i class="fa-solid fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" role="menu" [style.display]="isDisplay('null')">
+                  <li><a href="">Đào tạo</a></li>
+                </ul>
+              </li>
             </ul>
             <app-info [isLogin]="isLogin()"></app-info>
           </div>
