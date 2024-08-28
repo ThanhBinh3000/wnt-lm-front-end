@@ -57,6 +57,8 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
         if (term.length >= 2) {
           let bodyThuoc = {
             tenThuoc: term,
+            maNhaThuoc: "0012",
+            paggingReq: {limit: 25, page: 0},
           };
           return from(this.thuocService.searchListDanhSachThuoc(bodyThuoc).then((res) =>
             res?.status === STATUS_API.SUCCESS ? res.data : []));
