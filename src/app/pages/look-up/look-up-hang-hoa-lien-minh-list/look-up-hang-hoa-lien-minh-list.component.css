@@ -1,0 +1,23 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+.additional-info {
+  color: seagreen;
+  font-style: italic;
+  cursor: pointer;
+  margin: 0;
+}
+
+.additional-info-content {
+  padding-left: 10px;
+}
+
+.additional-info-item {
+  font-style: italic;
+  color: blue;
+}
