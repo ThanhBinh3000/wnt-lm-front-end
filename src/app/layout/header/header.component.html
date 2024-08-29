@@ -17,9 +17,8 @@
                 <a href="javascript:void(0);" data-toggle="dropdown" role="button" aria-expanded="true" class="dropdown-toggle">Hệ Thống
                   <i class="fa-solid fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" *ngIf="isAdmin()" role="menu" [style.display]="isDisplay('system')">
-                  <li *ngIf="havePermissions(['SLTV'])"><a href="/member/list">Danh sách thành viên</a></li>
-                  <li><a href="/drug-store/list">Danh sách thông báo</a></li>
-                  <li *ngIf="havePermissions(['CHDDT'])"><a href="/drug-store/trien-khai">Danh sách đào tạo</a></li>
+                  <li><a href="/member/list">Danh sách thành viên</a></li>
+                  <li><a href="#">Công cụ hệ thống</a></li>
                 </ul>
                 <ul class="dropdown-menu" *ngIf="!isAdmin()" role="menu" [style.display]="isDisplay('system')">
                   <li (click)="openDetailMemberDialog()"><a>Thông tin thành viên</a></li>
