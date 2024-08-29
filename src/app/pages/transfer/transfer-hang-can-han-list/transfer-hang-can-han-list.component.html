@@ -6,26 +6,18 @@
           <form [formGroup]="formData">
             <fieldset class="mb-3">
               <label>Theo mặt hàng</label>
-              <ng-select class="mb-3" appendTo="body" appearance="outline" [items]="listThuocType"
-                formControlName="thuocType" bindLabel="name" bindValue="value" notFoundText="Không tìm thấy mục nào"
-                [clearable]="false">
-                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
-                </ng-template>
-              </ng-select>
-              <ng-select *ngIf="formData.value?.thuocType == 1" [items]="listNhomThuoc$ | async"
-                [typeahead]="searchNhomThuocTerm$" [minTermLength]="2" formControlName="thuocGroupId" appendTo="body"
-                appearance="outline" bindLabel="tenNhomThuoc" bindValue="id" placeholder="Chọn hoặc gõ vào để tìm..."
-                notFoundText="Không tìm thấy mục nào" typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
-                (change)="searchThuocTerm$.next('')">
-                <ng-template ng-label-tmp let-item="item">
-                  <span *ngIf="item.tenThuoc">{{ item.tenThuoc }}</span>
-                  <span *ngIf="!item.tenThuoc">{{ formData.value?.customer.tenThuoc }}</span>
-                </ng-template>
-                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span [ngOptionHighlight]="search">{{ item.tenNhomThuoc }}</span>
-                </ng-template>
-              </ng-select>
+              <ng-select [items]="listThuoc$ | async"
+              [typeahead]="searchThuocTerm$" [minTermLength]="2" formControlName="thuocId" appendTo="body"
+              appearance="outline" bindLabel="tenThuoc" bindValue="thuocId" placeholder="Nhập mã, mã vạch hoặc tên..."
+              notFoundText="Không tìm thấy mục nào" typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
+              (change)="searchThuocTerm$.next('')">
+              <ng-template ng-label-tmp let-item="item">
+                <span *ngIf="item.tenThuoc">{{ item.tenThuoc }}</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.tenThuoc }}</span>
+              </ng-template>
+            </ng-select>
               <ng-select *ngIf="formData.value?.thuocType == 2" [items]="listThuoc$ | async"
                 [typeahead]="searchThuocTerm$" [minTermLength]="2" formControlName="thuocId" appendTo="body"
                 appearance="outline" bindLabel="tenThuoc" bindValue="id" placeholder="Nhập mã, mã vạch hoặc tên..."
