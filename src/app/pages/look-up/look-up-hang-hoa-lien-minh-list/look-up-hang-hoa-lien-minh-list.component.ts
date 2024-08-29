@@ -23,7 +23,7 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
   collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap', 'doanhThu', 'action1'];
-  displayedColumns = ['#', 'tenThuoc', 'tenNhomHoatChat', 'tenNhomThuoc', 'tenNhomDuocLy', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax', 'doanhSoTT', 'doanhSoCS', 'action2'];
+  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax', 'doanhSoTT', 'doanhSoCS', 'action2'];
 
   constructor(
     injector: Injector,
@@ -37,8 +37,6 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       nhomNganhHangId: [],
       nhomDuocLyId: [],
       nhomHoatChatId: [],
-      hangThayTheId: [],
-      hangBanKemId: [],
     });
   }
 
@@ -97,11 +95,9 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
     })
   }
 
-  async onFieldChange(data: any, fieldName: string) {
+  async onThuocChange(data: any) {
     if (data?.thuocId > 0) {
-      const patchObject: { [key: string]: any } = {};
-      patchObject[fieldName] = data.thuocId;
-      this.formData.patchValue(patchObject);
+      this.formData.patchValue({thuocId: data.thuocId});
     }
   }
 
@@ -135,6 +131,16 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
       data: nguonHang,
       width: '600px',
     });
+  }
+
+  toggleShowMore(data: any): void {
+    const dataArray = this.dataSource.data;
+    dataArray.forEach((item: any) => {
+      if (item !== data) {
+        item.showMore = false;
+      }
+    });
+    data.showMore = !data.showMore;
   }
 
   async changePageSizeHangHoa(event: any) {
