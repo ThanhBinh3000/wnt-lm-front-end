@@ -22,7 +22,7 @@ import {MemberHistoryDialogComponent} from "../member-history-dialog/member-hist
 export class MemberListComponent extends BaseComponent implements OnInit {
   title = "Quản lý thành viên Liên Minh";
   listEntity: any = [];
-  displayedColumns = ['#', 'tenNhaThuoc', 'created', 'email', 'level', 'hoatDong', 'action' ];
+  displayedColumns = ['#', 'tenNhaThuoc', 'created', 'email', 'level', 'action' ];
 
   constructor(
     injector: Injector,
