@@ -1,13 +1,15 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ComponentsModule} from "../../../component/base/components.module";
 import {BaseComponent} from "../../../component/base/base.component";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, catchError, debounceTime, distinctUntilChanged, from, of, switchMap} from "rxjs";
 import {TitleService} from "../../../services/title.service";
 import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
 import {TransferHangDialogComponent} from "../transfer-hang-dialog/transfer-hang-dialog.component";
 import { HangHoaLuanChuyenService } from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
 import { ThongTinKhuVucService } from '../../../services/categories/thong-tin-khu-vuc.service';
 import { STATUS_API } from '../../../constants/message';
+import { LOAI_SAN_PHAM } from '../../../constants/config';
+import { ThuocService } from '../../../services/categories/thuoc.service';
 
 @Component({
   selector: 'app-transfer-hang-luan-chuyen-list',
@@ -35,13 +37,14 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
   listThuoc$ = new Observable<any[]>;
   searchNhomThuocTerm$ = new Subject<string>();
   searchThuocTerm$ = new Subject<string>();
-  displayedColumns = ['#', 'coSo', 'diaChi', 'tenThuoc', 'donVi', 'soLuong', 'soLo', 'hanSuDung', 'loaiHang', 'ghiChu'];
+  displayedColumns = ['#', 'coSo', 'diaChi', 'created', 'tenThuoc', 'donVi', 'soLuong', 'soLo', 'hanSuDung', 'loaiHang', 'ghiChu'];
 
   constructor(
     injector: Injector,
     private titleService: TitleService,
     private _service: HangHoaLuanChuyenService,
     private thongTinKhuVucService: ThongTinKhuVucService,
+    private thuocService: ThuocService,
   ) {
     super(injector, _service);
     this.formData = this.fb.group({
@@ -59,12 +62,41 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
+    await this.getDataFilter();
+    await this.searchPage();
+    console.log(this.dataTable);
+  }
+
+  async getDataFilter() {
+    // Search thuốc
+    this.listThuoc$ = this.searchThuocTerm$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        if (term.length >= 2) {
+          let body = {
+            tenThuoc: term,
+            paggingReq: { limit: 25, page: 0 },
+            dataDelete: false,
+            maNhaThuoc: '0012',
+            typeService: LOAI_SAN_PHAM.THUOC
+          };
+          return from(this.thuocService.searchListDanhSachThuoc(body).then((res) => {
+            if (res?.status == STATUS_API.SUCCESS) {
+              return res.data;
+            }
+          }));
+        } else {
+          return of([]);
+        }
+      }),
+      catchError(() => of([]))
+    );
     await this.getListTinhThanh();
     await this.getListQuanHuyen(this.formData.get('regionId')?.value);
     await this.getListPhuongXa(this.formData.get('cityId')?.value);
-    await this.searchPage();
-    //console.log(this.dataTable);
   }
+
 
   async getListTinhThanh() {
     this.thongTinKhuVucService.searchListTinhThanh({}).then((res) => {
