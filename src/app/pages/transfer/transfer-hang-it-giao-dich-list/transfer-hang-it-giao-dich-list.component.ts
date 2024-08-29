@@ -1,13 +1,15 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ComponentsModule } from "../../../component/base/components.module";
 import { BaseComponent } from "../../../component/base/base.component";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, from, of, switchMap } from "rxjs";
 import { TitleService } from "../../../services/title.service";
 import { NhaThuocsService } from "../../../services/system/nha-thuocs.service";
 import { TransferHangDialogComponent } from "../transfer-hang-dialog/transfer-hang-dialog.component";
 import { MESSAGE, STATUS_API } from '../../../constants/message';
 import { LuanChuyenService } from '../../../services/dutruhang/luan-chuyen.service';
 import { HangHoaLuanChuyenService } from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
+import { LOAI_SAN_PHAM } from '../../../constants/config';
+import { ThuocService } from '../../../services/categories/thuoc.service';
 
 @Component({
   selector: 'app-transfer-hang-it-giao-dich-list',
@@ -39,7 +41,8 @@ export class TransferHangItGiaoDichListComponent extends BaseComponent implement
     injector: Injector,
     private titleService: TitleService,
     private _service: HangHoaLuanChuyenService,
-    private luanChuyenService: LuanChuyenService
+    private luanChuyenService: LuanChuyenService,
+    private thuocService: ThuocService,
   ) {
     super(injector, _service);
     this.formData = this.fb.group({
@@ -53,7 +56,35 @@ export class TransferHangItGiaoDichListComponent extends BaseComponent implement
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
+    this.getDataFilter();
     this.searchPage();
+  }
+
+  async getDataFilter() {
+    // Search thuốc
+    this.listThuoc$ = this.searchThuocTerm$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        if (term.length >= 2) {
+          let body = {
+            tenThuoc: term,
+            paggingReq: { limit: 25, page: 0 },
+            dataDelete: false,
+            maNhaThuoc: this.authService.getUser().maCoSo,
+            typeService: LOAI_SAN_PHAM.THUOC
+          };
+          return from(this.thuocService.searchListDanhSachThuoc(body).then((res) => {
+            if (res?.status == STATUS_API.SUCCESS) {
+              return res.data;
+            }
+          }));
+        } else {
+          return of([]);
+        }
+      }),
+      catchError(() => of([]))
+    );
   }
 
   override async searchPage() {
