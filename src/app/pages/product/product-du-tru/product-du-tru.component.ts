@@ -78,10 +78,10 @@ export class ProductDuTruComponent extends BaseComponent implements OnInit {
       x.duTru = x.deXuatDuTru;
     })
     this.dataTable = thuocCanDuTrus;
+    this.updateTotal();
   }
 
   async ngAfterViewInit() {
-    this.updateTotal();
   }
 
   getDataFilter() {
