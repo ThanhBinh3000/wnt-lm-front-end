@@ -102,6 +102,7 @@ export class ProductDuTruComponent extends BaseComponent implements OnInit {
             dataDelete: false,
             typeService: LOAI_SAN_PHAM.THUOC,
             maNhaThuoc: this.getMaNhaThuoc(),
+            paggingReq: {limit: 25, page: 0},
           };
           return from(this.thuocService.searchListDanhSachThuoc(body).then((res) => {
             if (res?.status == STATUS_API.SUCCESS) {
