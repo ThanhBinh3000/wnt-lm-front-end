@@ -23,7 +23,7 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
   collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap','soLuong', 'doanhThu', 'action1'];
-  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax','soLuongCs','soLuongTT', 'doanhSoTT', 'doanhSoCS', 'action2'];
+  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax','soLuongCs','soLuongTT', 'doanhSoCS', 'doanhSoTT', 'action2'];
 
   constructor(
     injector: Injector,
