@@ -20,46 +20,46 @@
                 </ng-select>
               </div>
             </fieldset>
-<!--            <fieldset>-->
-<!--              <label>Nhóm ngành hàng</label>-->
-<!--              <div class="control-group">-->
-<!--                <ng-select appendTo="body" appearance="outline" [items]="listNhomNganhHang"-->
-<!--                           formControlName="nhomNganhHangId"-->
-<!--                           bindLabel="tenNganhHang" bindValue="nhomNganhHangId" placeholder="Chọn hoặc gõ vào để tìm..."-->
-<!--                           notFoundText="Không tìm thấy mục nào" [clearable]="true">-->
-<!--                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">-->
-<!--                    <span [ngOptionHighlight]="search">{{ item.tenNganhHang }}</span>-->
-<!--                  </ng-template>-->
-<!--                </ng-select>-->
-<!--              </div>-->
-<!--            </fieldset>-->
-<!--            <fieldset>-->
-<!--              <label>Nhóm dược lý</label>-->
-<!--              <div class="control-group">-->
-<!--                <ng-select appendTo="body" appearance="outline" [items]="listNhomDuocLy"-->
-<!--                           formControlName="nhomDuocLyId"-->
-<!--                           bindLabel="tenDuocLy" bindValue="nhomDuocLyId" placeholder="Chọn hoặc gõ vào để tìm..."-->
-<!--                           notFoundText="Không tìm thấy mục nào" [clearable]="true">-->
-<!--                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">-->
-<!--                    <span [ngOptionHighlight]="search">{{ item.tenDuocLy }}</span>-->
-<!--                  </ng-template>-->
-<!--                </ng-select>-->
-<!--              </div>-->
-<!--            </fieldset>-->
-<!--            <fieldset>-->
-<!--              <label>Nhóm hoạt chất</label>-->
-<!--              <div class="control-group">-->
-<!--                <ng-select appendTo="body" appearance="outline" [items]="listNhomHoatChat"-->
-<!--                           formControlName="nhomHoatChatId"-->
-<!--                           bindLabel="tenHoatChat" bindValue="nhomHoatChatId" placeholder="Chọn hoặc gõ vào để tìm..."-->
-<!--                           notFoundText="Không tìm thấy mục nào" [clearable]="true">-->
-<!--                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">-->
-<!--                    <span [ngOptionHighlight]="search">{{ item.tenHoatChat }}</span>-->
-<!--                  </ng-template>-->
+            <fieldset>
+              <label>Nhóm ngành hàng</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline" [items]="listNhomNganhHang"
+                           formControlName="nhomNganhHangId"
+                           bindLabel="tenNganhHang" bindValue="nhomNganhHangId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="true">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.tenNganhHang }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label>Nhóm dược lý</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline" [items]="listNhomDuocLy"
+                           formControlName="nhomDuocLyId"
+                           bindLabel="tenDuocLy" bindValue="nhomDuocLyId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="true">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.tenDuocLy }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label>Nhóm hoạt chất</label>
+              <div class="control-group">
+                <ng-select appendTo="body" appearance="outline" [items]="listNhomHoatChat"
+                           formControlName="nhomHoatChatId"
+                           bindLabel="tenHoatChat" bindValue="nhomHoatChatId" placeholder="Chọn hoặc gõ vào để tìm..."
+                           notFoundText="Không tìm thấy mục nào" [clearable]="true">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.tenHoatChat }}</span>
+                  </ng-template>
 
-<!--                </ng-select>-->
-<!--              </div>-->
-<!--            </fieldset>-->
+                </ng-select>
+              </div>
+            </fieldset>
             <fieldset class="baocao-filter mb-3">
               <div class="option mb-3">
                 <app-date-range-filter [filterType]="DATE_RANGE.BY_DATE"
