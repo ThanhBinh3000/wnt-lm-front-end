@@ -22,8 +22,8 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   listNhomHoatChat: any = [];
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
-  collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap', 'doanhThu', 'action1'];
-  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax', 'doanhSoTT', 'doanhSoCS', 'action2'];
+  collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap','soLuong', 'doanhThu', 'action1'];
+  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax','soLuongCs','soLuongTT', 'doanhSoTT', 'doanhSoCS', 'action2'];
 
   constructor(
     injector: Injector,
