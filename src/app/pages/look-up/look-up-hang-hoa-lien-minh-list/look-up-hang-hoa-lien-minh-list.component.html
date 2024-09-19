@@ -213,7 +213,7 @@
               <ng-container matColumnDef="footer">
                 <td mat-footer-cell *matFooterCellDef colspan="100">
                   <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
-                                  (pageChange)="changePageIndexHangHoa($event)"
+                                  [pageSizeMax]= "1000" (pageChange)="changePageIndexHangHoa($event)"
                                   (pageSizeChange)="changePageSizeHangHoa($event)"></app-pagination>
                 </td>
               </ng-container>
