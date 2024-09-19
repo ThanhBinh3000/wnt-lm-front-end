@@ -14,6 +14,9 @@ export class PaginationComponent implements OnInit {
     { label: '100', value: 100 },
     { label: '--All--', value: 9000 }
   ];
+
+
+  @Input() pageSizeMax: number = 0;
   @Input() currentPage: number = 0;
   @Input() totalPages: number = 0;
   @Input() totalRecord: number = 0;
@@ -23,7 +26,16 @@ export class PaginationComponent implements OnInit {
   @Output() pageSizeChange = new EventEmitter<number>();
 
   ngOnInit() {
+   this.ngOnChanges
+  }
 
+  ngOnChanges() {
+    if (this.pageSizeMax > 0) {
+      const allOptionIndex = this.pageSizeOptions.findIndex(option => option.value === 9000);
+      if (allOptionIndex !== -1) {
+        this.pageSizeOptions[allOptionIndex] = { label: String(this.pageSizeMax), value: this.pageSizeMax };
+      }
+    }
   }
 
   onPageChange(pageNumber: number) {
