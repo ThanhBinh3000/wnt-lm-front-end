@@ -1,26 +1,39 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, EventEmitter, Injector, OnInit, ViewChild} from '@angular/core';
 import {ComponentsModule} from "../../../component/base/components.module";
 import {BaseComponent} from "../../../component/base/base.component";
 import {Observable, Subject, catchError, debounceTime, distinctUntilChanged, from, of, switchMap} from "rxjs";
 import {TitleService} from "../../../services/title.service";
 import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
 import {TransferHangDialogComponent} from "../transfer-hang-dialog/transfer-hang-dialog.component";
-import { HangHoaLuanChuyenService } from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
-import { ThongTinKhuVucService } from '../../../services/categories/thong-tin-khu-vuc.service';
-import { STATUS_API } from '../../../constants/message';
-import { LOAI_SAN_PHAM } from '../../../constants/config';
-import { ThuocService } from '../../../services/categories/thuoc.service';
+import {HangHoaLuanChuyenService} from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
+import {ThongTinKhuVucService} from '../../../services/categories/thong-tin-khu-vuc.service';
+import {STATUS_API} from '../../../constants/message';
+import {LOAI_SAN_PHAM} from '../../../constants/config';
+import {ThuocService} from '../../../services/categories/thuoc.service';
+import {
+  TransactionHistoryMarketItemTableComponent
+} from "./transaction-history-market-item-table/transaction-history-market-item-table.component";
+import {
+  TransactionHistoryCareAboutItemTableComponent
+} from "./transaction-history-care-about-item-table/transaction-history-care-about-item-table.component";
+import {
+  TransactionHistoryTradingItemTableComponent
+} from "./transaction-history-trading-item-table/transaction-history-trading-item-table.component";
 
 @Component({
   selector: 'app-transfer-hang-luan-chuyen-list',
   standalone: true,
-  imports: [ComponentsModule],
+  imports: [ComponentsModule, TransactionHistoryMarketItemTableComponent, TransactionHistoryCareAboutItemTableComponent, TransactionHistoryTradingItemTableComponent],
   templateUrl: './transfer-hang-luan-chuyen-list.component.html',
   styleUrl: './transfer-hang-luan-chuyen-list.component.css'
 })
 export class TransferHangLuanChuyenListComponent extends BaseComponent implements OnInit {
   title = "Danh sách hàng luân chuyển";
-  listData: any = [];
+  @ViewChild(TransactionHistoryMarketItemTableComponent) transactionHistoryMarketItemTableComponent?: TransactionHistoryMarketItemTableComponent;
+  @ViewChild(TransactionHistoryCareAboutItemTableComponent) transactionHistoryCareAboutItemTableComponent?: TransactionHistoryCareAboutItemTableComponent;
+  @ViewChild(TransactionHistoryTradingItemTableComponent) transactionHistoryTradingItemTableComponent?: TransactionHistoryTradingItemTableComponent;
+  formDataChange = new EventEmitter();
+  checkTab: string = 'market';
   listLoaiHang: any = [
     {name: 'Hàng cận hạn', value: 1},
     {name: 'Hàng ít giao dịch', value: 2},
@@ -28,14 +41,10 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
   listTinhThanh: any = [];
   listQuanHuyen: any = [];
   listPhuongXa: any = [];
-  listThuocType: any[] = [
-    {name: '--Tất cả--', value: 0},
-    {name: 'Theo nhóm', value: 1},
-    {name: 'Theo tên', value: 2},
-  ];
-  listNhomThuoc$ = new Observable<any[]>;
+  listNhomNganhHang: any = [];
+  listNhomDuocLy: any = [];
+  listNhomHoatChat: any = [];
   listThuoc$ = new Observable<any[]>;
-  searchNhomThuocTerm$ = new Subject<string>();
   searchThuocTerm$ = new Subject<string>();
   displayedColumns = ['#', 'coSo', 'diaChi', 'created', 'tenThuoc', 'donVi', 'soLuong', 'soLo', 'hanSuDung', 'loaiHang', 'ghiChu'];
 
@@ -57,15 +66,24 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
       cityId: [this.authService.getUser().cityId],
       wardId: [this.authService.getUser().wardId],
       recordStatusId: [0],
+      nhomNganhHangId: [],
+      nhomDuocLyId: [],
+      nhomHoatChatId: [],
     });
   }
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
     await this.getDataFilter();
-    await this.searchPage();
-    console.log(this.dataTable);
   }
+
+  override async searchPage() {
+    this.formDataChange.emit(this.formData.value);
+    await this.transactionHistoryMarketItemTableComponent?.searchPage();
+    await this.transactionHistoryCareAboutItemTableComponent?.searchPageHangQuanTam();
+    await this.transactionHistoryTradingItemTableComponent?.searchPageHangDangGiaoDich();
+  }
+
 
   async getDataFilter() {
     // Search thuốc
@@ -76,7 +94,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
         if (term.length >= 2) {
           let body = {
             tenThuoc: term,
-            paggingReq: { limit: 25, page: 0 },
+            paggingReq: {limit: 25, page: 0},
             dataDelete: false,
             maNhaThuoc: '0012',
             typeService: LOAI_SAN_PHAM.THUOC
@@ -95,8 +113,11 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
     await this.getListTinhThanh();
     await this.getListQuanHuyen(this.formData.get('regionId')?.value);
     await this.getListPhuongXa(this.formData.get('cityId')?.value);
+    await this.getListNhomNganhHang();
+    await this.getListNhomDuocLy();
+    await this.getListNhomHoatChat();
+    await this.searchPage();
   }
-
 
   async getListTinhThanh() {
     this.thongTinKhuVucService.searchListTinhThanh({}).then((res) => {
@@ -132,14 +153,44 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
     }
   }
 
+  async getListNhomNganhHang() {
+    const res = await this.thuocService.searchListNhomNganhHang({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomNganhHang = res.data?.map(({id, ...item}: any) => ({
+        ...item,
+        nhomNganhHangId: id
+      })) || [];
+    }
+  }
+
+  async getListNhomDuocLy() {
+    const res = await this.thuocService.searchListNhomDuocLy({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomDuocLy = res.data?.map(({id, ...item}: any) => ({
+        ...item,
+        nhomDuocLyId: id
+      })) || [];
+    }
+  }
+
+  async getListNhomHoatChat() {
+    const res = await this.thuocService.searchListNhomHoatChat({});
+    if (res?.status === STATUS_API.SUCCESS) {
+      this.listNhomHoatChat = res.data?.map(({id, ...item}: any) => ({
+        ...item,
+        nhomHoatChatId: id
+      })) || [];
+    }
+  }
+
   async changeTinhThanh($event: any) {
     this.formData.patchValue({cityId: null, wardId: null});
-    if($event) await this.getListQuanHuyen($event.id);
+    if ($event) await this.getListQuanHuyen($event.id);
   }
 
   async changeQuanHuyen($event: any) {
     this.formData.patchValue({wardId: null});
-    if($event) await this.getListPhuongXa($event.id);
+    if ($event) await this.getListPhuongXa($event.id);
   }
 
   async openTransferHangDialog(hangHoa: any) {

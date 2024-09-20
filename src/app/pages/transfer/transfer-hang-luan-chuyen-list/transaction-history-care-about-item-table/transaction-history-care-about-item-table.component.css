@@ -1,0 +1,12 @@
+.additional-info-item {
+  font-style: italic;
+  color: blue;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
