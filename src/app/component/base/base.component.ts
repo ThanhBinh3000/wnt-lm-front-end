@@ -92,7 +92,7 @@ export class BaseComponent {
     // get user info login
     this.authService = this.injector.get(AuthService);
     this.userInfo = this.authService.getUser();
-    this.department = this.userInfo.department;
+    this.department = this.userInfo?.department;
     this.dialog = this.injector.get(MatDialog);
     this.router = this.injector.get(Router);
     this.route = this.injector.get(ActivatedRoute);

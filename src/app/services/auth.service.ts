@@ -61,6 +61,11 @@ export class AuthService extends BaseService {
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
+  wntAuthenticate(key: string) {
+    const url = `/api/${this.gateway}/wnt-authenticate?key=${key}`;
+    return this.httpClient.get<ResponseData>(url).toPromise();
+  }
+
   profile() {
     const url = `/api/${this.gateway}/profile`;
     return this.httpClient.get<ResponseData>(url).toPromise();
