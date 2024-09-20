@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {BaseComponent} from "../../../../component/base/base.component";
 import {FormGroup} from "@angular/forms";
 import {MatSort, MatSortHeader} from "@angular/material/sort";
@@ -41,6 +41,7 @@ import {
 export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent implements OnInit, AfterViewInit {
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
+  @Output() requestSearchPage = new EventEmitter<void>();
 
   constructor(
     injector: Injector,
@@ -127,7 +128,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
           }
           this._service.delete(data).then((res) => {
             if (res?.status === STATUS_API.SUCCESS) {
-              this.searchPageHangQuanTam();
+              this.requestSearchPage.emit();
               this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hũy mặt hàng thành công.');
             } else {
               this.notification.error(MESSAGE.ERROR, 'Yêu cầu hũy thất bại.');
