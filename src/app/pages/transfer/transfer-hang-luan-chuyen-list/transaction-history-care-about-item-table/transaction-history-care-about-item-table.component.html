@@ -1,0 +1,109 @@
+<div class="mat-table-container">
+  <table mat-table class="table table-striped table-bordered table-hover tr-ng-grid"
+         [dataSource]="getDataSource()" matSort>
+
+    <ng-container matColumnDef="#">
+      <th mat-header-cell *matHeaderCellDef> #</th>
+      <td mat-cell *matCellDef="let data; index as i;">
+        <div class="text-right">
+          {{ (page - 1) * pageSize + i + 1 }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="coSo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Thông tin liên hệ</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left additional-info-item">Cơ sở: {{ data.tenCoSo }}</div>
+        <div class="text-left additional-info-item">Địa chỉ: {{ data.diaChi }}</div>
+        <div class="text-left additional-info-item">SĐT: {{ data.soDienThoai }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="maGiaoDich">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Mã giao dịch</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.maGiaoDich }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="trangThai">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> trạng thái</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.trangThaiTxt }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày đề xuất</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.created | appDateTime }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tenThuoc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thuốc</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.tenThuoc }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="donVi">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Đơn vị</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.tenDonVi }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="soLuong">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-right">{{ data.soLuong }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="soLo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lô</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-right">{{ data.soLo }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hanSuDung">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Hạn sử dụng</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.hanDung | appDate }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loaiHang">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Loại hàng</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.loaiHang == 1 ? 'Hàng cận hạn' : 'Hàng ít giao dịch' }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let data">
+        <div class="baocao-actions" style="justify-content: start;">
+          <button class="btn btn-danger" (click)="openConfirmDialog(data)">Hủy</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="footer">
+      <td mat-footer-cell *matFooterCellDef colspan="100">
+        <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
+                        (pageChange)="changePageIndexHangQuanTam($event)"
+                        (pageSizeChange)="changePageSizeHangQuanTam($event)"></app-pagination>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+    <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
+
+  </table>
+</div>
