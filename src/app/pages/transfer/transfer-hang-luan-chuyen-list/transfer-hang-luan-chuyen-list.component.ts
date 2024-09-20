@@ -199,4 +199,8 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
       width: '600px',
     });
   }
+
+  async onRequestSearchPage() {
+    await this.searchPage();
+  }
 }

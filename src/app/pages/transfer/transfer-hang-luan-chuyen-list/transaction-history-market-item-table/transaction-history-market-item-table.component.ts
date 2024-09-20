@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {BaseComponent} from "../../../../component/base/base.component";
 import {HangHoaLuanChuyenService} from "../../../../services/dutruhang/hang-hoa-luan-chuyen.service";
@@ -19,6 +19,7 @@ import {MESSAGE, STATUS_API} from "../../../../constants/message";
 export class TransactionHistoryMarketItemTableComponent extends BaseComponent implements OnInit, AfterViewInit {
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
+  @Output() requestSearchPage = new EventEmitter<void>();
 
   constructor(
     injector: Injector,
@@ -84,7 +85,7 @@ export class TransactionHistoryMarketItemTableComponent extends BaseComponent im
           try {
             const res = await this.chiTietHangLuanChuyenService.create(body);
             if (res?.status === STATUS_API.SUCCESS) {
-              this.searchPage();
+              this.requestSearchPage.emit();
               this.notification.success(MESSAGE.SUCCESS, 'Yêu cầu của bạn đã được gửi tới cơ sở có mặt hàng này. Đang chờ phản hồi.');
             } else {
               this.notification.error(MESSAGE.ERROR, 'Yêu cầu thất bại.');

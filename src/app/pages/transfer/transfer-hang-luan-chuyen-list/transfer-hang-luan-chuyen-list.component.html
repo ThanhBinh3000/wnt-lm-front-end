@@ -145,20 +145,20 @@
             <div class="tab-content">
               <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=0" [hidden]="checkTab != 'market'">
                 <div class="panel-body">
-                  <app-transaction-history-market-item-table [formData]="formData"
-                                                             [formDataChange]="formDataChange"></app-transaction-history-market-item-table>
+                  <app-transaction-history-market-item-table [formData]="formData" [formDataChange]="formDataChange"
+                                                             (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-market-item-table>
                 </div>
               </div>
               <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=1" [hidden]="checkTab != 'careAbout'">
                 <div class="panel-body">
-                  <app-transaction-history-care-about-item-table [formData]="formData"
-                                                                 [formDataChange]="formDataChange"></app-transaction-history-care-about-item-table>
+                  <app-transaction-history-care-about-item-table [formData]="formData" [formDataChange]="formDataChange"
+                                                                 (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-care-about-item-table>
                 </div>
               </div>
               <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=2" [hidden]="checkTab != 'trading'">
                 <div class="panel-body">
-                  <app-transaction-history-trading-item-table [formData]="formData"
-                                                              [formDataChange]="formDataChange"></app-transaction-history-trading-item-table>
+                  <app-transaction-history-trading-item-table [formData]="formData" [formDataChange]="formDataChange"
+                                                              (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-trading-item-table>
                 </div>
               </div>
             </div>
