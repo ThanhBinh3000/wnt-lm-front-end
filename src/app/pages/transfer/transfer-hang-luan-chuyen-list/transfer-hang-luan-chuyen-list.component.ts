@@ -76,6 +76,11 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
 
   async ngOnInit() {
     this.titleService.setTitle(this.title);
+
+    this.route.queryParams.subscribe(params => {
+      const tab = params['tab'];
+      this.checkTab = (tab == 1) ? 'market' : (tab == 2) ? 'careAbout' : (tab == 3) ? 'trading' : this.checkTab;
+    });
     await this.getDataFilter();
   }
 

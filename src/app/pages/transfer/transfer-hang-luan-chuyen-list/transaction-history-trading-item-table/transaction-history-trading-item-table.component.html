@@ -87,9 +87,13 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let data">
         <div class="baocao-actions" style="justify-content: start; display: flex; gap: 10px;">
-          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 1">Đồng ý</button>
-          <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 2">Hoàn thành</button>
-          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1">Từ chối</button>
+          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 1">Đồng ý
+          </button>
+          <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 2">Hoàn
+            thành
+          </button>
+          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1">Từ chối
+          </button>
         </div>
       </td>
     </ng-container>
@@ -108,20 +112,38 @@
   </table>
 </div>
 
-<div class="card" *ngIf="showChart">
+<div class="card" *ngIf="showModelTuChoi">
   <div class="modal-content" tabindex="-1" role="dialog">
     <div class="modal-header">
-      <button type="button" class="close" (click)="closeModal()" aria-label="Đóng"><span>&times;</span></button>
+      <button type="button" class="close" (click)="closeModalTuChoi()" aria-label="Đóng"><span>&times;</span></button>
       <h4 class="modal-title">Xác nhận</h4>
     </div>
     <div class="modal-body">
-      <p>Bạn có muốn từ chối chia sẻ thông tin mặt hàng cho cơ sở {{ modalData.tenCoSo || 'này' }} không ?</p>
+      <p>Bạn có từ chối đề nghị luân chuyển của {{ modalData.tenCoSo || 'này' }} không ?</p>
       <label for="inputNote">Lý do từ chối:</label>
       <textarea id="inputNote" [(ngModel)]="inputText" rows="4" placeholder="Nhập lý do tại đây..."></textarea>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
-      <button type="button" class="btn btn-primary" (click)="onModalOk()">Xác nhận</button>
+      <button type="button" class="btn btn-secondary" (click)="closeModalTuChoi()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalTuChoi()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="showModelHoaThanh">
+  <div class="modal-content" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModalHoanThanh()" aria-label="Đóng"><span>&times;</span>
+      </button>
+      <h4 class="modal-title">Xác nhận</h4>
+    </div>
+    <div class="modal-body">
+      <p>Giao dịch của bạn đã hoàn thành trong thực tế hay chưa ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModalHoanThanh()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalHoanThanh(true)">Đã thực hiện</button>
+      <button type="button" class="btn btn-danger" (click)="onModalHoanThanh(false)">Chưa thực hiện</button>
     </div>
   </div>
 </div>

@@ -52,7 +52,8 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
     super(injector, _service);
   }
 
-  showChart: boolean = false;
+  showModelTuChoi: boolean = false;
+  showModelHoaThanh: boolean = false;
   modalData: any;
   inputText?: string;
 
@@ -118,7 +119,7 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
 
   openConfirmDialogDongY(data: any) {
     const itemName = data.tenThuoc || 'này';
-    let message = `Bạn có muốn chia sẻ thông tin mặt hàng cho cơ sở ${itemName} không?`;
+    let message = `Bạn có đồng ý luân chuyển mặt hàng này và chia sẽ thông tin cơ sở để thực hiện hay không?`;
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
@@ -133,41 +134,12 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
             const res = await this._service.getDongYGiaoDich(data);
             if (res?.status === STATUS_API.SUCCESS) {
               this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã chia sẽ mặt hàng thành công.');
+              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
             } else {
-              this.notification.error(MESSAGE.ERROR, 'Chia sẽ thông tin thất bại.');
+              this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
             }
           } catch {
-            this.notification.error(MESSAGE.ERROR, 'Chia sẽ thông tin thất bại.');
-          }
-        }
-      }
-    });
-  }
-
-  openConfirmDialogHoanThanh(data: any) {
-    const itemName = data.tenThuoc || 'này';
-    let message = `Bạn có muốn hoàn thành giao dịch này không ?`;
-    this.modal.confirm({
-      closable: false,
-      title: 'Xác nhận',
-      content: message,
-      cancelText: 'Đóng',
-      okText: 'Đồng ý',
-      okDanger: true,
-      width: 310,
-      onOk: async () => {
-        if (data && typeof data === 'object') {
-          try {
-            const res = await this._service.getHoanThanhGiaoDich(data);
-            if (res?.status === STATUS_API.SUCCESS) {
-              this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hoàn thành giao dịch thành công.');
-            } else {
-              this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
-            }
-          } catch {
-            this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+            this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
           }
         }
       }
@@ -175,22 +147,52 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
   }
 
   openConfirmDialogTuChoi(data: any) {
-    this.showChart = true;
+    this.showModelTuChoi = true;
     this.modalData = data;
     this.inputText = '';
   }
 
-  closeModal() {
-    this.showChart = false;
+  closeModalTuChoi() {
+    this.showModelTuChoi = false;
   }
 
-  async onModalOk() {
+  async onModalTuChoi() {
     if (!this.modalData) {
       return;
     }
     this.modalData.ghiChu = this.inputText;
     try {
       const res = await this._service.getTuChoiGiaoDich(this.modalData);
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.requestSearchPage.emit();
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hoàn thành giao dịch thành công.');
+      } else {
+        this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+    } finally {
+      this.closeModalTuChoi();
+    }
+  }
+
+  openConfirmDialogHoanThanh(data: any) {
+    this.showModelHoaThanh = true;
+    this.modalData = data;
+  }
+
+  closeModalHoanThanh() {
+    this.showModelHoaThanh = false;
+  }
+
+  async onModalHoanThanh(check: boolean) {
+    if (!this.modalData) {
+      return;
+    }
+    this.modalData.thanhCong = check;
+    try {
+      const res = await this._service.getHoanThanhGiaoDich(this.modalData);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
         this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối chia sẽ mặt hàng thành công.');
@@ -201,7 +203,7 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       console.error('Error:', error);
       this.notification.error(MESSAGE.ERROR, 'Từ chối thông tin thất bại.');
     } finally {
-      this.closeModal();
+      this.closeModalHoanThanh();
     }
   }
 
