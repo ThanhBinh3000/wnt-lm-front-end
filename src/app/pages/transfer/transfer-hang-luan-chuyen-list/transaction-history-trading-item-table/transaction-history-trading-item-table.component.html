@@ -86,9 +86,10 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let data">
-        <div class="baocao-actions" style="justify-content: start;">
-          <button class="btn btn-primary" (click)="data.trangThai === 0 ? openConfirmDialog(data) : null">Đồng ý
-          </button>
+        <div class="baocao-actions" style="justify-content: start; display: flex; gap: 10px;">
+          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 1">Đồng ý</button>
+          <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 2">Hoàn thành</button>
+          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1">Từ chối</button>
         </div>
       </td>
     </ng-container>
@@ -104,6 +105,26 @@
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
     <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
-
   </table>
 </div>
+
+<div class="card" *ngIf="showChart">
+  <div class="modal-content" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModal()" aria-label="Đóng"><span>&times;</span></button>
+      <h4 class="modal-title">Xác nhận</h4>
+    </div>
+    <div class="modal-body">
+      <p>Bạn có muốn từ chối chia sẻ thông tin mặt hàng cho cơ sở {{ modalData.tenCoSo || 'này' }} không ?</p>
+      <label for="inputNote">Lý do từ chối:</label>
+      <textarea id="inputNote" [(ngModel)]="inputText" rows="4" placeholder="Nhập lý do tại đây..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalOk()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+
+
