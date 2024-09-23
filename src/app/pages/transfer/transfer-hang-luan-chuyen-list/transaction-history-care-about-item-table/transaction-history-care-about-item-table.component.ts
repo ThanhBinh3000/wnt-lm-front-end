@@ -117,7 +117,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
       this.notification.error(MESSAGE.ERROR, 'Bạn vui lòng chọn mặt hàng để gửi đi.');
       return;
     }
-    let message = `Bạn muốn gửi ${data === null ? 'những' : ''} mặt hàng đã chọn để giao dịch phải không ?`;
+    let message = `Bạn có muốn gửi yêu cầu luân chuyển này hay không ?`;
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
