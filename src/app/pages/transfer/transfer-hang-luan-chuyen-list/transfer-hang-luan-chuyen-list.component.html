@@ -6,10 +6,9 @@
           <form [formGroup]="formData">
             <fieldset class="mb-3">
               <label>Theo mặt hàng</label>
-              <ng-select [items]="listThuoc$ | async"
-                         [typeahead]="searchThuocTerm$" [minTermLength]="2" formControlName="thuocId" appendTo="body"
-                         appearance="outline" bindLabel="tenThuoc" bindValue="thuocId"
-                         placeholder="Nhập mã, mã vạch hoặc tên..."
+              <ng-select [items]="listThuoc$ | async" [typeahead]="searchThuocTerm$" [minTermLength]="2"
+                         formControlName="thuocId" appendTo="body" appearance="outline" bindLabel="tenThuoc"
+                         bindValue="thuocId" placeholder="Nhập mã, mã vạch hoặc tên..."
                          notFoundText="Không tìm thấy mục nào"
                          typeToSearchText="Nhập 2 hoặc nhiều kí tự hơn để tìm kiếm"
                          (change)="searchThuocTerm$.next('')">
@@ -37,9 +36,9 @@
               <label>Nhóm ngành hàng</label>
               <div class="control-group">
                 <ng-select appendTo="body" appearance="outline" [items]="listNhomNganhHang"
-                           formControlName="nhomNganhHangId"
-                           bindLabel="tenNganhHang" bindValue="nhomNganhHangId" placeholder="Chọn hoặc gõ vào để tìm..."
-                           notFoundText="Không tìm thấy mục nào" [clearable]="true">
+                           formControlName="nhomNganhHangId" bindLabel="tenNganhHang" bindValue="nhomNganhHangId"
+                           placeholder="Chọn hoặc gõ vào để tìm..." notFoundText="Không tìm thấy mục nào"
+                           [clearable]="true">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.tenNganhHang }}</span>
                   </ng-template>
@@ -49,8 +48,7 @@
             <fieldset>
               <label>Nhóm dược lý</label>
               <div class="control-group">
-                <ng-select appendTo="body" appearance="outline" [items]="listNhomDuocLy"
-                           formControlName="nhomDuocLyId"
+                <ng-select appendTo="body" appearance="outline" [items]="listNhomDuocLy" formControlName="nhomDuocLyId"
                            bindLabel="tenDuocLy" bindValue="nhomDuocLyId" placeholder="Chọn hoặc gõ vào để tìm..."
                            notFoundText="Không tìm thấy mục nào" [clearable]="true">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
@@ -63,9 +61,9 @@
               <label>Nhóm hoạt chất</label>
               <div class="control-group">
                 <ng-select appendTo="body" appearance="outline" [items]="listNhomHoatChat"
-                           formControlName="nhomHoatChatId"
-                           bindLabel="tenHoatChat" bindValue="nhomHoatChatId" placeholder="Chọn hoặc gõ vào để tìm..."
-                           notFoundText="Không tìm thấy mục nào" [clearable]="true">
+                           formControlName="nhomHoatChatId" bindLabel="tenHoatChat" bindValue="nhomHoatChatId"
+                           placeholder="Chọn hoặc gõ vào để tìm..." notFoundText="Không tìm thấy mục nào"
+                           [clearable]="true">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.tenHoatChat }}</span>
                   </ng-template>
@@ -78,8 +76,7 @@
               <div class="control-group">
                 <ng-select appendTo="body" appearance="outline" [items]="listTinhThanh" formControlName="regionId"
                            bindLabel="name" bindValue="id" placeholder="--Tất cả--"
-                           notFoundText="Không tìm thấy mục nào"
-                           (change)="changeTinhThanh($event)">
+                           notFoundText="Không tìm thấy mục nào" (change)="changeTinhThanh($event)">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -91,8 +88,7 @@
               <div class="control-group">
                 <ng-select appendTo="body" appearance="outline" [items]="listQuanHuyen" formControlName="cityId"
                            bindLabel="name" bindValue="id" placeholder="--Tất cả--"
-                           notFoundText="Không tìm thấy mục nào"
-                           (change)="changeQuanHuyen($event)">
+                           notFoundText="Không tìm thấy mục nào" (change)="changeQuanHuyen($event)">
                   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">{{ item.name }}</span>
                   </ng-template>
@@ -167,5 +163,4 @@
       </div>
     </div>
   </div>
-  <div elem-ready="isReady()"></div>
 </div>

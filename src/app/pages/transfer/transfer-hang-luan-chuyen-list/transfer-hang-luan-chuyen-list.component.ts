@@ -3,7 +3,6 @@ import {ComponentsModule} from "../../../component/base/components.module";
 import {BaseComponent} from "../../../component/base/base.component";
 import {Observable, Subject, catchError, debounceTime, distinctUntilChanged, from, of, switchMap} from "rxjs";
 import {TitleService} from "../../../services/title.service";
-import {NhaThuocsService} from "../../../services/system/nha-thuocs.service";
 import {TransferHangDialogComponent} from "../transfer-hang-dialog/transfer-hang-dialog.component";
 import {HangHoaLuanChuyenService} from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
 import {ThongTinKhuVucService} from '../../../services/categories/thong-tin-khu-vuc.service';
@@ -23,7 +22,10 @@ import {
 @Component({
   selector: 'app-transfer-hang-luan-chuyen-list',
   standalone: true,
-  imports: [ComponentsModule, TransactionHistoryMarketItemTableComponent, TransactionHistoryCareAboutItemTableComponent, TransactionHistoryTradingItemTableComponent],
+  imports: [ComponentsModule,
+    TransactionHistoryMarketItemTableComponent,
+    TransactionHistoryCareAboutItemTableComponent,
+    TransactionHistoryTradingItemTableComponent],
   templateUrl: './transfer-hang-luan-chuyen-list.component.html',
   styleUrl: './transfer-hang-luan-chuyen-list.component.css'
 })
@@ -83,7 +85,6 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
     await this.transactionHistoryCareAboutItemTableComponent?.searchPageHangQuanTam();
     await this.transactionHistoryTradingItemTableComponent?.searchPageHangDangGiaoDich();
   }
-
 
   async getDataFilter() {
     // Search thuốc

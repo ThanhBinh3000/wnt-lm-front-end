@@ -51,6 +51,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
   }
 
   displayedColumns = [
+    'checkbox',
     '#',
     'coSo',
     'maGiaoDich',
@@ -62,7 +63,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
     'soLo',
     'hanSuDung',
     'loaiHang',
-    'action'
+    'action',
   ];
 
   async ngOnInit() {
@@ -110,6 +111,40 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
     }
   }
 
+  openCareAboutDialog(data?: any,) {
+    const hasChecked = this.dataTable?.some(item => item.checked);
+    if (!hasChecked && data === null) {
+      this.notification.error(MESSAGE.ERROR, 'Bạn vui lòng chọn mặt hàng để gửi đi.');
+      return;
+    }
+    let message = `Bạn muốn gửi ${data === null ? 'những' : ''} mặt hàng đã chọn để giao dịch phải không ?`;
+    this.modal.confirm({
+      closable: false,
+      title: 'Xác nhận',
+      content: message,
+      cancelText: 'Đóng',
+      okText: 'Đồng ý',
+      okDanger: true,
+      width: 310,
+      onOk: async () => {
+        const checkedItems = data === null ? this.dataTable.filter(item => item.checked) : [data];
+        if (checkedItems.length > 0) {
+          try {
+            const res = await this._service.getGuiThongBao(checkedItems);
+            if (res?.status === STATUS_API.SUCCESS) {
+              this.requestSearchPage.emit();
+              this.notification.success(MESSAGE.SUCCESS, 'Đã gửi thành công, vui lòng đợi phản hồi.');
+            } else {
+              this.notification.error(MESSAGE.ERROR, 'Gửi yêu cầu thất bại.');
+            }
+          } catch {
+            this.notification.error(MESSAGE.ERROR, 'Gửi yêu cầu thất bại.');
+          }
+        }
+      }
+    });
+  }
+
   openConfirmDialog(data: any) {
     let message = 'Bạn muốn hũy quan tâm mặt hàng này không ?';
     this.modal.confirm({
@@ -126,16 +161,17 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
             this.notification.error(MESSAGE.ERROR, 'Hàng đang trong quá trình giao dịch, hiện không thể hủy mặt hàng.');
             return;
           }
-          this._service.delete(data).then((res) => {
+          try {
+            const res = await this._service.delete(data);
             if (res?.status === STATUS_API.SUCCESS) {
               this.requestSearchPage.emit();
               this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hũy mặt hàng thành công.');
             } else {
               this.notification.error(MESSAGE.ERROR, 'Yêu cầu hũy thất bại.');
             }
-          }).catch(() => {
+          }catch {
             this.notification.error(MESSAGE.ERROR, 'Yêu cầu hũy thất bại.');
-          });
+          }
         }
       }
     });

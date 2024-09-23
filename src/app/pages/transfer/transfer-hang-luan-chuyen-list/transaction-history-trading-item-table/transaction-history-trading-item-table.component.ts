@@ -14,6 +14,8 @@ import {
 } from "@angular/material/table";
 import {ChiTietHangLuanChuyenService} from "../../../../services/dutruhang/chi-tiet-hang-luan-chuyen.service";
 import {MESSAGE, STATUS_API} from "../../../../constants/message";
+import {ModalComponent} from "../../../../component/modal/modal.component";
+
 
 @Component({
   selector: 'app-transaction-history-trading-item-table',
@@ -42,12 +44,18 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
   @Output() requestSearchPage = new EventEmitter<void>();
+
   constructor(
     injector: Injector,
     private _service: ChiTietHangLuanChuyenService,
   ) {
     super(injector, _service);
   }
+
+  showChart: boolean = false;
+  modalData: any;
+  inputText?: string;
+
 
   displayedColumns = [
     '#',
@@ -108,8 +116,9 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
     }
   }
 
-  openConfirmDialog(data: any) {
-    let message = `Bạn có muốn chia sẻ thông tin mặt hàng cho cơ sở ${data.tenCoSo ? data.tenCoSo : 'này'} không?`;
+  openConfirmDialogDongY(data: any) {
+    const itemName = data.tenThuoc || 'này';
+    let message = `Bạn có muốn chia sẻ thông tin mặt hàng cho cơ sở ${itemName} không?`;
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
@@ -120,19 +129,80 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       width: 310,
       onOk: async () => {
         if (data && typeof data === 'object') {
-          this._service.update(data).then((res) => {
+          try {
+            const res = await this._service.getDongYGiaoDich(data);
             if (res?.status === STATUS_API.SUCCESS) {
               this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã chia sẽ  hàng thành công.');
+              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã chia sẽ mặt hàng thành công.');
             } else {
               this.notification.error(MESSAGE.ERROR, 'Chia sẽ thông tin thất bại.');
             }
-          }).catch(() => {
+          } catch {
             this.notification.error(MESSAGE.ERROR, 'Chia sẽ thông tin thất bại.');
-          });
+          }
         }
       }
     });
+  }
+
+  openConfirmDialogHoanThanh(data: any) {
+    const itemName = data.tenThuoc || 'này';
+    let message = `Bạn có muốn hoàn thành giao dịch này không ?`;
+    this.modal.confirm({
+      closable: false,
+      title: 'Xác nhận',
+      content: message,
+      cancelText: 'Đóng',
+      okText: 'Đồng ý',
+      okDanger: true,
+      width: 310,
+      onOk: async () => {
+        if (data && typeof data === 'object') {
+          try {
+            const res = await this._service.getHoanThanhGiaoDich(data);
+            if (res?.status === STATUS_API.SUCCESS) {
+              this.requestSearchPage.emit();
+              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hoàn thành giao dịch thành công.');
+            } else {
+              this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+            }
+          } catch {
+            this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+          }
+        }
+      }
+    });
+  }
+
+  openConfirmDialogTuChoi(data: any) {
+    this.showChart = true;
+    this.modalData = data;
+    this.inputText = '';
+  }
+
+  closeModal() {
+    this.showChart = false;
+  }
+
+  async onModalOk() {
+    if (!this.modalData) {
+      return;
+    }
+    this.modalData.ghiChu = this.inputText;
+    try {
+      const res = await this._service.getTuChoiGiaoDich(this.modalData);
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.requestSearchPage.emit();
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối chia sẽ mặt hàng thành công.');
+      } else {
+        this.notification.error(MESSAGE.ERROR, 'Từ chối thông tin thất bại.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      this.notification.error(MESSAGE.ERROR, 'Từ chối thông tin thất bại.');
+    } finally {
+      this.closeModal();
+    }
   }
 
   async changePageSizeHangQuanTam(event: any) {

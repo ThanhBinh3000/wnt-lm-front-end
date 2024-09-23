@@ -65,7 +65,8 @@ export class TransactionHistoryMarketItemTableComponent extends BaseComponent im
   }
 
   async openConfirmDialog(data: any) {
-    let message = 'Bạn đang quan tâm mặt hàng này và muốn biết thông tin giao dịch của mặt hàng này phải không ?';
+    const itemName = data.tenThuoc || 'này';
+    const message = `Bạn đang quan tâm mặt hàng ${itemName} phải không ?`;
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
@@ -86,16 +87,15 @@ export class TransactionHistoryMarketItemTableComponent extends BaseComponent im
             const res = await this.chiTietHangLuanChuyenService.create(body);
             if (res?.status === STATUS_API.SUCCESS) {
               this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Yêu cầu của bạn đã được gửi tới cơ sở có mặt hàng này. Đang chờ phản hồi.');
+              this.notification.success(MESSAGE.SUCCESS, `Đã thêm mặt hàng ${itemName} vào danh sách quan tâm.`);
             } else {
-              this.notification.error(MESSAGE.ERROR, 'Yêu cầu thất bại.');
+              this.notification.error(MESSAGE.ERROR, 'Thêm thất bại !');
             }
           } catch {
-            this.notification.error(MESSAGE.ERROR, 'Yêu cầu thất bại.');
+            this.notification.error(MESSAGE.ERROR, 'Thêm thất bại !');
           }
         }
       }
     });
   }
-
 }
