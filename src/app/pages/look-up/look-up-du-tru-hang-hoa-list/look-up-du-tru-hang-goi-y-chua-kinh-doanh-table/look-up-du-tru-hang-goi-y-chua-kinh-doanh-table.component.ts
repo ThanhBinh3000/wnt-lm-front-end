@@ -17,7 +17,7 @@ import { DuTruHangService } from '../../../../services/dutruhang/du-tru-hang.ser
 export class LookUpDuTruHangGoiYChuaKinhDoanhTableComponent extends BaseComponent implements OnInit, AfterViewInit {
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
-  displayedColumns = ['#', 'tenThuoc', 'tenNhomThuoc', 'tenDonViTinh', 'deXuatDuTru'];
+  displayedColumns = ['#', 'tenThuoc', 'tenNhomThuoc', 'tenDonViTinh', 'deXuatDuTru','donGia'];
 
   constructor(
     injector: Injector,
