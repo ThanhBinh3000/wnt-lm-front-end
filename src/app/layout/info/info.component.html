@@ -2,11 +2,11 @@
 
   <li *ngIf="isLogin" class="divNotification" (mouseenter)="mouseEnter('noti', 'block') "
     (mouseleave)="mouseLeave('noti','none')">
-    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="collapse" data-hover="collapse">
+    <a href="#" class="dropdown-toggle" (click)="updateStatus()" data-toggle="collapse" data-hover="collapse">
       <i class="fa-solid fa-bell" style="font-size: 120%;"></i>
-      <span id="lbNumberNotification" *ngIf="lstNotification.length"
+      <span id="lbNumberNotification" *ngIf="countNotification > 0"
         style="background-color: #f36a5a;color: #fff;position: absolute;top: 5px;padding: 0 9%;border-radius: 4px!important;font-size: 10px;text-align: center;margin-left: 0;">
-        {{lstNotification.length}}</span>
+        {{countNotification}}</span>
     </a>
     <ul class="divNotificationBox dropdown-menu" [style.width]="'360px'" [style.display]="isDisplay('noti')">
       <div id="notificationBlog">
@@ -20,9 +20,6 @@
           </a>
         </li>
       </div>
-      <li class="dropdown-submenu">
-        <a href="/Notification/History" style="text-align: center;font-weight: bold;">Xem tất cả</a>
-      </li>
     </ul>
   </li>
   <li *ngIf="isLogin" class="dropdown menu" (mouseenter)="mouseEnter('login', 'block') "

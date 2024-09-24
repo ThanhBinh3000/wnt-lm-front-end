@@ -134,7 +134,8 @@
               <ng-container matColumnDef="ghiChu">
                 <th mat-header-cell *matHeaderCellDef> Ghi chú</th>
                 <td mat-cell *matCellDef="let data">
-                  <textarea [disabled]="formData.value.hangLuanChuyen" class="form-control" [(ngModel)]="data.decscription" rows="3"></textarea>
+                  <textarea [disabled]="formData.value.hangLuanChuyen" class="form-control width-note" 
+                  [(ngModel)]="data.decscription" rows="3" style="width: 150px;"></textarea>
                 </td>
               </ng-container>
 
