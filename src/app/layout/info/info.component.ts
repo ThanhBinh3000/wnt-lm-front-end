@@ -12,6 +12,7 @@ export class InfoComponent  implements OnInit {
 
   public display: any = {};
   public lstNotification : any = [];
+  public countNotification : any = 0;
   @Input() isLogin: boolean = false;
   constructor(
     public authService: AuthService,
@@ -34,6 +35,8 @@ export class InfoComponent  implements OnInit {
     let res = await this.service.searchPage(body);
     if (res?.status == STATUS_API.SUCCESS) {
       this.lstNotification = res.data;
+      this.countNotification = this.lstNotification.filter((x : any)=>x.status == 0).length;
+      console.log(this.countNotification);
     } else {
     }
   }
@@ -44,6 +47,7 @@ export class InfoComponent  implements OnInit {
 
   mouseLeave(key: string, property: string) {
     this.display[key] = property;
+    this.updateStatus();
   }
 
   isDisplay(key: string) {
@@ -54,6 +58,16 @@ export class InfoComponent  implements OnInit {
   }
   getFullName(){
     return this.authService.getUser()?.fullName;
+  }
+
+  updateStatus(){
+    if(this.countNotification > 0){
+      this.service.updateStatus(this.lstNotification).then((res) => {
+        if (res?.status === STATUS_API.SUCCESS) {
+          this.countNotification = 0;
+        }
+      })
+    }
   }
 
   async openChangePasswordDialog() {
