@@ -165,13 +165,13 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       const res = await this._service.getTuChoiGiaoDich(this.modalData);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
-        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã hoàn thành giao dịch thành công.');
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối giao dịch thành công.');
       } else {
-        this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+        this.notification.error(MESSAGE.ERROR, 'Giao dịch thất bại');
       }
     } catch (error) {
       console.error('Error:', error);
-      this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại');
+      this.notification.error(MESSAGE.ERROR, 'Giao dịch thất bại');
     } finally {
       this.closeModalTuChoi();
     }
@@ -195,13 +195,13 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       const res = await this._service.getHoanThanhGiaoDich(this.modalData);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
-        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối chia sẽ mặt hàng thành công.');
+        this.notification.success(MESSAGE.SUCCESS, check ?  'Bạn đã hoàn thành giao dịch thành công.' : 'Bạn đã từ chối giao dịch thành công.');
       } else {
-        this.notification.error(MESSAGE.ERROR, 'Từ chối thông tin thất bại.');
+        this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại.');
       }
     } catch (error) {
       console.error('Error:', error);
-      this.notification.error(MESSAGE.ERROR, 'Từ chối thông tin thất bại.');
+      this.notification.error(MESSAGE.ERROR, 'Hoàn thành thất bại.');
     } finally {
       this.closeModalHoanThanh();
     }
