@@ -32,6 +32,7 @@ import {
 import {AuthGuard} from "./guard/auth.guard";
 import {ProductDuTruComponent} from "./pages/product/product-du-tru/product-du-tru.component";
 import { DetailDuTruComponent } from './pages/product/detail-du-tru/detail-du-tru.component';
+import {SystemListComponent} from "./pages/system/system-list/system-list.component";
 
 export const routes: Routes = [
   {
@@ -72,6 +73,13 @@ export const routes: Routes = [
           {path: 'hang-can-han/list', component: TransferHangCanHanListComponent},
           {path: 'hang-it-giao-dich/list', component: TransferHangItGiaoDichListComponent},
           {path: 'hang-luan-chuyen/list', component: TransferHangLuanChuyenListComponent},
+        ]
+      },
+      {
+        path: 'system',
+        canActivate: [AuthGuard],
+        children: [
+          {path: 'list', component: SystemListComponent},
         ]
       },
     ],
