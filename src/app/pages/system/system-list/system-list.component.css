@@ -1,0 +1,14 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+.is-invalid {
+  border-color: red;
+}
+.text-danger {
+  font-size: 1.5rem;
+}

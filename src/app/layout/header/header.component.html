@@ -18,7 +18,7 @@
                   <i class="fa-solid fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" *ngIf="isAdmin()" role="menu" [style.display]="isDisplay('system')">
                   <li><a href="/member/list">Danh sách thành viên</a></li>
-                  <li><a href="#">Công cụ hệ thống</a></li>
+                  <li><a href="/system/list">Công cụ hệ thống</a></li>
                 </ul>
                 <ul class="dropdown-menu" *ngIf="!isAdmin()" role="menu" [style.display]="isDisplay('system')">
                   <li (click)="openDetailMemberDialog()"><a>Thông tin thành viên</a></li>

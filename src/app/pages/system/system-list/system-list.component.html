@@ -1,0 +1,76 @@
+<div class="container body-content w-95">
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="baocao-container box-group-white">
+          <h2 class="text-center"><b>{{ title }}</b></h2>
+          <div class="mat-table-container">
+            <table mat-table
+                   class="table table-striped table-bordered table-hover tr-ng-grid"
+                   [dataSource]="getDataSource()" matSort>
+
+              <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;"> #</th>
+                <td mat-cell *matCellDef="let data; index as i;">
+                  <div class="text-right">
+                    {{ (page - 1) * pageSize + i + 1 }}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="display">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thông số</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.display }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef style="width: 250px;">Giá trị</th>
+                <td mat-cell *matCellDef="let data">
+                  <input type="text" [(ngModel)]="data.value" class="form-control text-right"
+                         [class.is-invalid]="!data.value && showError">
+                  <div *ngIf="!data.value && showError" class="text-danger">Vui lòng thêm giá trị!</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ghiChu">
+                <th mat-header-cell *matHeaderCellDef>Ghi chú</th>
+                <td mat-cell *matCellDef="let data">
+                  <textarea class="form-control width-note" [(ngModel)]="data.ghiChu" rows="3"
+                            [class.is-invalid]="!data.ghiChu && showError"></textarea>
+                  <div *ngIf="!data.ghiChu && showError" class="text-danger">Vui lòng thêm ghi chú!</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef style="width: 100px;"></th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="baocao-actions"
+                       style="display: flex; justify-content: center; align-items: center; gap: 10px; width: 100px;">
+                    <button class="btn btn-primary" style="width: 80px;" (click)="updateParameters(data)">Cập nhập
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="footer">
+                <td mat-footer-cell *matFooterCellDef colspan="100">
+                  <app-pagination [currentPage]="page" [viewFooter]="false" [totalPages]="totalPages"
+                                  [totalRecord]="totalRecord"
+                                  (pageChange)="changePageIndex($event)"
+                                  (pageSizeChange)="changePageSize($event)"></app-pagination>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="['footer']; sticky: true"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

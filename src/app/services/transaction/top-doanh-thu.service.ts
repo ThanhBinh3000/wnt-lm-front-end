@@ -9,7 +9,7 @@ import {ResponseData} from "../../models/response-data";
 export class topDoanhThuService extends BaseService {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'transaction','thong-ke');
+    super(httpClient, 'wnt-lm-transaction','thong-ke');
   }
 
   searchlistTopDoanhThu(body: any) {
