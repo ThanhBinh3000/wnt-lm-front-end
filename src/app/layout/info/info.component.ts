@@ -30,11 +30,11 @@ export class InfoComponent  implements OnInit {
     let body : any = {}
     body.paggingReq = {
       limit: 5,
-      page: 1
+      page: 0
     }
     let res = await this.service.searchPage(body);
     if (res?.status == STATUS_API.SUCCESS) {
-      this.lstNotification = res.data;
+      this.lstNotification = res.data.content;
       this.countNotification = this.lstNotification.filter((x : any)=>x.status == 0).length;
       console.log(this.countNotification);
     } else {
