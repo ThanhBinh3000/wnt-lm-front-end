@@ -29,7 +29,7 @@ export class InfoComponent  implements OnInit {
    async searchPage() {
     let body : any = {}
     body.paggingReq = {
-      limit: 10,
+      limit: 5,
       page: 1
     }
     let res = await this.service.searchPage(body);
