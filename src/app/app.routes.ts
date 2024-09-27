@@ -33,6 +33,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {ProductDuTruComponent} from "./pages/product/product-du-tru/product-du-tru.component";
 import { DetailDuTruComponent } from './pages/product/detail-du-tru/detail-du-tru.component';
 import {SystemListComponent} from "./pages/system/system-list/system-list.component";
+import {NotificationHistoryComponent} from "./pages/notification/notification-history/notification-history.component";
 
 export const routes: Routes = [
   {
@@ -80,6 +81,13 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
           {path: 'list', component: SystemListComponent},
+        ]
+      },
+      {
+        path: 'Notification',
+        canActivate: [AuthGuard],
+        children: [
+          {path: 'History', component: NotificationHistoryComponent},
         ]
       },
     ],

@@ -1,0 +1,78 @@
+<div class="container body-content w-95">
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="baocao-container box-group-white">
+          <h2 class="text-left"><b>{{ title }}</b></h2>
+          <div class="mat-table-container">
+            <table mat-table
+                   class="table table-striped table-bordered table-hover tr-ng-grid"
+                   [dataSource]="getDataSource()" matSort>
+
+              <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;"> #</th>
+                <td mat-cell *matCellDef="let data; index as i;">
+                  <div class="text-right">
+                    {{ (page - 1) * pageSize + i + 1 }}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> Tiêu đề</th>
+                <td mat-cell *matCellDef="let data">
+                  <a class="text-left" [href]="data.link">{{ data.title }}</a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="contents">
+                <th mat-header-cell *matHeaderCellDef> Nội dung</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.contents }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="createDate">
+                <th mat-header-cell *matHeaderCellDef style="width: 200px;"> Ngày tạo</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-left">{{ data.createDateTxt }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="footer">
+                <td mat-footer-cell *matFooterCellDef colspan="100">
+                  <app-pagination [currentPage]="page" [viewFooter]="false" [totalPages]="totalPages"
+                                  [totalRecord]="totalRecord"
+                                  (pageChange)="changePageIndex($event)"
+                                  (pageSizeChange)="changePageSize($event)"></app-pagination>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="['footer']; sticky: true"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
