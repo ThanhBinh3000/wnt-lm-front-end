@@ -52,6 +52,7 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
     super(injector, _service);
   }
 
+  showModelDongY: boolean = false;
   showModelTuChoi: boolean = false;
   showModelHoaThanh: boolean = false;
   modalData: any;
@@ -118,32 +119,33 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
   }
 
   openConfirmDialogDongY(data: any) {
-    const itemName = data.tenThuoc || 'này';
-    let message = `Bạn có đồng ý luân chuyển mặt hàng này và chia sẽ thông tin cơ sở để thực hiện hay không?`;
-    this.modal.confirm({
-      closable: false,
-      title: 'Xác nhận',
-      content: message,
-      cancelText: 'Đóng',
-      okText: 'Đồng ý',
-      okDanger: true,
-      width: 310,
-      onOk: async () => {
-        if (data && typeof data === 'object') {
-          try {
-            const res = await this._service.getDongYGiaoDich(data);
-            if (res?.status === STATUS_API.SUCCESS) {
-              this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
-            } else {
-              this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
-            }
-          } catch {
-            this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
-          }
-        }
+    this.showModelDongY = true;
+    this.modalData = data;
+    this.inputText = '';
+  }
+
+  closeModalDongY() {
+    this.showModelDongY = false;
+  }
+
+  async onModalDongY() {
+    if (!this.modalData) {
+      return;
+    }
+    try {
+      const res = await this._service.getDongYGiaoDich(this.modalData);
+      if (res?.status === STATUS_API.SUCCESS) {
+        this.requestSearchPage.emit();
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
+      } else {
+        this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
       }
-    });
+    } catch (error) {
+      console.error('Error:', error);
+      this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
+    } finally {
+      this.closeModalTuChoi();
+    }
   }
 
   openConfirmDialogTuChoi(data: any) {
