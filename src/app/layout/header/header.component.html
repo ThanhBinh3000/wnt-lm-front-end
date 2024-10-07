@@ -22,6 +22,7 @@
                 </ul>
                 <ul class="dropdown-menu" *ngIf="!isAdmin()" role="menu" [style.display]="isDisplay('system')">
                   <li (click)="openDetailMemberDialog()"><a>Thông tin thành viên</a></li>
+                  <li *ngIf="isChooseCS()" (click)="openChooseMemberDialog()"><a>Đổi cơ sở</a></li>
                 </ul>
               </li>
               <li *ngIf="isLogin()" class="dropdown menu" (mouseenter)="mouseEnter('look-up', 'block') "

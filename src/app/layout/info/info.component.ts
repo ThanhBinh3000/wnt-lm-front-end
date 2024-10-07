@@ -24,12 +24,12 @@ export class InfoComponent  implements OnInit {
 
   ngOnInit() {
     if(this.isLogin && this.authService.getUser()?.maCoSo){
-      this.webSocketService.connect();
-      this.webSocketService.getNotificationObservable().subscribe(notification => {
-        if (notification) {
-          this.searchPage();
-        }
-      });
+      // this.webSocketService.connect();
+      // this.webSocketService.getNotificationObservable().subscribe(notification => {
+      //   if (notification) {
+      //     this.searchPage();
+      //   }
+      // });
         this.searchPage();
     }
   }

@@ -121,6 +121,10 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
   openConfirmDialogDongY(data: any) {
     this.showModelDongY = true;
     this.modalData = data;
+    this.modalData.tenCoSo1 = this.authService.getUser().tenNhaThuoc;
+    this.modalData.diaChi1 = this.authService.getUser().diaChi;
+    this.modalData.soDienThoai1 = this.authService.getUser().soDienThoai;
+    console.log(this.authService.getUser());
     this.inputText = '';
   }
 
@@ -133,10 +137,15 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       return;
     }
     try {
-      const res = await this._service.getDongYGiaoDich(this.modalData);
+      var body = this.modalData;
+      body.soDienThoai = body.soDienThoai1;
+      body.diaChi = body.diaChi1;
+      body.tenCoSo = body.tenCoSo1;
+      const res = await this._service.getDongYGiaoDich(body);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
         this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
+        this.closeModalDongY();
       } else {
         this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
       }

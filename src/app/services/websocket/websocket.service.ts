@@ -12,7 +12,7 @@ export class WebSocketService {
   
     connect() {
         //http://10.0.2.142:8888/wnt-lm-notification-consumer/ws
-      const socket = new SockJS('http://10.0.1.142:30865/ws');
+      const socket = new SockJS('http://10.0.1.142:30226/ws');
       this.stompClient = Stomp.over(socket);
   
       this.stompClient.connect({}, () => {
