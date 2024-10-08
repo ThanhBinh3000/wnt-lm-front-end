@@ -47,6 +47,10 @@ export class MemberChooseDialogComponent extends BaseComponent implements OnInit
 
   chooseRow(data: any) {
     this.nhaThuoc = data;
+    
+    this.dataTable.forEach(x=>{
+      x.Active = false;
+    });
     data.Active = true;
   }
 

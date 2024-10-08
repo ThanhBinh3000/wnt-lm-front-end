@@ -70,7 +70,7 @@
       <div class="col-md-9">
         <div class="baocao-container box-group-white">
           <h2 class="text-center"><b>{{ title }}</b></h2>
-          <div class="mat-table-container">
+          <div class="mat-table-container" style="overflow: auto; max-height: none;">
             <table mat-table
                    class="table table-striped table-bordered table-hover tr-ng-grid"
                    [dataSource]="getDataSource()" matSort>
@@ -88,6 +88,19 @@
                 <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Tên thuốc</th>
                 <td mat-cell *matCellDef="let data">
                   <div class="text-left">{{ data.tenThuoc }}</div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="hinhAnh">
+                <th mat-header-cell *matHeaderCellDef style="font-size: 16px;">Hình ảnh</th>
+                <td mat-cell *matCellDef="let data">
+                  <div class="text-center">
+                    <a [href]="data.imagePreviewUrl ? data.imagePreviewUrl : imageDefaut" data-lightbox="image-2"
+                      data-title="{{data.tenThuoc}}">
+                      <img [src]="data.imageThumbUrl ? data.imageThumbUrl : imageDefaut" width="50px"
+                        [alt]="data.tenThuoc">
+                    </a>
+                  </div>
                 </td>
               </ng-container>
 

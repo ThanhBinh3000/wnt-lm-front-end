@@ -1,4 +1,4 @@
-<div class="card" style="width: 600px;">
+<div class="card" style="width: 600px; height: 25vh; overflow-y: scroll;">
   <div class="card-body text-center">
     <div class="baocao-container">
       <table
@@ -43,14 +43,14 @@
         </tr>
         </thead>
         <tbody class="">
-        <tr class="" *ngFor="let data of dataTable; index as i;">
+        <tr class="" *ngFor="let data of dataTable; index as i;" style="cursor: pointer;">
           <td class="">
             <div class="tr-ng-cell text-left">
               <div ng-switch-when="true" class="">
                 <div>
                   <div class="">
                     <input type="radio"
-                           name="id" ngModel="data.Active" (click)="chooseRow(data)">
+                           name="id" (click)="chooseRow(data)" [checked]="data.Active">
                   </div>
                 </div>
               </div>
