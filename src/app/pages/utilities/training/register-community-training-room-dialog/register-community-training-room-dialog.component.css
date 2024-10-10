@@ -1,0 +1,9 @@
+.table-register {
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+
+.title-convenient {
+  text-align: left;
+  opacity: 0.7
+}
