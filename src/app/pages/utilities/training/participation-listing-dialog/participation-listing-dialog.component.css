@@ -1,0 +1,34 @@
+:root {
+  --rating-max: 5;
+  --rating-content: '★★★★★';
+  --rating-inactive-color: #CCCCCC;
+  --rating-background: #ee4d2d;
+}
+
+.rating {
+  display: inline-block;
+  font-size: 30px;
+}
+
+.rating-detail {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.rating::before {
+  --rating-percent: calc(var(--rating-value) / var(--rating-max) * 100%);
+  content: var(--rating-content);
+  background: linear-gradient(90deg, var(--rating-background) var(--rating-percent), var(--rating-inactive-color) var(--rating-percent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.rating-detail::before {
+  --rating-percent: calc(var(--rating-value) / var(--rating-max) * 100%);
+  content: var(--rating-content);
+  background: linear-gradient(90deg, var(--rating-background) var(--rating-percent), var(--rating-inactive-color) var(--rating-percent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

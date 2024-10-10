@@ -1,0 +1,53 @@
+.baocao-container {
+  font-size: 20px;
+}
+
+.baocao-container img {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.status-label {
+  margin-right: 5px;
+}
+
+#information-scroll {
+  height: 70vh;
+  overflow-y: auto;
+}
+
+:root {
+  --rating-max: 5;
+  --rating-content: '★★★★★';
+  --rating-inactive-color: #CCCCCC;
+  --rating-background: #ee4d2d;
+}
+
+.rating {
+  display: inline-block;
+  font-size: 30px;
+}
+
+.rating-detail {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.rating::before {
+  --rating-percent: calc(var(--rating-value) / var(--rating-max) * 100%);
+  content: var(--rating-content);
+  background: linear-gradient(90deg, var(--rating-background) var(--rating-percent), var(--rating-inactive-color) var(--rating-percent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.rating-detail::before {
+  --rating-percent: calc(var(--rating-value) / var(--rating-max) * 100%);
+  content: var(--rating-content);
+  background: linear-gradient(90deg, var(--rating-background) var(--rating-percent), var(--rating-inactive-color) var(--rating-percent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

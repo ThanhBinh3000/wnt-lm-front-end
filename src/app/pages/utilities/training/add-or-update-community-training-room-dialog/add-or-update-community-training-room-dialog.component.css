@@ -1,0 +1,8 @@
+/*:host ::ng-deep .ck-editor__editable_inline {*/
+/*  min-height: 400px;*/
+/*}*/
+
+#information-scroll {
+  height: 70vh;
+  overflow-y: auto;
+}
