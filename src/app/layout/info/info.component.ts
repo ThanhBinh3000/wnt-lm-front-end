@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { NotificationsService } from '../../services/categories/notifications.service';
 import { STATUS_API } from '../../constants/message';
+import { WebSocketService } from '../../services/websocket/websocket.service';
 
 @Component({
   selector: 'app-info',
@@ -16,12 +17,19 @@ export class InfoComponent  implements OnInit {
   @Input() isLogin: boolean = false;
   constructor(
     public authService: AuthService,
-    private service : NotificationsService
+    private service : NotificationsService,
+    private webSocketService: WebSocketService
   ) {
   }
 
   ngOnInit() {
     if(this.isLogin && this.authService.getUser()?.maCoSo){
+      // this.webSocketService.connect();
+      // this.webSocketService.getNotificationObservable().subscribe(notification => {
+      //   if (notification) {
+      //     this.searchPage();
+      //   }
+      // });
         this.searchPage();
     }
   }

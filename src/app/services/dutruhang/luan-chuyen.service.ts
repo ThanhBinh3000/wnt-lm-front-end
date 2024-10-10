@@ -19,4 +19,8 @@ export class LuanChuyenService extends BaseService {
     const url = `/api/wnt-lm-dutruhang/luan-chuyen/search-page-hang-it-giao-dich`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
+  searchPageHangCanLuanChuyen(body: any) {
+    const url = `/api/wnt-lm-dutruhang/luan-chuyen/search-page-hang-can-luan-chuyen`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
 }

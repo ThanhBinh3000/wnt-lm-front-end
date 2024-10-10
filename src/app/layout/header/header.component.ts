@@ -7,6 +7,7 @@ import {LOAI_THU_CHI} from "../../constants/config";
 import {ComponentsModule} from "../../component/base/components.module";
 import {MemberDetailDialogComponent} from "../../pages/member/member-detail-dialog/member-detail-dialog.component";
 import { InfoComponent } from '../info/info.component';
+import { MemberChooseDialogComponent } from '../../pages/member/member-choose-dialog/member-choose-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -127,12 +128,25 @@ export class HeaderComponent implements OnInit {
     return this.authService.isLogin();
   }
 
+  isChooseCS(){
+    return this.authService.getUser().soCoSo > 1;
+  }
+
   async openDetailMemberDialog() {
     console.log('open');
     var maCoSo = this.authService.getUser().maCoSo;
     this.dialog.open(MemberDetailDialogComponent, {
       data: maCoSo,
       width: '400px;',
+    });
+  }
+
+  async openChooseMemberDialog() {
+    console.log('open');
+    var maNhaCha = this.authService.getUser().maNhaCha;
+    this.dialog.open(MemberChooseDialogComponent, {
+      data: maNhaCha,
+      width: '900px;',
     });
   }
 }

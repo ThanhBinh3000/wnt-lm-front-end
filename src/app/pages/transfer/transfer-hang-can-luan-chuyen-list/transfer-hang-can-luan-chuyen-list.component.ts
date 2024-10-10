@@ -2,7 +2,6 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ComponentsModule } from "../../../component/base/components.module";
 import { BaseComponent } from "../../../component/base/base.component";
 import { TitleService } from "../../../services/title.service";
-import { NhaThuocsService } from "../../../services/system/nha-thuocs.service";
 import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, from, of, switchMap } from "rxjs";
 import { TransferHangDialogComponent } from "../transfer-hang-dialog/transfer-hang-dialog.component";
 import { LuanChuyenService } from '../../../services/dutruhang/luan-chuyen.service';
@@ -12,30 +11,39 @@ import { LOAI_SAN_PHAM } from '../../../constants/config';
 import { ThuocService } from '../../../services/categories/thuoc.service';
 
 @Component({
-  selector: 'app-transfer-hang-can-han-list',
+  selector: 'app-transfer-hang-can-luan-chuyen-list',
   standalone: true,
   imports: [ComponentsModule],
-  templateUrl: './transfer-hang-can-han-list.component.html',
-  styleUrl: './transfer-hang-can-han-list.component.css'
+  templateUrl: './transfer-hang-can-luan-chuyen-list.component.html',
+  styleUrl: './transfer-hang-can-luan-chuyen-list.component.css'
 })
-export class TransferHangCanHanListComponent extends BaseComponent implements OnInit {
-  title = "Danh sách hàng cận hạn";
+export class TransferHangCanLuanChuyenListComponent extends BaseComponent implements OnInit {
+  title = "Danh sách hàng cần luân chuyển";
   listData: any = [];
   listThuocType: any[] = [
     { name: '--Tất cả--', value: 0 },
     { name: 'Theo nhóm', value: 1 },
     { name: 'Theo tên', value: 2 },
   ];
+
   listLuanChuyenType: any[] = [
     { name: 'Chưa đăng ký', value: 0 },
     { name: 'Đã đăng ký', value: 1 },
   ];
+
+  listLoaiHang: any[] = [
+    { name: 'Tất cả', value: -1 },
+    { name: 'Cận hạn', value: 1 },
+    { name: 'Ít giao dịch', value: 2 },
+    { name: 'Hàng khác', value: 3 },
+  ];
+
   listNhomThuoc$ = new Observable<any[]>;
   listThuoc$ = new Observable<any[]>;
   searchNhomThuocTerm$ = new Subject<string>();
   searchThuocTerm$ = new Subject<string>();
   displayedColumns = ['checkbox', '#', 'soPhieuNhap', 'ngayNhap', 'maThuoc', 'tenThuoc', 'donVi', 'soLuongTon', 
-    'soLo', 'hanSuDung', 'soDangKy', 'ghiChu', 'action'
+    'soLo', 'hanSuDung', 'soDangKy','loaiHang','soNgayKhongGiaoDich', 'ghiChu', 'action'
   ];
 
   constructor(
@@ -52,6 +60,7 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
       thuocGroupId: [null],
       thuocId: [null],
       hangLuanChuyen: [0],
+      loaiHang: [-1]
     });
   }
 
@@ -90,15 +99,32 @@ export class TransferHangCanHanListComponent extends BaseComponent implements On
 
 
   override async searchPage() {
+    switch(this.formData.get('loaiHang')?.value){
+      case 1:{
+        this.title = "Danh sách hàng cận hạn";
+        break;
+      }
+      case 2:{
+        this.title = "Danh sách hàng ít giao dịch";
+        break;
+      }
+      case 3:{
+        this.title = "Danh sách hàng khác";
+        break;
+      }
+      default:{
+        this.title = "Danh sách hàng cần luân chuyển";
+        break;
+      }
+    }
     let body = this.formData.value
     body.paggingReq = {
       limit: this.pageSize,
       page: this.page - 1
     }
-    let res = await this.luanChuyenService.searchPageHangCanHan(body);
+    let res = await this.luanChuyenService.searchPageHangCanLuanChuyen(body);
     if (res?.status == STATUS_API.SUCCESS) {
       let data = res.data;
-      console.log(data);
       this.dataTable = data.content;
       this.totalRecord = data.totalElements;
       this.totalPages = data.totalPages;

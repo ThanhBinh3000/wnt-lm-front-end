@@ -79,7 +79,7 @@
     <ng-container matColumnDef="loaiHang">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Loại hàng</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{ data.loaiHang == 1 ? 'Hàng cận hạn' : 'Hàng ít giao dịch' }}</div>
+        <div class="text-left">{{ data.loaiHangTxt}}</div>
       </td>
     </ng-container>
 
@@ -101,8 +101,8 @@
     <ng-container matColumnDef="footer">
       <td mat-footer-cell *matFooterCellDef colspan="100">
         <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
-                        (pageChange)="changePageIndexHangQuanTam($event)"
-                        (pageSizeChange)="changePageSizeHangQuanTam($event)"></app-pagination>
+                        (pageChange)="changePageIndexHangDen($event)"
+                        (pageSizeChange)="changePageSizeHangDen($event)"></app-pagination>
       </td>
     </ng-container>
 
@@ -121,15 +121,15 @@
     <div class="modal-body">
       <div class="form-inline-flex mb-3">
         <label class="col-md-2">Tên cơ sở: </label>
-        <input class="form-control mb-0" [(ngModel)]="modalData.tenCoSo"/>
+        <input class="form-control mb-0" [(ngModel)]="modalData.tenCoSo1"/>
       </div>
       <div class="form-inline-flex mb-3">
         <label class="col-md-2">Địa chỉ: </label>
-        <textarea class="form-control w-100 ng-pristine ng-untouched ng-valid" style="height: 100px;" [(ngModel)]="modalData.diaChi"></textarea>
+        <textarea class="form-control w-100 ng-pristine ng-untouched ng-valid" style="height: 100px;" [(ngModel)]="modalData.diaChi1"></textarea>
       </div>
       <div class="form-inline-flex mb-3">
         <label class="col-md-2">Số điện thoại: </label>
-        <input type="number" class="form-control mb-0" [(ngModel)]="modalData.soDienThoai" min="1" max="totalPages">
+        <input type="text" class="form-control mb-0" [(ngModel)]="modalData.soDienThoai1">
       </div>
       <p>Bạn có đồng ý luân chuyển mặt hàng này và chia sẻ thông tin cơ sở để thực hiện hay không?</p>
     </div>

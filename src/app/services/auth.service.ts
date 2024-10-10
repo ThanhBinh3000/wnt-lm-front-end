@@ -72,7 +72,7 @@ export class AuthService extends BaseService {
   }
 
   chooseNhaThuoc(body: any) {
-    const url = `/api/wnt-security/choose-nha-thuoc`;
+    const url = `/api/wnt-lm-security/choose-nha-thuoc`;
     return this.httpClient.put<ResponseData>(url, body).toPromise();
   }
 

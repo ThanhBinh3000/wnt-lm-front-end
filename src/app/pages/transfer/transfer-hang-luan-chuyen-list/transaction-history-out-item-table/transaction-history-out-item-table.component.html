@@ -1,21 +1,6 @@
 <div class="mat-table-container">
-  <div class="d-flex baocao-header justify-content-end">
-    <div class="baocao-actions">
-      <button class="btn btn-sm btn-primary" (click)="openCareAboutDialog(null)">Gửi nhiều</button>
-    </div>
-  </div>
   <table mat-table class="table table-striped table-bordered table-hover tr-ng-grid"
          [dataSource]="getDataSource()" matSort>
-
-    <ng-container matColumnDef="checkbox">
-      <th mat-header-cell *matHeaderCellDef> <input type="checkbox"  [(ngModel)]="allChecked"
-                                                    (ngModelChange)="updateAllChecked()" title="select row">
-      </th>
-      <td mat-cell *matCellDef="let data; index as i;">
-        <input type="checkbox"  [(ngModel)]="data.checked" (ngModelChange)="updateSingleChecked()"
-               title="select row">
-      </td>
-    </ng-container>
 
     <ng-container matColumnDef="#">
       <th mat-header-cell *matHeaderCellDef> #</th>
@@ -102,8 +87,13 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let data">
         <div class="baocao-actions" style="justify-content: start; display: flex; gap: 10px;">
-          <button class="btn btn-danger" (click)="openConfirmDialog(data)">Hủy</button>
-          <button class="btn btn-primary" (click)="openCareAboutDialog(data)">Gửi</button>
+          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 1">Đồng ý
+          </button>
+          <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 2">Hoàn
+            thành
+          </button>
+          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1">Từ chối
+          </button>
         </div>
       </td>
     </ng-container>
@@ -111,14 +101,80 @@
     <ng-container matColumnDef="footer">
       <td mat-footer-cell *matFooterCellDef colspan="100">
         <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
-                        (pageChange)="changePageIndexHangQuanTam($event)"
-                        (pageSizeChange)="changePageSizeHangQuanTam($event)"></app-pagination>
+                        (pageChange)="changePageIndexHangDi($event)"
+                        (pageSizeChange)="changePageSizeHangDi($event)"></app-pagination>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
     <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
-
   </table>
 </div>
+
+<div class="card" *ngIf="showModelDongY">
+  <div class="modal-content" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModalDongY()" aria-label="Đóng"><span>&times;</span></button>
+      <h4 class="modal-title">Xác nhận</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-inline-flex mb-3">
+        <label class="col-md-2">Tên cơ sở: </label>
+        <input class="form-control mb-0" [(ngModel)]="modalData.tenCoSo1"/>
+      </div>
+      <div class="form-inline-flex mb-3">
+        <label class="col-md-2">Địa chỉ: </label>
+        <textarea class="form-control w-100 ng-pristine ng-untouched ng-valid" style="height: 100px;" [(ngModel)]="modalData.diaChi1"></textarea>
+      </div>
+      <div class="form-inline-flex mb-3">
+        <label class="col-md-2">Số điện thoại: </label>
+        <input type="text" class="form-control mb-0" [(ngModel)]="modalData.soDienThoai1">
+      </div>
+      <p>Bạn có đồng ý luân chuyển mặt hàng này và chia sẻ thông tin cơ sở để thực hiện hay không?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModalDongY()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalDongY()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="showModelTuChoi">
+  <div class="modal-content" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModalTuChoi()" aria-label="Đóng"><span>&times;</span></button>
+      <h4 class="modal-title">Xác nhận</h4>
+    </div>
+    <div class="modal-body">
+      <p>Bạn có từ chối đề nghị luân chuyển của {{ modalData.tenCoSo || 'này' }} không ?</p>
+      <label for="inputNote">Lý do từ chối:</label>
+      <textarea id="inputNote" [(ngModel)]="inputText" rows="4" placeholder="Nhập lý do tại đây..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModalTuChoi()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalTuChoi()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="showModelHoaThanh">
+  <div class="modal-content" tabindex="-1" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="closeModalHoanThanh()" aria-label="Đóng"><span>&times;</span>
+      </button>
+      <h4 class="modal-title">Xác nhận</h4>
+    </div>
+    <div class="modal-body">
+      <p>Giao dịch của bạn đã hoàn thành trong thực tế hay chưa ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModalHoanThanh()">Đóng</button>
+      <button type="button" class="btn btn-primary" (click)="onModalHoanThanh(true)">Đã thực hiện</button>
+      <button type="button" class="btn btn-danger" (click)="onModalHoanThanh(false)">Chưa thực hiện</button>
+    </div>
+  </div>
+</div>
+
+
+
