@@ -21,6 +21,7 @@ import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {DeviceService} from "../../services/device.service";
 import printJS from "print-js";
+import { SETTING } from '../../constants/setting';
 
 
 @Component({
@@ -74,6 +75,7 @@ export class BaseComponent {
   selectedFile: File | null = null;
   dataImport: any;
   listDataDetail: any[] = [];
+  imageDefaut = "assets/images/image-default.jpg";
 
   constructor(
     injector: Injector,

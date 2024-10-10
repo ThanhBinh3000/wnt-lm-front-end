@@ -18,7 +18,7 @@ export class LookUpSoLuongHangHoaListComponent extends BaseComponent implements 
   listNhomNganhHang: any = [];
   listNhomDuocLy: any = [];
   listNhomHoatChat: any = [];
-  displayedColumns = ['#', 'tenThuoc', 'tenNhomNganhHang', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
+  displayedColumns = ['#', 'tenThuoc','hinhAnh', 'tenNhomNganhHang', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
 
   constructor(
     injector: Injector,

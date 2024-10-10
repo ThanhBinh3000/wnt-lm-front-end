@@ -5,6 +5,7 @@ import {TitleService} from "../../../services/title.service";
 import {topDoanhThuService} from "../../../services/transaction/top-doanh-thu.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 import {ThuocService} from "../../../services/categories/thuoc.service";
+import { SETTING } from '../../../constants/setting';
 
 @Component({
   selector: 'app-look-up-doanh-thu-hang-hoa-list',
@@ -18,7 +19,7 @@ export class LookUpDoanhThuHangHoaListComponent extends BaseComponent implements
   listNhomNganhHang: any = [];
   listNhomDuocLy: any = [];
   listNhomHoatChat: any = [];
-  displayedColumns = ['#', 'tenThuoc', 'tenNhomNganhHang', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
+  displayedColumns = ['#', 'tenThuoc','hinhAnh', 'tenNhomNganhHang', 'tenDonVi', 'soLieuThiTruong', 'soLieuCoSo'];
 
   constructor(
     injector: Injector,

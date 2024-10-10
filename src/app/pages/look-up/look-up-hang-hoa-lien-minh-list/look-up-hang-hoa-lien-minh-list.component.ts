@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, ElementRef, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../component/base/base.component";
 import {TitleService} from "../../../services/title.service";
 import {ComponentsModule} from "../../../component/base/components.module";
@@ -7,6 +7,8 @@ import {catchError, debounceTime, distinctUntilChanged, from, Observable, of, Su
 import {HangHoaService} from "../../../services/products/hang-hoa.service";
 import {MESSAGE, STATUS_API} from "../../../constants/message";
 import {ThuocService} from "../../../services/categories/thuoc.service";
+import { SETTING } from '../../../constants/setting';
+
 
 @Component({
   selector: 'app-look-up-hang-hoa-lien-minh-list',
@@ -23,8 +25,9 @@ export class LookUpHangHoaLienMinhListComponent extends BaseComponent implements
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
   collapseColumns = ['thongTinChung', 'phoGiaBan', 'phoGiaNhap','soLuong', 'doanhThu', 'action1'];
-  displayedColumns = ['#', 'tenThuoc', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax','soLuongCs','soLuongTT', 'doanhSoCS', 'doanhSoTT', 'action2'];
-
+  displayedColumns = ['#', 'tenThuoc','hinhAnh', 'tenDonVi', 'giaBanMin', 'giaBanMax', 'giaNhapMin', 'giaNhapMax','soLuongCs',
+    'soLuongTT', 'doanhSoCS', 'doanhSoTT', 'action2'];
+ 
   constructor(
     injector: Injector,
     private titleService: TitleService,

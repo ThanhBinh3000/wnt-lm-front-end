@@ -22,6 +22,16 @@ export class ChiTietHangLuanChuyenService extends BaseService {
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
+  searchPageHangDen(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/search-page-hang-den`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
+  searchPageHangDi(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/search-page-hang-di`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
   getGuiThongBao(body: any) {
     const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/gui-thong-bao`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();

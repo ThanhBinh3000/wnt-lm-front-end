@@ -18,7 +18,7 @@ import {ModalComponent} from "../../../../component/modal/modal.component";
 
 
 @Component({
-  selector: 'app-transaction-history-trading-item-table',
+  selector: 'app-transaction-history-in-item-table',
   standalone: true,
   imports: [
     ComponentsModule,
@@ -37,10 +37,10 @@ import {ModalComponent} from "../../../../component/modal/modal.component";
     MatSortHeader,
     MatTable
   ],
-  templateUrl: './transaction-history-trading-item-table.component.html',
-  styleUrl: './transaction-history-trading-item-table.component.css'
+  templateUrl: './transaction-history-in-item-table.component.html',
+  styleUrl: './transaction-history-in-item-table.component.css'
 })
-export class TransactionHistoryTradingItemTableComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class TransactionHistoryInItemTableComponent extends BaseComponent implements OnInit, AfterViewInit {
   @Input() override formData: FormGroup = this.fb.group({});
   @Input() formDataChange!: EventEmitter<any>;
   @Output() requestSearchPage = new EventEmitter<void>();
@@ -82,7 +82,7 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
         toDateNgayXuat: newValue.toDate,
       });
     });
-    await this.searchPageHangDangGiaoDich();
+    await this.searchPageHangDen();
   }
 
   @ViewChild(MatSort) sort?: MatSort;
@@ -95,14 +95,14 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
     return this.displayedColumns;
   }
 
-  async searchPageHangDangGiaoDich() {
+  async searchPageHangDen() {
     try {
       let body = this.formData.value
       body.paggingReq = {
         limit: this.pageSize,
         page: this.page - 1
       }
-      let res = await this._service.searchPageHangDangGiaoDich(body);
+      let res = await this._service.searchPageHangDen(body);
       if (res?.status == STATUS_API.SUCCESS) {
         let data = res.data;
         this.dataTable = data.content;
@@ -121,6 +121,10 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
   openConfirmDialogDongY(data: any) {
     this.showModelDongY = true;
     this.modalData = data;
+    this.modalData.tenCoSo1 = this.authService.getUser().tenNhaThuoc;
+    this.modalData.diaChi1 = this.authService.getUser().diaChi;
+    this.modalData.soDienThoai1 = this.authService.getUser().soDienThoai;
+    console.log(this.authService.getUser());
     this.inputText = '';
   }
 
@@ -133,10 +137,15 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
       return;
     }
     try {
-      const res = await this._service.getDongYGiaoDich(this.modalData);
+      var body = this.modalData;
+      body.soDienThoai = body.soDienThoai1;
+      body.diaChi = body.diaChi1;
+      body.tenCoSo = body.tenCoSo1;
+      const res = await this._service.getDongYGiaoDich(body);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
         this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
+        this.closeModalDongY();
       } else {
         this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
       }
@@ -209,20 +218,20 @@ export class TransactionHistoryTradingItemTableComponent extends BaseComponent i
     }
   }
 
-  async changePageSizeHangQuanTam(event: any) {
+  async changePageSizeHangDen(event: any) {
     try {
       this.pageSize = event;
-      this.searchPageHangDangGiaoDich();
+      this.searchPageHangDen();
     } catch (e) {
       this.spinner.hide();
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
     }
   }
 
-  async changePageIndexHangQuanTam(event: any) {
+  async changePageIndexHangDen(event: any) {
     try {
       this.page = event;
-      this.searchPageHangDangGiaoDich();
+      this.searchPageHangDen();
     } catch (e) {
       this.spinner.hide();
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
