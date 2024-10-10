@@ -122,39 +122,50 @@
           <h2 class="text-center"><b>{{ title }}</b></h2>
           <div class="mat-table-container">
             <ul class="nav nav-tabs">
-              <li ng-if="hasViewReceiptNotePrivilage" [ngClass]="{'active' : checkTab == 'market'}">
+              <li [ngClass]="{'active' : checkTab == 'market'}">
                 <a (click)="checkTab = 'market'">Thị trường&nbsp;<span class="label label-info pull-right">
                                                {{ transactionHistoryMarketItemTableComponent?.totalRecord }}
                                         </span></a>
               </li>
-              <li ng-if="hasViewDeliveryNotePrivilage" [ngClass]="{'active' : checkTab == 'careAbout'}">
+              <li [ngClass]="{'active' : checkTab == 'careAbout'}">
                 <a (click)="checkTab = 'careAbout'">Quan tâm&nbsp;<span class="label label-info pull-right">
                                             {{ transactionHistoryCareAboutItemTableComponent?.totalRecord | number }}
                                         </span></a>
               </li>
-              <li ng-if="hasViewDeliveryNotePrivilage" [ngClass]="{'active' : checkTab == 'trading'}">
-                <a (click)="checkTab = 'trading'">Đang giao dịch&nbsp;<span class="label label-info pull-right">
-                                            {{ transactionHistoryTradingItemTableComponent?.totalRecord | number }}
+              <li [ngClass]="{'active' : checkTab == 'itemIn'}">
+                <a (click)="checkTab = 'itemIn'">Hàng đến&nbsp;<span class="label label-info pull-right">
+                                            {{ transactionHistoryInItemTableComponent?.totalRecord | number }}
+                                        </span></a>
+              </li>
+              <li [ngClass]="{'active' : checkTab == 'itemOut'}">
+                <a (click)="checkTab = 'itemOut'">Hàng đi&nbsp;<span class="label label-info pull-right">
+                                            {{ transactionHistoryOutItemTableComponent?.totalRecord | number }}
                                         </span></a>
               </li>
             </ul>
             <div class="tab-content">
-              <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=0" [hidden]="checkTab != 'market'">
+              <div id="#ActivePage=0" [hidden]="checkTab != 'market'">
                 <div class="panel-body">
                   <app-transaction-history-market-item-table [formData]="formData" [formDataChange]="formDataChange"
                                                              (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-market-item-table>
                 </div>
               </div>
-              <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=1" [hidden]="checkTab != 'careAbout'">
+              <div id="#ActivePage=1" [hidden]="checkTab != 'careAbout'">
                 <div class="panel-body">
                   <app-transaction-history-care-about-item-table [formData]="formData" [formDataChange]="formDataChange"
                                                                  (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-care-about-item-table>
                 </div>
               </div>
-              <div ng-if="hasViewReceiptNotePrivilage" id="#ActivePage=2" [hidden]="checkTab != 'trading'">
+              <div id="#ActivePage=2" [hidden]="checkTab != 'itemIn'">
                 <div class="panel-body">
-                  <app-transaction-history-trading-item-table [formData]="formData" [formDataChange]="formDataChange"
-                                                              (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-trading-item-table>
+                  <app-transaction-history-in-item-table [formData]="formData" [formDataChange]="formDataChange"
+                                                              (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-in-item-table>
+                </div>
+              </div>
+              <div id="#ActivePage=3" [hidden]="checkTab != 'itemOut'">
+                <div class="panel-body">
+                  <app-transaction-history-out-item-table [formData]="formData" [formDataChange]="formDataChange"
+                                                              (requestSearchPage)="onRequestSearchPage()"></app-transaction-history-out-item-table>
                 </div>
               </div>
             </div>

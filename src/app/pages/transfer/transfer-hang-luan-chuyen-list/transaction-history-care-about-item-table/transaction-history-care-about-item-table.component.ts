@@ -146,7 +146,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
   }
 
   openConfirmDialog(data: any) {
-    let message = 'Bạn muốn hũy quan tâm mặt hàng này không ?';
+    let message = 'Bạn muốn huỷ quan tâm mặt hàng này không ?';
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
@@ -157,7 +157,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
       width: 310,
       onOk: async () => {
         if (data && typeof data === 'object') {
-          if (data.trangThai != 0) {
+          if (!([0,1].includes(data.trangThai))) {
             this.notification.error(MESSAGE.ERROR, 'Hàng đang trong quá trình giao dịch, hiện không thể hủy mặt hàng.');
             return;
           }

@@ -6,8 +6,8 @@ import {NotAuthenticatedComponent} from "./pages/not-authenticated/not-authentic
 import {LoginComponent} from "./pages/login/login.component";
 import {MemberListComponent} from "./pages/member/member-list/member-list.component";
 import {
-  TransferHangCanHanListComponent
-} from "./pages/transfer/transfer-hang-can-han-list/transfer-hang-can-han-list.component";
+  TransferHangCanLuanChuyenListComponent
+} from "./pages/transfer/transfer-hang-can-luan-chuyen-list/transfer-hang-can-luan-chuyen-list.component";
 import {
   TransferHangItGiaoDichListComponent
 } from "./pages/transfer/transfer-hang-it-giao-dich-list/transfer-hang-it-giao-dich-list.component";
@@ -71,7 +71,7 @@ export const routes: Routes = [
         path: 'transfer',
         canActivate: [AuthGuard],
         children: [
-          {path: 'hang-can-han/list', component: TransferHangCanHanListComponent},
+          {path: 'hang-can-luan-chuyen/list', component: TransferHangCanLuanChuyenListComponent},
           {path: 'hang-it-giao-dich/list', component: TransferHangItGiaoDichListComponent},
           {path: 'hang-luan-chuyen/list', component: TransferHangLuanChuyenListComponent},
         ]

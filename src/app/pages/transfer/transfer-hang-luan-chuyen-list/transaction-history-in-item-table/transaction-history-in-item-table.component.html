@@ -79,7 +79,7 @@
     <ng-container matColumnDef="loaiHang">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Loại hàng</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-left">{{ data.loaiHang == 1 ? 'Hàng cận hạn' : 'Hàng ít giao dịch' }}</div>
+        <div class="text-left">{{ data.loaiHangTxt}}</div>
       </td>
     </ng-container>
 
@@ -101,8 +101,8 @@
     <ng-container matColumnDef="footer">
       <td mat-footer-cell *matFooterCellDef colspan="100">
         <app-pagination [currentPage]="page" [totalPages]="totalPages" [totalRecord]="totalRecord"
-                        (pageChange)="changePageIndexHangQuanTam($event)"
-                        (pageSizeChange)="changePageSizeHangQuanTam($event)"></app-pagination>
+                        (pageChange)="changePageIndexHangDen($event)"
+                        (pageSizeChange)="changePageSizeHangDen($event)"></app-pagination>
       </td>
     </ng-container>
 

@@ -16,8 +16,9 @@ import {
   TransactionHistoryCareAboutItemTableComponent
 } from "./transaction-history-care-about-item-table/transaction-history-care-about-item-table.component";
 import {
-  TransactionHistoryTradingItemTableComponent
-} from "./transaction-history-trading-item-table/transaction-history-trading-item-table.component";
+  TransactionHistoryInItemTableComponent
+} from "./transaction-history-in-item-table/transaction-history-in-item-table.component";
+import { TransactionHistoryOutItemTableComponent } from './transaction-history-out-item-table/transaction-history-out-item-table.component';
 
 @Component({
   selector: 'app-transfer-hang-luan-chuyen-list',
@@ -25,7 +26,9 @@ import {
   imports: [ComponentsModule,
     TransactionHistoryMarketItemTableComponent,
     TransactionHistoryCareAboutItemTableComponent,
-    TransactionHistoryTradingItemTableComponent],
+    TransactionHistoryInItemTableComponent,
+    TransactionHistoryOutItemTableComponent
+  ],
   templateUrl: './transfer-hang-luan-chuyen-list.component.html',
   styleUrl: './transfer-hang-luan-chuyen-list.component.css'
 })
@@ -33,12 +36,15 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
   title = "Danh sách hàng luân chuyển";
   @ViewChild(TransactionHistoryMarketItemTableComponent) transactionHistoryMarketItemTableComponent?: TransactionHistoryMarketItemTableComponent;
   @ViewChild(TransactionHistoryCareAboutItemTableComponent) transactionHistoryCareAboutItemTableComponent?: TransactionHistoryCareAboutItemTableComponent;
-  @ViewChild(TransactionHistoryTradingItemTableComponent) transactionHistoryTradingItemTableComponent?: TransactionHistoryTradingItemTableComponent;
+  @ViewChild(TransactionHistoryInItemTableComponent) transactionHistoryInItemTableComponent?: TransactionHistoryInItemTableComponent;
+  @ViewChild(TransactionHistoryOutItemTableComponent) transactionHistoryOutItemTableComponent?: TransactionHistoryOutItemTableComponent;
+  
   formDataChange = new EventEmitter();
   checkTab: string = 'market';
   listLoaiHang: any = [
     {name: 'Hàng cận hạn', value: 1},
     {name: 'Hàng ít giao dịch', value: 2},
+    {name: 'Hàng khác', value: 3},
   ];
   listTinhThanh: any = [];
   listQuanHuyen: any = [];
@@ -48,6 +54,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
   listNhomHoatChat: any = [];
   listThuoc$ = new Observable<any[]>;
   searchThuocTerm$ = new Subject<string>();
+  itemDefault : any = {};
   displayedColumns = ['#', 'coSo', 'diaChi', 'created', 'tenThuoc', 'donVi', 'soLuong', 'soLo', 'hanSuDung', 'loaiHang', 'ghiChu'];
 
   constructor(
@@ -70,7 +77,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
       recordStatusId: [0],
       nhomNganhHangId: [],
       nhomDuocLyId: [],
-      nhomHoatChatId: [],
+      nhomHoatChatId: []
     });
   }
 
@@ -79,7 +86,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
 
     this.route.queryParams.subscribe(params => {
       const tab = params['tab'];
-      this.checkTab = (tab == 1) ? 'market' : (tab == 2) ? 'careAbout' : (tab == 3) ? 'trading' : this.checkTab;
+      this.checkTab = (tab == 1) ? 'market' : (tab == 2) ? 'careAbout' : (tab == 3) ? 'itemIn' : (tab==4) ? "itemOut" : this.checkTab;
     });
     await this.getDataFilter();
   }
@@ -88,7 +95,9 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
     this.formDataChange.emit(this.formData.value);
     await this.transactionHistoryMarketItemTableComponent?.searchPage();
     await this.transactionHistoryCareAboutItemTableComponent?.searchPageHangQuanTam();
-    await this.transactionHistoryTradingItemTableComponent?.searchPageHangDangGiaoDich();
+    await this.transactionHistoryInItemTableComponent?.searchPageHangDen();
+    await this.transactionHistoryOutItemTableComponent?.searchPageHangDi();
+    this.formData.controls['textSearch'].setValue('');
   }
 
   async getDataFilter() {
@@ -98,6 +107,7 @@ export class TransferHangLuanChuyenListComponent extends BaseComponent implement
       distinctUntilChanged(),
       switchMap((term: string) => {
         if (term.length >= 2) {
+          this.formData.controls['textSearch'].setValue(term);
           let body = {
             tenThuoc: term,
             paggingReq: {limit: 25, page: 0},

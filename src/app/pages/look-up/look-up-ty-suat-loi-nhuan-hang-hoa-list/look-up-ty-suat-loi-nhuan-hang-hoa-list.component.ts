@@ -36,7 +36,7 @@ export class LookUpTySuatLoiNhuanHangHoaListComponent extends BaseComponent impl
   }
 
   async ngOnInit() {
-    this.titleService.setTitle('Tỉ xuất lợi nhuận');
+    this.titleService.setTitle('Tỉ suất lợi nhuận');
     await this.getDataFilter();
     await this.searchTopTyXuatLoiNhuan();
   }
