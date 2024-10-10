@@ -73,6 +73,9 @@ export class CommunityTrainingRoomInfoDialogComponent extends BaseComponent impl
     await this.getListTinhThanh();
   }
 
+  isAdmin(){
+    return this.authService.getUser().isAdmin;
+  }
 
   async seeMoreComment() {
     this.pageSize += 3;

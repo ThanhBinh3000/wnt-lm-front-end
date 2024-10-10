@@ -23,7 +23,7 @@
         <div class="box-group-white">
           <div class="d-flex baocao-header">
             <h2 class="text-left"><b>{{ title }}</b></h2>
-            <button *ngIf="authService.isSuperUser()" (click)="showAddOrUpdateCommunityRoomDialog()"
+            <button *ngIf="isAdmin()" (click)="showAddOrUpdateCommunityRoomDialog()"
                     class="btn btn-sm btn-primary"
                     title="Lên lịch cho buổi đào tạo mới">
               <i class="fa-solid fa-calendar-days"></i>&nbsp;Lên lịch đào tạo mới
@@ -41,7 +41,7 @@
                   <div class="col-xs-12 col-sm-12 custom-padding">
                     <div class="d-flex justify-content-between gap-5 btn-group-flex">
                       <button (click)="registrationTraining(data)"
-                              [disabled]="authService.isSuperUser() || data.status >= ECommunityRoomStatus.IsStarted || data.isRegistered"
+                              [disabled]="isAdmin() || data.status >= ECommunityRoomStatus.IsStarted || data.isRegistered"
                               class="w-50 btn btn-success dropdown-item">
                         <i class="fa-solid fa-check"></i>
                         {{ data.isRegistered ? 'Đã đăng ký' : 'Đăng ký' }}
@@ -79,17 +79,17 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" [ngClass]="{ 'show': dropdownDisplay === data.id }">
                       <li
-                        *ngIf="!authService.isSuperUser() && data.status < ECommunityRoomStatus.IsStarted && !data.isRegistered">
+                        *ngIf="!isAdmin() && data.status < ECommunityRoomStatus.IsStarted && !data.isRegistered">
                         <a (click)="registrationTraining()" class="dropdown-item">
                           <i class="fa-solid fa-check dropdown-icon"></i> Đăng ký
                         </a>
                       </li>
-                      <li *ngIf="!authService.isSuperUser()">
+                      <li *ngIf="!isAdmin()">
                         <a (click)="onShowDialogInfo(data)" class="dropdown-item">
                           <i class="far fa-question-circle" style="width: 15px"></i> Hỏi đáp
                         </a>
                       </li>
-                      <li *ngIf="!authService.isSuperUser() && data.linkDocument">
+                      <li *ngIf="!isAdmin() && data.linkDocument">
                         <a class="dropdown-item" href="{{data.linkDocument}}" target="_blank">
                           <i class="fas fa-file-download" style="width: 15px"></i> Tài liệu
                         </a>
@@ -99,42 +99,42 @@
                           <i class="fa-regular fa-circle-info" style="width: 15px"></i> Chi tiết
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser()">
+                      <li *ngIf="isAdmin()">
                         <a (click)="participationListing(data)" class="dropdown-item">
                           <i class="fa-sharp fa-solid fa-ticket" style="width: 15px"></i> Danh sách đăng ký
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser() && data.status == ECommunityRoomStatus.IsNotDisplay">
+                      <li *ngIf="isAdmin() && data.status == ECommunityRoomStatus.IsNotDisplay">
                         <a (click)="displayCommunityTrainingRoom(true, data)" class="dropdown-item">
                           <i class="fa-regular fa-toggle-on" style="width: 15px"></i> Hiển thị, mở đăng ký
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser() && data.status == ECommunityRoomStatus.IsNotStarted">
+                      <li *ngIf="isAdmin() && data.status == ECommunityRoomStatus.IsNotStarted">
                         <a (click)="displayCommunityTrainingRoom(false, data)" class="dropdown-item">
                           <i class="fa-regular fa-toggle-off" style="width: 15px"></i> Ẩn buổi đào tạo
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser()">
+                      <li *ngIf="isAdmin()">
                         <a (click)="onUploadImageDialog(data)" class="dropdown-item">
                           <i class="fa-regular fa-folder-arrow-up" style="width: 15px"></i> Đổi Banner
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser()">
+                      <li *ngIf="isAdmin()">
                         <a (click)="showAddOrUpdateCommunityRoomDialog(data)" class="dropdown-item">
                           <i class="fa-regular fa-pen-to-square" style="width: 15px"></i> Sửa thông tin buổi đào tạo
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser()">
+                      <li *ngIf="isAdmin()">
                         <a (click)="delete('', data)" class="dropdown-item">
                           <i class="fa-regular fa-trash" style="width: 15px"></i> Xóa buổi đào tạo
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser() && data.status == ECommunityRoomStatus.IsNotStarted">
+                      <li *ngIf="isAdmin() && data.status == ECommunityRoomStatus.IsNotStarted">
                         <a (click)="copyLinkRegistration()" class="dropdown-item">
                           <i class="fa-regular fa-file-lines" style="width: 15px"></i> Link đăng ký
                         </a>
                       </li>
-                      <li *ngIf="authService.isSuperUser() && data.status == ECommunityRoomStatus.IsNotDisplay">
+                      <li *ngIf="isAdmin() && data.status == ECommunityRoomStatus.IsNotDisplay">
                         <a (click)="copyLinkConfirmParticipation()" class="dropdown-item">
                           <i class="fa-regular fa-clipboard" style="width: 15px"></i> Link xác nhận tham gia
                         </a>

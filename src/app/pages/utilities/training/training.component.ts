@@ -54,6 +54,10 @@ export class TrainingComponent extends BaseComponent implements OnInit {
     await this.searchPage()
   }
 
+  isAdmin(){
+    return this.authService.getUser().isAdmin;
+  }
+
   getStatusColor(status: number): string {
     switch (status) {
       case ECommunityRoomStatus.IsNotDisplay:
