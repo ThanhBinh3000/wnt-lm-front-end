@@ -37,13 +37,23 @@ export class ChiTietHangLuanChuyenService extends BaseService {
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
-  getDongYGiaoDich(body: any) {
-    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-dong-y`;
+  getDongYBenBan(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-dong-y-cung-cap-thong-tin`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 
-  getTuChoiGiaoDich(body: any) {
-    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-tu-choi`;
+  getDongYBenMua(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-dong-y-luan-chuyen`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
+  getTuChoiBenMua(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-tu-choi-ben-mua`;
+    return this.httpClient.post<ResponseData>(url, body).toPromise();
+  }
+
+  getTuChoiBenBan(body: any) {
+    const url = `/api/wnt-lm-dutruhang/ct-hang-hoa-luan-chuyen/update-tu-choi-ben-ban`;
     return this.httpClient.post<ResponseData>(url, body).toPromise();
   }
 

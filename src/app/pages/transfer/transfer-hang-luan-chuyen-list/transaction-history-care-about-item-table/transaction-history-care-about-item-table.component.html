@@ -1,7 +1,7 @@
 <div class="mat-table-container">
   <div class="d-flex baocao-header justify-content-end">
     <div class="baocao-actions">
-      <button class="btn btn-sm btn-primary" (click)="openCareAboutDialog(null)">Gửi nhiều</button>
+      <button class="btn btn-sm btn-primary" (click)="openCareAboutDialog(null)">Đặt mua nhiều</button>
     </div>
   </div>
   <table mat-table class="table table-striped table-bordered table-hover tr-ng-grid"
@@ -70,10 +70,17 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="giaBan">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá bán</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-right">{{ data.giaBan | number:'1.0-0'}}</div>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="soLuong">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng</th>
       <td mat-cell *matCellDef="let data">
-        <div class="text-right">{{ data.soLuong }}</div>
+        <div class="text-right">{{ data.soLuong | number:'1.0-0'}}</div>
       </td>
     </ng-container>
 
@@ -103,7 +110,7 @@
       <td mat-cell *matCellDef="let data">
         <div class="baocao-actions" style="justify-content: start; display: flex; gap: 10px;">
           <button class="btn btn-danger" (click)="openConfirmDialog(data)">Hủy</button>
-          <button class="btn btn-primary" (click)="openCareAboutDialog(data)">Gửi</button>
+          <button class="btn btn-primary" (click)="openCareAboutDialog(data)">Đặt mua</button>
         </div>
       </td>
     </ng-container>

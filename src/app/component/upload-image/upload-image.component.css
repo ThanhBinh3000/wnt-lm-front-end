@@ -1,18 +1,18 @@
 * {
-  font-family: Lato;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 ngx-dropzone,
 .custom-dropzone {
-  margin: 20px;
+  margin: 15px;
 }
 
 .custom-dropzone {
-  height: 250px;
-  background: #ffffff;
-  color: #000000;
-  border: 5px dashed rgb(166, 166, 166);
-  border-radius: 5px;
+  height: 200px;
+  background: #f5f4f4fd;
+  color: #91a7f0;
+  border: 2px dashed rgb(102, 148, 235);
+  border-radius: 2px;
   font-size: 20px;
 }
 

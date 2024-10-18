@@ -59,6 +59,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
     'created',
     'tenThuoc',
     'donVi',
+    'giaBan',
     'soLuong',
     'soLo',
     'hanSuDung',
@@ -114,10 +115,11 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
   openCareAboutDialog(data?: any,) {
     const hasChecked = this.dataTable?.some(item => item.checked);
     if (!hasChecked && data === null) {
-      this.notification.error(MESSAGE.ERROR, 'Bạn vui lòng chọn mặt hàng để gửi đi.');
+      this.notification.error(MESSAGE.ERROR, 'Bạn vui lòng chọn mặt hàng để mua.');
       return;
     }
-    let message = `Bạn có muốn gửi yêu cầu luân chuyển này hay không ?`;
+    let message = this.dataTable.filter(item => item.checked).length > 1 
+    ? `Bạn có muốn mua những mặt hàng đã chọn này hay không ?` : `Bạn có muốn mua mặt hàng này hay không ?`;
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',
@@ -133,12 +135,12 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
             const res = await this._service.getGuiThongBao(checkedItems);
             if (res?.status === STATUS_API.SUCCESS) {
               this.requestSearchPage.emit();
-              this.notification.success(MESSAGE.SUCCESS, 'Đã gửi thành công, vui lòng đợi phản hồi.');
+              this.notification.success(MESSAGE.SUCCESS, 'Đã đặt mua thành công, vui lòng đợi phản hồi.');
             } else {
-              this.notification.error(MESSAGE.ERROR, 'Gửi yêu cầu thất bại.');
+              this.notification.error(MESSAGE.ERROR, 'Đặt mua thất bại.');
             }
           } catch {
-            this.notification.error(MESSAGE.ERROR, 'Gửi yêu cầu thất bại.');
+            this.notification.error(MESSAGE.ERROR, 'Đặt mua thất bại.');
           }
         }
       }
@@ -146,7 +148,7 @@ export class TransactionHistoryCareAboutItemTableComponent extends BaseComponent
   }
 
   openConfirmDialog(data: any) {
-    let message = 'Bạn muốn huỷ quan tâm mặt hàng này không ?';
+    let message = 'Bạn muốn huỷ mặt hàng này không ?';
     this.modal.confirm({
       closable: false,
       title: 'Xác nhận',

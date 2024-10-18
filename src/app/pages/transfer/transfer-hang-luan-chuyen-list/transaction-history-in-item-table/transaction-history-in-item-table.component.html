@@ -55,6 +55,20 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="giaBan">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá bán</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-right">{{ data.giaBan | number:'1.0-0'}}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phiVanChuyen">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phí vận chuyển</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-right">{{ data.phiVanChuyen | number:'1.0-0'}}</div>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="soLuong">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng</th>
       <td mat-cell *matCellDef="let data">
@@ -83,16 +97,24 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="ghiChu">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi chú</th>
+      <td mat-cell *matCellDef="let data">
+        <div class="text-left">{{ data.ghiChu}}</div>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let data">
         <div class="baocao-actions" style="justify-content: start; display: flex; gap: 10px;">
-          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 1">Đồng ý
+          <button class="btn btn-primary" (click)="openConfirmDialogDongY(data)" *ngIf="data.trangThai === 6">Đồng ý
           </button>
-          <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 2">Hoàn
+          <!-- <button class="btn btn-primary" (click)="openConfirmDialogHoanThanh(data)" *ngIf="data.trangThai === 9">Hoàn
             thành
-          </button>
-          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1">Từ chối
+          </button> -->
+          <button class="btn btn-danger" (click)="openConfirmDialogTuChoi(data)" *ngIf="data.trangThai === 1 || data.trangThai === 6
+          || data.trangThai == 8 || data.trangThai === 2">Huỷ
           </button>
         </div>
       </td>
@@ -119,19 +141,7 @@
       <h4 class="modal-title">Xác nhận</h4>
     </div>
     <div class="modal-body">
-      <div class="form-inline-flex mb-3">
-        <label class="col-md-2">Tên cơ sở: </label>
-        <input class="form-control mb-0" [(ngModel)]="modalData.tenCoSo1"/>
-      </div>
-      <div class="form-inline-flex mb-3">
-        <label class="col-md-2">Địa chỉ: </label>
-        <textarea class="form-control w-100 ng-pristine ng-untouched ng-valid" style="height: 100px;" [(ngModel)]="modalData.diaChi1"></textarea>
-      </div>
-      <div class="form-inline-flex mb-3">
-        <label class="col-md-2">Số điện thoại: </label>
-        <input type="text" class="form-control mb-0" [(ngModel)]="modalData.soDienThoai1">
-      </div>
-      <p>Bạn có đồng ý luân chuyển mặt hàng này và chia sẻ thông tin cơ sở để thực hiện hay không?</p>
+      <p>Bạn có đồng ý luân chuyển mặt hàng này với yêu cầu của bên bán đưa ra?</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="closeModalDongY()">Đóng</button>

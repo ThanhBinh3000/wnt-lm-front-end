@@ -34,8 +34,10 @@ export class UploadImageComponent extends BaseComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.files)
-    this.dialogRef.close(this.files);
+    if(this.files.length > 0){
+      this.dialogRef.close(this.files);
+    }
+    
     // Gửi hình ảnh đến backend hoặc thực hiện xử lý tùy ý
   }
   ngOnInit(): void {

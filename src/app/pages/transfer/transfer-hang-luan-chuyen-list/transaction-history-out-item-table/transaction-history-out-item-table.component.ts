@@ -58,6 +58,17 @@ export class TransactionHistoryOutItemTableComponent extends BaseComponent imple
   modalData: any;
   inputText?: string;
 
+  trangThais: any[] = [
+    { name: 'Chờ phản hồi bên bán', value: 1},
+    { name: 'Chờ phản hồi bên mua', value: 6},
+    { name: 'Đang giao dịch', value: 2},
+    { name: 'Đang chuẩn bị hàng', value: 8 },
+    { name: 'Đang giao hàng', value: 9 },
+    { name: 'Bên bán từ chối', value: 4 },
+    { name: 'Bên mua từ chối', value: 7 },
+    { name: 'Giao dịch thành công', value: 3 },
+    { name: 'Giao dịch thất bại', value: 5 },
+  ];
 
   displayedColumns = [
     '#',
@@ -67,10 +78,13 @@ export class TransactionHistoryOutItemTableComponent extends BaseComponent imple
     'created',
     'tenThuoc',
     'donVi',
+    'giaBan',
+    'phiVanChuyen',
     'soLuong',
     'soLo',
     'hanSuDung',
     'loaiHang',
+    'ghiChu',
     'action'
   ];
 
@@ -141,17 +155,17 @@ export class TransactionHistoryOutItemTableComponent extends BaseComponent imple
       body.soDienThoai = body.soDienThoai1;
       body.diaChi = body.diaChi1;
       body.tenCoSo = body.tenCoSo1;
-      const res = await this._service.getDongYGiaoDich(body);
+      const res = await this._service.getDongYBenBan(body);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
-        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã đồng ý cung cấp thông tin thành công.');
         this.closeModalDongY();
       } else {
-        this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
+        this.notification.error(MESSAGE.ERROR, 'Cập nhật thất bại.');
       }
     } catch (error) {
       console.error('Error:', error);
-      this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
+      this.notification.error(MESSAGE.ERROR, 'Cập nhật thất bại.');
     } finally {
       this.closeModalTuChoi();
     }
@@ -173,16 +187,16 @@ export class TransactionHistoryOutItemTableComponent extends BaseComponent imple
     }
     this.modalData.ghiChu = this.inputText;
     try {
-      const res = await this._service.getTuChoiGiaoDich(this.modalData);
+      const res = await this._service.getTuChoiBenBan(this.modalData);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
-        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối giao dịch thành công.');
+        this.notification.success(MESSAGE.SUCCESS, 'Cập nhật trạng thái giao dịch thành công.');
       } else {
-        this.notification.error(MESSAGE.ERROR, 'Giao dịch thất bại');
+        this.notification.error(MESSAGE.ERROR, 'Cập nhật trạng thái giao dịch thất bại');
       }
     } catch (error) {
       console.error('Error:', error);
-      this.notification.error(MESSAGE.ERROR, 'Giao dịch thất bại');
+      this.notification.error(MESSAGE.ERROR, 'Cập nhật trạng thái giao dịch thất bại');
     } finally {
       this.closeModalTuChoi();
     }
@@ -235,6 +249,23 @@ export class TransactionHistoryOutItemTableComponent extends BaseComponent imple
     } catch (e) {
       this.spinner.hide();
       this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
+    }
+  }
+
+  async changeTrangThai(data: any) {
+    try {
+      const res = await this.service.update(data);
+            if (res?.status === STATUS_API.SUCCESS) {
+              this.requestSearchPage.emit();
+              this.notification.success(MESSAGE.SUCCESS, `Cập nhật trạng thái thành công`);
+            } else {
+              this.notification.error(MESSAGE.ERROR, 'Cập nhật trạng thái thất bại!');
+              await this.searchPageHangDi();
+            }
+    } catch (e) {
+      this.spinner.hide();
+      this.notification.error(MESSAGE.ERROR, MESSAGE.SYSTEM_ERROR);
+      await this.searchPageHangDi();
     }
   }
 }
