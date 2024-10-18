@@ -67,10 +67,13 @@ export class TransactionHistoryInItemTableComponent extends BaseComponent implem
     'created',
     'tenThuoc',
     'donVi',
+    'giaBan',
+    'phiVanChuyen',
     'soLuong',
     'soLo',
     'hanSuDung',
     'loaiHang',
+    'ghiChu',
     'action'
   ];
 
@@ -141,17 +144,17 @@ export class TransactionHistoryInItemTableComponent extends BaseComponent implem
       body.soDienThoai = body.soDienThoai1;
       body.diaChi = body.diaChi1;
       body.tenCoSo = body.tenCoSo1;
-      const res = await this._service.getDongYGiaoDich(body);
+      const res = await this._service.getDongYBenMua(body);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
-        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã thực hiện việc luân chuyển thành công.');
+        this.notification.success(MESSAGE.SUCCESS, 'Bạn đã đồng ý phương án luân chuyển của bên bán thành công.');
         this.closeModalDongY();
       } else {
-        this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
+        this.notification.error(MESSAGE.ERROR, 'Cập nhật thất bại.');
       }
     } catch (error) {
       console.error('Error:', error);
-      this.notification.error(MESSAGE.ERROR, 'Luân chuyển thất bại.');
+      this.notification.error(MESSAGE.ERROR, 'Cập nhật thất bại.');
     } finally {
       this.closeModalTuChoi();
     }
@@ -173,7 +176,7 @@ export class TransactionHistoryInItemTableComponent extends BaseComponent implem
     }
     this.modalData.ghiChu = this.inputText;
     try {
-      const res = await this._service.getTuChoiGiaoDich(this.modalData);
+      const res = await this._service.getTuChoiBenMua(this.modalData);
       if (res?.status === STATUS_API.SUCCESS) {
         this.requestSearchPage.emit();
         this.notification.success(MESSAGE.SUCCESS, 'Bạn đã từ chối giao dịch thành công.');

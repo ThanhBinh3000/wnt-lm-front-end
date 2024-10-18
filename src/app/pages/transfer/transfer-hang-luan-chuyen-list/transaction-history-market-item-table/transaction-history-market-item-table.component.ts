@@ -36,6 +36,7 @@ export class TransactionHistoryMarketItemTableComponent extends BaseComponent im
     'created',
     'tenThuoc',
     'donVi',
+    'donGia',
     'soLuong',
     'soLo',
     'hanSuDung',
@@ -82,6 +83,7 @@ export class TransactionHistoryMarketItemTableComponent extends BaseComponent im
             soLuong: data.soLuong,
             maCoSoGui: data.maCoSo,
             idLuanChuyen: data.id,
+            giaBan : data.giaBan
           };
           try {
             const res = await this.chiTietHangLuanChuyenService.create(body);

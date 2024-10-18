@@ -1,11 +1,9 @@
 <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
   <ngx-dropzone-label>
-    <div>
-      <h2>Chọn ảnh để tải lên</h2>
-    </div>
+    <h4>Chọn ảnh để tải lên</h4>
   </ngx-dropzone-label>
   <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
 <!--    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>-->
   </ngx-dropzone-image-preview>
 </div>
-<button (click)="onSubmit()">Upload</button>
+<button class="btn btn-primary" style="width: 18%; margin-left:45%; font-size: 20px;" (click)="onSubmit()">Tải lên</button>

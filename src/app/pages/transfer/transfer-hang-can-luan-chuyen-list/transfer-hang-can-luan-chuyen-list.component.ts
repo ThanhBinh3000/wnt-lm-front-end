@@ -9,6 +9,7 @@ import { MESSAGE, STATUS_API } from '../../../constants/message';
 import { HangHoaLuanChuyenService } from '../../../services/dutruhang/hang-hoa-luan-chuyen.service';
 import { LOAI_SAN_PHAM } from '../../../constants/config';
 import { ThuocService } from '../../../services/categories/thuoc.service';
+import { UploadImageComponent } from '../../../component/upload-image/upload-image.component';
 
 @Component({
   selector: 'app-transfer-hang-can-luan-chuyen-list',
@@ -42,7 +43,7 @@ export class TransferHangCanLuanChuyenListComponent extends BaseComponent implem
   listThuoc$ = new Observable<any[]>;
   searchNhomThuocTerm$ = new Subject<string>();
   searchThuocTerm$ = new Subject<string>();
-  displayedColumns = ['checkbox', '#', 'soPhieuNhap', 'ngayNhap', 'maThuoc', 'tenThuoc', 'donVi', 'soLuongTon', 
+  displayedColumns = ['checkbox', '#', 'soPhieuNhap', 'ngayNhap', 'maThuoc', 'tenThuoc','upload', 'donVi','giaGoiY', 'soLuongTon', 
     'soLo', 'hanSuDung', 'soDangKy','loaiHang','soNgayKhongGiaoDich', 'ghiChu', 'action'
   ];
 
@@ -139,7 +140,13 @@ export class TransferHangCanLuanChuyenListComponent extends BaseComponent implem
     if (this.dataTable && this.dataTable.length > 0) {
       this.dataTable.forEach((item) => {
         if (item.hangLuanChuyen) {
-          dataLuanChuyen.push(item);
+          if(!item.soLo || !item.hanDung){
+            this.notification.error(MESSAGE.ERROR, 'Bạn cần phải điền đầy đủ số lô, hạn sử dụng và ít nhất 1 hình ảnh sản phẩm');
+            return;
+          }
+          else{
+              dataLuanChuyen.push(item);
+          }
         }
       });
     }
@@ -223,4 +230,26 @@ export class TransferHangCanLuanChuyenListComponent extends BaseComponent implem
       width: '600px',
     });
   }
+
+  onUploadImageDialog(data: any) {
+    const dialogRef = this.dialog.open(UploadImageComponent, {
+      width: '50%',
+      height: '300px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        let body = {
+          idPhieuChiTiet: data.maPhieuNhapCt,
+          dataType: 'luanchuyen',
+          dataId : data.maPhieuNhapCt
+        }
+        this._service.uploadImage(result[0], body).then((res) => {
+          if (res) {
+            this.searchPage();
+          }
+        })
+      }
+    });
+  }
+
 }
