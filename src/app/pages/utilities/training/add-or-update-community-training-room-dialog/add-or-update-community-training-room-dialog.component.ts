@@ -5,10 +5,8 @@ import {FormsModule} from "@angular/forms";
 import {CommunityRoomTrainingService} from "../../../../services/utilities/community-room-training.service";
 import {CommonModule} from "@angular/common";
 import {MESSAGE} from "../../../../constants/message";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
-import {AngularEditor} from "../../../../../editor/editor";
-import 'ckeditor5/ckeditor5.css';
-import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 
 @Component({
   selector: 'app-add-or-update-community-training-room-dialog',
@@ -20,7 +18,7 @@ import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 })
 export class AddOrUpdateCommunityTrainingRoomDialogComponent extends BaseComponent implements OnInit {
   @Output() requestSearchPage = new EventEmitter<void>();
-
+  Editor = ClassicEditor;
   constructor(
     injector: Injector,
     private _service: CommunityRoomTrainingService,
@@ -31,8 +29,6 @@ export class AddOrUpdateCommunityTrainingRoomDialogComponent extends BaseCompone
       id: [],
     });
   }
-
-  Editor = AngularEditor;
 
   ngOnInit() {
     if (!this.data) {
